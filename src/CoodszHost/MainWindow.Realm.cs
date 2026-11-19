@@ -76,11 +76,27 @@ public partial class MainWindow
     private void RealmCheck_Click(object sender, RoutedEventArgs e)
     {
         RealmProfileButton.Visibility = Visibility.Collapsed;
-        if (BannerlordCoopLauncher.Core.Realm.RealmRewardCode.TryCheck(RealmCheckBox.Text, out var steamId))
+        var now = DateTimeOffset.UtcNow;
+        var check = BannerlordCoopLauncher.Core.Realm.RealmRewardCode.Check(RealmCheckBox.Text, now);
+        if (check.Accepted)
         {
+            var steamId = check.SteamId64;
             _realmCheckedSteamId = steamId;
-            RealmCheckResult.Foreground = new SolidColorBrush(Color.FromRgb(0x9F, 0xE0, 0xB0));
-            RealmCheckResult.Text = "✅ Real code. Steam account " + BannerlordCoopLauncher.Core.Keep.StreamerMask.SteamId64(steamId.ToString(), Streamer) + ". Make sure this code was not claimed before.";
+            var account = BannerlordCoopLauncher.Core.Keep.StreamerMask.SteamId64(steamId.ToString(), Streamer);
+            // Checked before on this PC: from the key change on, the same account can come with a different code.
+            var earlier = BannerlordCoopLauncher.Core.Realm.RealmClaims.Record(steamId, RealmCheckBox.Text, now);
+            var old = check.Kind == BannerlordCoopLauncher.Core.Realm.RealmRewardCode.CodeKind.Old;
+            RealmCheckResult.Foreground = earlier == null
+                ? new SolidColorBrush(Color.FromRgb(0x9F, 0xE0, 0xB0))
+                : new SolidColorBrush(Color.FromRgb(0xF0, 0xC8, 0x6A));
+            if (earlier != null)
+                RealmCheckResult.Text = old
+                    ? "✅ Real code from an older tool version. Steam account " + account + ". ⚠ This Steam account was already checked on this PC on " + earlier.FirstChecked.ToLocalTime().ToString("yyyy-MM-dd") + ". If that was another ticket, this is a second claim."
+                    : "✅ Real code. Steam account " + account + ". ⚠ This Steam account was already checked on this PC on " + earlier.FirstChecked.ToLocalTime().ToString("yyyy-MM-dd") + ". If that was another ticket, this is a second claim.";
+            else
+                RealmCheckResult.Text = old
+                    ? "✅ Real code from an older tool version. Steam account " + account + ". Codes like it check until " + BannerlordCoopLauncher.Core.Realm.RealmRewardCode.OldCodesAcceptedUntilText + ". Make sure this code was not claimed before."
+                    : "✅ Real code. Steam account " + account + ". Make sure this code was not claimed before.";
             RealmProfileButton.Visibility = Visibility.Visible;
         }
         else
@@ -88,7 +104,9 @@ public partial class MainWindow
             RealmCheckResult.Foreground = new SolidColorBrush(Color.FromRgb(0xF0, 0x8A, 0x7A));
             RealmCheckResult.Text = string.IsNullOrWhiteSpace(RealmCheckBox.Text)
                 ? "Paste a code first."
-                : "❌ Not a real code. It was typed wrong, changed, or made up.";
+                : check.Kind == BannerlordCoopLauncher.Core.Realm.RealmRewardCode.CodeKind.OldExpired
+                    ? "❌ This code is from an older tool version and stopped checking after " + BannerlordCoopLauncher.Core.Realm.RealmRewardCode.OldCodesAcceptedUntilText + ". Ask the player to update the tool and send the new code."
+                    : "❌ Not a real code. It was typed wrong, changed, or made up.";
         }
     }
 

@@ -50,6 +50,9 @@ A few files aren't in this repo. They live in a private, git ignored `private/` 
   `DedicatedServer.LauncherBattleSize.dll` under `engine/Modules/DedicatedServer.Windows/bin/Win64_Shipping_Server/`),
   at the same paths as under `src/CoodszHost/DedicatedServerRepair`.
 - `private/realm-reward-key.txt`: the key that signs Realm reward codes, as 64 hex digits on one line.
+- `private/realm-reward-old-key.txt`: the key from before the key change, in the same format. Codes made
+  with it still check in Coop Server Tool until `OldCodesAcceptedUntilText` in `RealmRewardCode.cs`, so a
+  release needs it until that day.
 
 You don't need them. Without them everything builds and every test passes: the server payload just lacks
 the three DLLs, and reward codes use a dummy key, so they won't check in the released tools. Tests that

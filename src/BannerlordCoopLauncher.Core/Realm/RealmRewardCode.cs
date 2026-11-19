@@ -7,8 +7,9 @@ namespace BannerlordCoopLauncher.Core.Realm;
 // The Realm starter reward code. One code per Steam account: the code holds the
 // player's SteamID64 plus a short signature, so staff can check in Coodsz Host
 // that the code came from the tools and which Steam account it belongs to.
-// The same account always gets the same code, so a second claim shows up as
-// the same code in the ticket history. The signing key ships inside the tools,
+// The same account always gets the same code. Coop Server Tool also keeps the
+// Steam accounts it checked (RealmClaims), so a second claim shows up even when
+// it comes with a code from the old key. The signing key ships inside the tools,
 // so this stops copied or made-up codes, not someone who takes the tool apart.
 public static class RealmRewardCode
 {
@@ -21,14 +22,36 @@ public static class RealmRewardCode
     internal static readonly byte[] DummyKey = Encoding.ASCII.GetBytes("public-source-dummy-realm-key-not-real");
     internal const string KeyResource = "Coodsz.RealmRewardKey.txt";
     internal static readonly byte[] Key = ReadKey(typeof(RealmRewardCode).Assembly.GetManifestResourceStream(KeyResource)) ?? DummyKey;
+    // The key the tools signed with before the key change (realm-reward-old-key.txt in the private folder).
+    // Codes made with it still check until OldCodesAcceptedUntil, so a player who got a code from an older tool
+    // can still claim. A build without the file has no old key.
+    internal const string OldKeyResource = "Coodsz.RealmRewardOldKey.txt";
+    internal static readonly byte[]? OldKey = ReadKey(typeof(RealmRewardCode).Assembly.GetManifestResourceStream(OldKeyResource));
+    // The last day (UTC) old key codes still check. tools/ReleaseAssets.ps1 reads this line, so keep it a plain
+    // yyyy-MM-dd text: until that day a release needs the old key file too.
+    public const string OldCodesAcceptedUntilText = "2027-03-01";
+    public static readonly DateTimeOffset OldCodesAcceptedUntil =
+        DateTimeOffset.ParseExact(OldCodesAcceptedUntilText, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture,
+            System.Globalization.DateTimeStyles.AssumeUniversal).AddDays(1).AddTicks(-1);
+
+    // What a check found: a code made with today's key, one made with the old key while it still checks, one
+    // made with the old key after that, or no real code. Old and OldExpired carry the Steam account too.
+    public enum CodeKind { Invalid, Current, Old, OldExpired }
+
+    public readonly record struct CodeCheck(CodeKind Kind, ulong SteamId64)
+    {
+        public bool Accepted => Kind is CodeKind.Current or CodeKind.Old;
+    }
 
     public const string NoSteam = "Start Steam and sign in, then click the reward button again. The code is made from your Steam account.";
 
-    public static string Create(ulong steamId64)
+    public static string Create(ulong steamId64) => Create(steamId64, Key);
+
+    internal static string Create(ulong steamId64, byte[] key)
     {
         var data = new byte[8 + TagLength];
         WriteId(data, steamId64);
-        Array.Copy(Tag(steamId64), 0, data, 8, TagLength);
+        Array.Copy(Tag(steamId64, key), 0, data, 8, TagLength);
         var text = Encode(data);
         var groups = Enumerable.Range(0, (text.Length + 3) / 4).Select(i => text.Substring(i * 4, Math.Min(4, text.Length - i * 4)));
         return Prefix + "-" + string.Join("-", groups);
@@ -40,37 +63,49 @@ public static class RealmRewardCode
         return id == null ? null : Create(id.Value);
     }
 
+    // True for a code that checks now (today's key, or the old key until OldCodesAcceptedUntil).
     public static bool TryCheck(string? code, out ulong steamId64)
     {
-        steamId64 = 0;
+        var check = Check(code, DateTimeOffset.UtcNow);
+        steamId64 = check.Accepted ? check.SteamId64 : 0;
+        return check.Accepted;
+    }
+
+    public static CodeCheck Check(string? code, DateTimeOffset now) => Check(code, now, Key, OldKey);
+
+    internal static CodeCheck Check(string? code, DateTimeOffset now, byte[] key, byte[]? oldKey)
+    {
         if (string.IsNullOrWhiteSpace(code))
-            return false;
+            return new CodeCheck(CodeKind.Invalid, 0);
         var text = new string(code.Trim().ToUpperInvariant().Where(char.IsLetterOrDigit).ToArray());
         if (text.StartsWith(Prefix, StringComparison.Ordinal))
             text = text[Prefix.Length..];
         var data = Decode(text);
         if (data == null || data.Length != 8 + TagLength)
-            return false;
+            return new CodeCheck(CodeKind.Invalid, 0);
         var id = ReadId(data);
-        var expected = Tag(id);
-        if (!CryptographicOperations.FixedTimeEquals(expected.AsSpan(0, TagLength), data.AsSpan(8, TagLength)))
-            return false;
         if (id < SteamIdBase || id > SteamIdBase + uint.MaxValue)
-            return false;
-        steamId64 = id;
-        return true;
+            return new CodeCheck(CodeKind.Invalid, 0);
+        if (Signed(data, id, key))
+            return new CodeCheck(CodeKind.Current, id);
+        if (oldKey != null && Signed(data, id, oldKey))
+            return new CodeCheck(now <= OldCodesAcceptedUntil ? CodeKind.Old : CodeKind.OldExpired, id);
+        return new CodeCheck(CodeKind.Invalid, 0);
     }
+
+    private static bool Signed(byte[] data, ulong id, byte[] key) =>
+        CryptographicOperations.FixedTimeEquals(Tag(id, key).AsSpan(0, TagLength), data.AsSpan(8, TagLength));
 
     public static string ProfileUrl(ulong steamId64) => "https://steamcommunity.com/profiles/" + steamId64;
 
     public const ulong SteamIdBase = 76561197960265728UL;
 
-    private static byte[] Tag(ulong steamId64)
+    private static byte[] Tag(ulong steamId64, byte[] key)
     {
         var id = new byte[8];
         WriteId(id, steamId64);
         var message = Encoding.ASCII.GetBytes("realm-reward-v1:").Concat(id).ToArray();
-        return HMACSHA256.HashData(Key, message);
+        return HMACSHA256.HashData(key, message);
     }
 
     // The key file's hex text as bytes, or null when the build has no key file. A broken file throws, so a

@@ -23,6 +23,8 @@
     <!-- The same paths as under src\CoodszHost\DedicatedServerRepair, packed into that payload by each host that carries it. -->
     <CoodszPrivateRepair>$(CoodszPrivateFolder)DedicatedServerRepair\</CoodszPrivateRepair>
     <CoodszRealmRewardKey>$(CoodszPrivateFolder)realm-reward-key.txt</CoodszRealmRewardKey>
+    <!-- The key before the key change: its codes still check until RealmRewardCode.OldCodesAcceptedUntilText. -->
+    <CoodszRealmRewardOldKey>$(CoodszPrivateFolder)realm-reward-old-key.txt</CoodszRealmRewardOldKey>
   </PropertyGroup>
 
 </Project>
