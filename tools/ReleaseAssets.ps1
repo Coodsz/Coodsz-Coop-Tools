@@ -34,9 +34,6 @@ $PrivateRepairDlls = [ordered]@{
     'engine\Modules\DedicatedServer.Windows\bin\Win64_Shipping_Server\DedicatedServer.LauncherBattleSize.dll' = 'ea46daa410802b1c9afe327496a9cf2173d35c455f807f51c8ad2d20a384ac4f'
 }
 
-# A release needs the private files: every tool signs Realm reward codes with the real key, and the tools that
-# carry DedicatedServerRepair (-RepairDlls) need its three DLLs, else a player's server misses them.
-# Throws on the first missing or wrong file; returns the private folder.
 # The last day old Realm reward key codes still check, read from RealmRewardCode.OldCodesAcceptedUntilText.
 function Get-OldRealmCodesUntil {
     $source = Join-Path (Split-Path -Parent $PSScriptRoot) 'src\BannerlordCoopLauncher.Core\Realm\RealmRewardCode.cs'
@@ -45,6 +42,9 @@ function Get-OldRealmCodesUntil {
     return [datetime]::ParseExact($match.Groups[1].Value, 'yyyy-MM-dd', [Globalization.CultureInfo]::InvariantCulture)
 }
 
+# A release needs the private files: every tool signs Realm reward codes with the real key, and the tools that
+# carry DedicatedServerRepair (-RepairDlls) need its three DLLs, else a player's server misses them.
+# Throws on the first missing or wrong file; returns the private folder.
 function Assert-PrivateFiles([switch] $RepairDlls) {
     $folder = Get-PrivateRoot
     $help = ' A release build needs the private files (CONTRIBUTING.md, Private files).'

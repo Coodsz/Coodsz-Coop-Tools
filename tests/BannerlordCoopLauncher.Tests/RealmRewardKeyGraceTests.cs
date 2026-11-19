@@ -103,6 +103,28 @@ public class RealmRewardKeyGraceTests : IDisposable
         Assert.True(File.Exists(RealmClaims.FilePath));
     }
 
+    // Another tool holding the file for a moment must not make the list look broken: it is left as it is.
+    [Fact]
+    public void A_claims_file_another_tool_holds_open_is_left_alone()
+    {
+        Assert.Null(RealmClaims.Record(Player, "RLM-AAAA", DateTimeOffset.UtcNow));
+        var before = File.ReadAllText(RealmClaims.FilePath);
+        using (new FileStream(RealmClaims.FilePath, FileMode.Open, FileAccess.Read, FileShare.None))
+            Assert.Null(RealmClaims.Record(Player + 1, "RLM-BBBB", DateTimeOffset.UtcNow));
+        Assert.Equal(before, File.ReadAllText(RealmClaims.FilePath));
+        Assert.Empty(Directory.GetFiles(_folder, "realm-claims.broken-*.json"));
+        Assert.NotNull(RealmClaims.Record(Player, "RLM-CCCC", DateTimeOffset.UtcNow));
+    }
+
+    [Fact]
+    public void A_null_entry_in_the_claims_file_is_skipped()
+    {
+        Directory.CreateDirectory(_folder);
+        File.WriteAllText(RealmClaims.FilePath, "[null, {\"SteamId64\": " + Player + ", \"FirstChecked\": \"2026-12-01T10:00:00+00:00\", \"Code\": \"RLM-AAAA\"}]");
+        Assert.Single(RealmClaims.Load());
+        Assert.NotNull(RealmClaims.Record(Player, "RLM-BBBB", DateTimeOffset.UtcNow));
+    }
+
     [Fact]
     public void A_broken_claims_file_is_kept_aside_and_checks_go_on()
     {
