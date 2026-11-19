@@ -9,7 +9,7 @@ At release, copy these files from this repository to the same paths there:
 - `compat-list/mods.json` (the first time in full; after that the tally workflow there keeps the counts, so carry hand edits over instead of overwriting the file)
 - `compat-list/crash-signatures.json` (the known crash patterns of the crash report screens, `CrashSignatureFile.DefaultUrl`; the tools download it when a crash screen opens and fall back to their kept or built in copy. A new pattern only needs this file copied over, no tool release. Bump `version` with every change)
 - `compat-list/announcement.json` (the notice at the top of every tool window, like Coodsz is on vacation, `AnnouncementFile.DefaultUrl`; the tools download it when a window opens and keep a copy. Set `enabled` to false or delete the file to take the notice down, no tool release needed. A new `id` or new words show it again to players who dismissed it. `tools` lists the families that show it: coop, taom, ad1259, be)
-- `.github/ISSUE_TEMPLATE/mod-compat.yml`
+- `coop-compat/.github/ISSUE_TEMPLATE/mod-compat.yml` to `.github/ISSUE_TEMPLATE/mod-compat.yml` (kept out of this repo's own issue forms, because mod reports are filed in Coodsz-Coop-and-Friends)
 - `.github/scripts/tally-mod-compat.mjs`
 - `.github/scripts/compat-records.mjs` (the tally imports it; it writes `compat-list/compat-records.json`, the approved results as ModderLords compat records)
 - `compat-list/compat-records.json` (the first time; after that the tally workflow keeps it)

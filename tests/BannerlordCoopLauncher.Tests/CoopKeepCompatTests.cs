@@ -252,7 +252,7 @@ public sealed class CoopKeepCompatTests : IDisposable
 
         // Every field the link fills is an id in the form, and the form's labels are the
         // ones the tally script reads.
-        var form = File.ReadAllText(Path.Combine(RepoRoot(), ".github", "ISSUE_TEMPLATE", "mod-compat.yml"));
+        var form = File.ReadAllText(Path.Combine(RepoRoot(), "coop-compat", ".github", "ISSUE_TEMPLATE", "mod-compat.yml"));
         foreach (var field in Regex.Matches(url, "&(?<f>[a-z_]+)=").Select(m => m.Groups["f"].Value).Where(f => f != "title"))
             Assert.Contains("id: " + field, form);
         foreach (var label in new[] { "label: Mod id", "label: Mod name", "label: Result", "label: Coop version", "- works", "- broken", "- client-only" })
