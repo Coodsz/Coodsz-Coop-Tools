@@ -62,6 +62,18 @@ Release builds need them. The release scripts stop with a message when a file is
 the recorded build. To use a folder somewhere else, set the `CoodszPrivateRoot` environment variable to it
 (or pass `-p:CoodszPrivateRoot=<folder>` to a plain `dotnet build`).
 
+## Tracking your work
+
+- Assign yourself when you open an issue or a PR. GitHub only lets people with access to the repo assign,
+  so if you can't, write "I'm working on this" in a comment and Coodsz assigns you.
+- Fill in the right side: labels that fit, and the Type (Bug, Feature or Task). The Bug and Idea forms set
+  the label and the type for you. If you can't set them, Coodsz does.
+- One issue per bug. When several bugs come from one report, add them as sub issues of the first one
+  (Relationships on the right side).
+- A fix PR says `Closes #N` in its description, so it shows under Development on the issue and closes it
+  when the PR is merged.
+- Leave Milestone empty.
+
 ## The PR
 
 - A plain title saying what changes for the player or host.

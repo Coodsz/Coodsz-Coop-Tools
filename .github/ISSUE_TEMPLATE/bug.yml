@@ -1,0 +1,59 @@
+name: Bug
+description: Something in one of the Coodsz tools doesn't work the way it should.
+labels: ["bug"]
+type: Bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for telling us. This repo is public, so everyone can read what you write here.
+
+        **Crashed, or need us to look at your logs?** Click **Send my logs** (or **Send crash report**) in the tool. It sends your logs privately and gives you a code like `CR-7KQ2M`. Never paste logs, Steam ids, IP addresses or passwords into this form.
+  - type: dropdown
+    id: tool
+    attributes:
+      label: Which tool
+      options:
+        - Coop Server Tool
+        - Coop Client Launcher (Coop and Friends)
+        - TAOM tools
+        - AD1259 tools
+        - Burning Empires tools
+        - Realm of Thrones tools
+        - Something else
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Tool version
+      description: The version the tool shows, like v1.3.16.
+    validations:
+      required: true
+  - type: input
+    id: game
+    attributes:
+      label: Bannerlord and Coop version
+      description: If you know them, like Bannerlord 1.4.8 with Coop 0.1.7.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happens
+      description: What goes wrong, and what you expected instead. Screenshots help a lot.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to make it happen
+      description: What you clicked or did, step by step. Say if it happens every time or only sometimes.
+      placeholder: |
+        1.
+        2.
+        3.
+  - type: input
+    id: code
+    attributes:
+      label: Report code
+      description: If you sent your logs from the tool, the code it gave you. Just the code, no logs.
+      placeholder: CR-7KQ2M

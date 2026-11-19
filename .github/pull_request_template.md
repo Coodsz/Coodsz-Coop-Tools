@@ -9,6 +9,14 @@ Please check that your PR does these things:
 - [ ] Line endings and file encoding are kept as they were
 - [ ] It was tested in the real tool (and in game when it changes what happens in game)
 
+## Tracking
+<!-- CONTRIBUTING.md, Tracking your work. If GitHub doesn't let you set something, Coodsz does it. -->
+
+- [ ] Assigned to me (or I asked in a comment)
+- [ ] Labels that fit, and the Type on the issue (Bug, Feature or Task)
+- [ ] "Closes #N" below, so the issue shows it under Development
+- [ ] Milestone left empty
+
 ## PR Type
 What kind of change is this?
 <!-- Tick the one that fits best. -->
@@ -29,7 +37,7 @@ What kind of change is this?
 
 ## What is the new behavior?
 <!-- Put the issue number after the hash, or delete the line if there is no issue. -->
-Resolves #
+Closes #
 <!-- What does it do now? Screenshots or a short video help a lot for anything players will see. -->
 
 
