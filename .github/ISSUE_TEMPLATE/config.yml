@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Crash or logs
+    url: https://github.com/Coodsz/Coodsz-Coop-Tools/blob/master/README.md
+    about: Click Send my logs (or Send crash report) in the tool. It sends your logs privately. Never post logs in a public issue.
