@@ -1,6 +1,7 @@
 name: Idea
 description: Something new for one of the Coodsz tools, or a way to make one easier to use.
 labels: ["enhancement"]
+type: Feature
 body:
   - type: markdown
     attributes:
