@@ -102,6 +102,7 @@ public partial class MainWindow : Window
         LanguageSlot.Content = Coodsz.Ui.UiLanguage.MakeButton();
         WhatsNewSlot.Content = Coodsz.Ui.UiLanguage.MakeWhatsNewButton();
         DonateSlot.Content = Coodsz.Ui.UiLanguage.MakeDonateButton();
+        LicenseSlot.Content = Coodsz.Ui.UiLanguage.MakeLicenseButton();
         SetUpCrashReports();
         Coodsz.Ui.NewBadges.Attach(GameSpeedButton, NewFeatures.GameSpeed);
         Coodsz.Ui.NewBadges.Attach(GameSpeedBattleButton, NewFeatures.GameSpeed);

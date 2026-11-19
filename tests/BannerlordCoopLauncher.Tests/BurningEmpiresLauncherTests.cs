@@ -196,7 +196,6 @@ public sealed class BurningEmpiresLauncherTests
         Assert.Contains("War Sails and the Historical campaign start are not supported", window);
 
         var app = File_("App.xaml.cs");
-        Assert.Contains("LicenseOnce(\"be-launcher\")", app);
         Assert.Contains("WhatsNewOnce(\"be-launcher\", ReleaseNotice.BeVersion, WhatsNew.Be)", app);
 
         // No TAOM in anything the player reads; the XAML comments may still name the TAOM tools.

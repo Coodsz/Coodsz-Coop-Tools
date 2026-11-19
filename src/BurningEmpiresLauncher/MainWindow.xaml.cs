@@ -55,6 +55,7 @@ public partial class MainWindow : Window
         LanguageSlot.Content = Coodsz.Ui.UiLanguage.MakeButton();
         WhatsNewSlot.Content = Coodsz.Ui.UiLanguage.MakeWhatsNewButton();
         DonateSlot.Content = Coodsz.Ui.UiLanguage.MakeDonateButton();
+        LicenseSlot.Content = Coodsz.Ui.UiLanguage.MakeLicenseButton();
         StartFrame();
         Coodsz.Ui.NewBadges.Attach(GuidesButton, NewFeatures.Guides);
         ReadOwnServerFromBeData();

@@ -73,6 +73,7 @@ public partial class MainWindow : Window
         LanguageSlot.Content = Coodsz.Ui.UiLanguage.MakeButton();
         WhatsNewSlot.Content = Coodsz.Ui.UiLanguage.MakeWhatsNewButton();
         DonateSlot.Content = Coodsz.Ui.UiLanguage.MakeDonateButton();
+        LicenseSlot.Content = Coodsz.Ui.UiLanguage.MakeLicenseButton();
         Coodsz.Ui.NewBadges.Attach(JoinHelpButton, NewFeatures.JoinHelp);
         Coodsz.Ui.NewBadges.Attach(SendLogsButton, NewFeatures.SaveLogs);
         Coodsz.Ui.NewBadges.Attach(RbmCoopFriendlyBox, NewFeatures.RbmCoopFriendly, Coodsz.Ui.BadgePlace.After);

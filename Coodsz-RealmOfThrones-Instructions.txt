@@ -128,4 +128,4 @@ Get new releases here.
 https://github.com/Coodsz/Coodsz-RealmOfThrones/releases/latest
 
 # License
-The tools are free software under the GNU General Public License version 3 (LICENSE.txt). You may use, change and share them, as long as every copy you share keeps the same license and comes with its source code. Bundled mods and code from other people keep their own licenses (THIRD-PARTY-NOTICES.md). Each tool shows the full text once at the first start, and you press **I agree** to use the tools.
+The tools are free software under the GNU General Public License version 3 (LICENSE.txt). You may use, change and share them, as long as every copy you share keeps the same license and comes with its source code. Bundled mods and code from other people keep their own licenses (THIRD-PARTY-NOTICES.md). The tools never ask you to agree to it. To read the full text, click **License** at the bottom of the sidebar in any tool, under Donate.

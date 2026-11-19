@@ -85,6 +85,7 @@ public partial class MainWindow : Window
         LanguageSlot.Content = Coodsz.Ui.UiLanguage.MakeButton();
         WhatsNewSlot.Content = Coodsz.Ui.UiLanguage.MakeWhatsNewButton();
         DonateSlot.Content = Coodsz.Ui.UiLanguage.MakeDonateButton();
+        LicenseSlot.Content = Coodsz.Ui.UiLanguage.MakeLicenseButton();
         SetUpCrashReports();
         StartSaveModsCard();
         StartDashboard();
@@ -626,6 +627,7 @@ public partial class MainWindow : Window
         Add("Language", "Picks the language of this window.", () => Press(LanguageSlot.Content));
         Add("What's new", "Shows what changed in this version.", () => Press(WhatsNewSlot.Content));
         Add("Donate", "Opens Coodsz's donation page in your browser.", () => Press(DonateSlot.Content));
+        Add("License", "Shows the license of the tools and the licenses of code from other projects.", () => Press(LicenseSlot.Content));
         Add("Join my server", "The Realm Bannerlord, my custom modded server", () => ShowPage("Realm"));
         if (StreamerButton.Visibility == Visibility.Visible)
             Add(StreamerText.Text, StreamerButton.ToolTip as string ?? "", () => StreamerMode_Click(StreamerButton, new RoutedEventArgs()));

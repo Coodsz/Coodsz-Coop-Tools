@@ -185,7 +185,6 @@ public sealed class BurningEmpiresHostTests
         Assert.Contains("Taom = false", source);
 
         var app = File.ReadAllText(Path.Combine(Project, "App.xaml.cs"));
-        Assert.Contains("LicenseOnce(\"be-server\")", app);
         Assert.Contains("WhatsNewOnce(\"be-server\", ReleaseNotice.BeVersion, WhatsNew.Be)", app);
         Assert.DoesNotContain("taom", app, StringComparison.OrdinalIgnoreCase);
     }

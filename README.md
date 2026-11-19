@@ -121,4 +121,4 @@ The Burning Empires tools release on their own with `.\tools\Make-BurningEmpires
 
 ## License
 
-The tools are free software under the GNU General Public License version 3, in `LICENSE`. Copyright (c) 2026 Coodsz. Every exe carries the text inside it, and the releases attach it as `LICENSE.txt`. Each tool shows it once at the first start and asks for I agree; the answer is kept for all tools in `%AppData%\Coodsz\license-accepted.json` and asked again when the license changes (`Core/Legal/ToolLicense`). Code from other people keeps its own license (`THIRD-PARTY-NOTICES.md`).
+The tools are free software under the GNU General Public License version 3, in `LICENSE`. Copyright (c) 2026 Coodsz. Every exe carries the text inside it, and the releases attach it as `LICENSE.txt`. The tools never ask anyone to agree to it. The License link at the bottom of each tool's sidebar shows it read only, with the third party notices under it (`Core/Legal/ToolLicense`, `UiLanguage.ShowLicense`). Code from other people keeps its own license (`THIRD-PARTY-NOTICES.md`).

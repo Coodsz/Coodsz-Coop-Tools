@@ -90,6 +90,7 @@ public partial class MainWindow
         Add("Language", "Picks the language of this window.", LanguageSlot.Content);
         Add("What's new", "Shows what changed in this version.", WhatsNewSlot.Content);
         Add("Donate", "Opens Coodsz's donation page in your browser.", DonateSlot.Content);
+        Add("License", "Shows the license of the tools and the licenses of code from other projects.", LicenseSlot.Content);
         menu.IsOpen = true;
     }
 

@@ -424,13 +424,14 @@
                 </StackPanel>
                 <Border DockPanel.Dock="Bottom" BorderBrush="{StaticResource Keep.Line}" BorderThickness="0,1,0,0" Margin="12,0,12,12" Padding="0,10,0,0">
                     <Grid>
-                        <!-- The 64 px sidebar shows a More button instead (CompactMore_Click opens Language, What's new, Donate and Join my server). -->
-                        <Button x:Name="CompactMore" AutomationProperties.Name="More" Style="{StaticResource Keep.Nav}" ui:NavRail.Icon="{StaticResource Keep.IconMore}" Visibility="Collapsed" Click="CompactMore_Click" ToolTip="Language, What's new, Donate and Join my server."/>
+                        <!-- The 64 px sidebar shows a More button instead (CompactMore_Click opens Language, What's new, Donate, License and Join my server). -->
+                        <Button x:Name="CompactMore" AutomationProperties.Name="More" Style="{StaticResource Keep.Nav}" ui:NavRail.Icon="{StaticResource Keep.IconMore}" Visibility="Collapsed" Click="CompactMore_Click" ToolTip="Language, What's new, Donate, License and Join my server."/>
                         <Viewbox x:Name="FooterFit" StretchDirection="DownOnly" HorizontalAlignment="Left">
                             <StackPanel>
                                 <ContentControl x:Name="LanguageSlot" Margin="0,12,0,0" HorizontalAlignment="Left"/>
                                 <ContentControl x:Name="WhatsNewSlot" Margin="0,8,0,0" HorizontalAlignment="Left"/>
                                 <ContentControl x:Name="DonateSlot" Margin="0,8,0,0" HorizontalAlignment="Left"/>
+                                <ContentControl x:Name="LicenseSlot" Margin="0,6,0,0" HorizontalAlignment="Left"/>
                                 <!-- The Realm promo as a small link plus the Dashboard card, as in the Coop Server Tool (build-plan.md 7). -->
                                 <Button x:Name="RealmLink" Style="{StaticResource Keep.BtnLink}" Content="Join my server" Tag="Realm" Click="Nav_Click" Margin="0,8,0,0" ToolTip="The Realm Bannerlord, my custom modded server"/>
                                 <TextBlock x:Name="VersionText" Foreground="{DynamicResource Keep.TextDim}" FontSize="11" HorizontalAlignment="Left" Margin="6,8,0,0" Text="Realm of Thrones 8.1.8"/>

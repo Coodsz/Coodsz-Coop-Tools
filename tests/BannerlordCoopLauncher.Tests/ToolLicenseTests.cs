@@ -3,239 +3,77 @@ using BannerlordCoopLauncher.Core.Localization;
 
 namespace BannerlordCoopLauncher.Tests;
 
-// Every tool asks once for the Coodsz Coop Tools License, and one answer covers all of them.
-public sealed class ToolLicenseTests : IDisposable
+// The tools are GPL 3 and never ask anyone to agree to it. Every tool shows the license, read only,
+// from the License link in its sidebar.
+public sealed class ToolLicenseTests
 {
-    private readonly string _folder = Path.Combine(Path.GetTempPath(), "license-" + Guid.NewGuid().ToString("N"));
-    private readonly string _before = ToolLicense.SettingsFolder;
+    private static readonly string[] Tools =
+        ["BannerlordCoopLauncher", "CoodszHost", "TaomCoopHost", "TaomCoopLauncher", "AD1259Launcher", "BurningEmpiresHost", "BurningEmpiresLauncher", "RealmOfThronesHost", "RealmOfThronesLauncher"];
 
-    public ToolLicenseTests() => ToolLicense.SettingsFolder = _folder;
-
-    public void Dispose()
-    {
-        ToolLicense.SettingsFolder = _before;
-        if (Directory.Exists(_folder))
-            Directory.Delete(_folder, recursive: true);
-    }
-
-    private static string RepoRoot()
-    {
-        var directory = new DirectoryInfo(AppContext.BaseDirectory);
-        while (directory != null && !File.Exists(Path.Combine(directory.FullName, "BannerlordCoopLauncher.sln")))
-            directory = directory.Parent;
-        return directory?.FullName ?? throw new InvalidOperationException("Repository root not found.");
-    }
+    private static string Normalize(string text) => text.Replace("\r\n", "\n").Trim();
 
     [Fact]
     public void The_tools_show_the_license_from_the_repository_root()
     {
         Assert.Contains("GNU GENERAL PUBLIC LICENSE", ToolLicense.Text);
-        Assert.Equal(ToolLicense.Hash(File.ReadAllText(Path.Combine(RepoRoot(), "LICENSE"))), ToolLicense.Hash(ToolLicense.Text));
+        Assert.Contains("Version 3, 29 June 2007", ToolLicense.Text);
+        Assert.Equal(Normalize(SourceFiles.Read("LICENSE")), Normalize(ToolLicense.Text));
     }
 
     [Fact]
-    public void The_first_start_asks_and_I_agree_is_remembered_for_every_tool()
+    public void The_license_window_shows_the_gpl_and_then_the_third_party_notices()
     {
-        Assert.False(ToolLicense.IsAccepted());
-        ToolLicense.Accept("friends-launcher");
-        Assert.True(File.Exists(Path.Combine(_folder, ToolLicense.FileName)));
-        Assert.True(ToolLicense.IsAccepted());
+        Assert.False(string.IsNullOrWhiteSpace(ThirdPartyNotices.Text));
+        Assert.Equal(ToolLicense.Text + "\r\n\r\n\r\n" + ThirdPartyNotices.Text, ToolLicense.WithNotices);
 
-        var saved = System.Text.Json.JsonSerializer.Deserialize<ToolLicense.Acceptance>(File.ReadAllText(ToolLicense.SettingsPath));
-        Assert.Equal(ToolLicense.Hash(ToolLicense.Text), saved?.Hash);
-        Assert.Equal("friends-launcher", saved?.Tool);
-        Assert.False(string.IsNullOrEmpty(saved?.Accepted));
+        var window = SourceFiles.Method(SourceFiles.Read("src/BannerlordCoopLauncher/UiLanguage.cs"), "public static void ShowLicense(");
+        Assert.Contains("Text = BannerlordCoopLauncher.Core.Legal.ToolLicense.WithNotices,", window);
+        Assert.Contains("IsReadOnly = true,", window);
+        Assert.Contains("Content = Translator.T(\"Close\"),", window);
+        Assert.DoesNotContain("Shutdown", window);
     }
 
     [Fact]
-    public void A_changed_license_asks_again()
+    public void No_tool_asks_to_agree_to_the_license_or_keeps_an_answer()
     {
-        ToolLicense.Accept("Old license text", "taom-server", DateTimeOffset.UtcNow);
-        Assert.True(ToolLicense.IsAccepted("Old license text"));
-        Assert.True(ToolLicense.IsAccepted("Old license text\r\n"));
-        Assert.False(ToolLicense.IsAccepted("New license text"));
-        Assert.False(ToolLicense.IsAccepted());
-    }
+        // The answer store and the first start gate are gone.
+        foreach (var removed in new[] { "IsAccepted", "Accept", "Hash", "SettingsFolder", "SettingsPath" })
+            Assert.Null(typeof(ToolLicense).GetMember(removed).FirstOrDefault());
+        var ui = SourceFiles.Read("src/BannerlordCoopLauncher/UiLanguage.cs");
+        foreach (var gone in new[] { "LicenseOnce", "AskLicense", "_licenseTool", "I agree" })
+            Assert.DoesNotContain(gone, ui);
+        foreach (var tool in Tools)
+            Assert.DoesNotContain("LicenseOnce", SourceFiles.Read(Path.Combine("src", tool, "App.xaml.cs")));
 
-    [Fact]
-    public void A_tool_with_the_old_text_and_a_tool_with_the_new_text_ask_only_once_each()
-    {
-        ToolLicense.Accept("Old license text", "taom-server", DateTimeOffset.UtcNow);
-        ToolLicense.Accept("New license text", "be-server", DateTimeOffset.UtcNow);
-        Assert.True(ToolLicense.IsAccepted("Old license text"));
-        Assert.True(ToolLicense.IsAccepted("New license text"));
-
-        // Accepting the same text again does not grow the list.
-        ToolLicense.Accept("Old license text", "taom-server", DateTimeOffset.UtcNow);
-        var saved = System.Text.Json.JsonSerializer.Deserialize<ToolLicense.Acceptance>(File.ReadAllText(ToolLicense.SettingsPath));
-        Assert.Equal([ToolLicense.Hash("Old license text"), ToolLicense.Hash("New license text")], saved?.Hashes);
-        // Older tools read only hash, so it keeps the first answer.
-        Assert.Equal(ToolLicense.Hash("Old license text"), saved?.Hash);
-    }
-
-    private const string OldText = "Old license text";
-    private const string NewText = "New license text";
-
-    // What Coop and Friends v1.2.77, TAOM v1.1.53 and AD1259 v1.0.32 do with the answer file:
-    // read only hash, and on I agree write a new file with only hash, accepted and tool.
-    private static bool ShippedIsAccepted(string text)
-    {
-        try
+        // Nothing in the tools reads or writes the old answer file.
+        foreach (var file in Directory.EnumerateFiles(Path.Combine(SourceFiles.Root(), "src"), "*.cs", SearchOption.AllDirectories))
         {
-            if (!File.Exists(ToolLicense.SettingsPath))
-                return false;
-            var saved = System.Text.Json.JsonSerializer.Deserialize<ToolLicense.Acceptance>(File.ReadAllText(ToolLicense.SettingsPath));
-            return saved?.Hash != null && string.Equals(saved.Hash, ToolLicense.Hash(text), StringComparison.OrdinalIgnoreCase);
-        }
-        catch (System.Text.Json.JsonException) { return false; }
-    }
-
-    private static void ShippedAccept(string text) =>
-        File.WriteAllText(ToolLicense.SettingsPath, "{ \"hash\": \"" + ToolLicense.Hash(text) + "\", \"accepted\": \"2026-10-20T10:00:00Z\", \"tool\": \"taom-launcher\" }");
-
-    private int _shippedAsked;
-    private int _newAsked;
-
-    // Opens the shipped tool (old text, old code) and clicks I agree when it asks.
-    private void OpenShipped()
-    {
-        if (ShippedIsAccepted(OldText))
-            return;
-        _shippedAsked++;
-        Directory.CreateDirectory(_folder);
-        ShippedAccept(OldText);
-    }
-
-    // Opens a tool with this code and the new text, and clicks I agree when it asks.
-    private void OpenNew()
-    {
-        if (ToolLicense.IsAccepted(NewText))
-            return;
-        _newAsked++;
-        ToolLicense.Accept(NewText, "be-launcher", DateTimeOffset.UtcNow);
-    }
-
-    private void SwitchBackAndForth()
-    {
-        for (var i = 0; i < 4; i++)
-        {
-            OpenShipped();
-            OpenNew();
+            if (file.Contains(Path.DirectorySeparatorChar + "obj" + Path.DirectorySeparatorChar) || file.Contains(Path.DirectorySeparatorChar + "bin" + Path.DirectorySeparatorChar))
+                continue;
+            Assert.DoesNotContain("license-accepted", File.ReadAllText(file));
         }
     }
 
     [Fact]
-    public void A_shipped_tool_first_then_a_new_text_tool_ask_once_each_and_never_again()
+    public void Every_tool_has_the_license_link_under_donate_and_in_the_more_menu()
     {
-        OpenShipped();
-        OpenNew();
-        SwitchBackAndForth();
-        Assert.Equal(1, _shippedAsked);
-        Assert.Equal(1, _newAsked);
-        var saved = System.Text.Json.JsonSerializer.Deserialize<ToolLicense.Acceptance>(File.ReadAllText(ToolLicense.SettingsPath));
-        Assert.Equal(ToolLicense.Hash(OldText), saved?.Hash);
-    }
+        foreach (var tool in Tools)
+        {
+            var xaml = SourceFiles.Read(Path.Combine("src", tool, "MainWindow.xaml"));
+            var donate = xaml.IndexOf("x:Name=\"DonateSlot\"", StringComparison.Ordinal);
+            var license = xaml.IndexOf("x:Name=\"LicenseSlot\"", StringComparison.Ordinal);
+            Assert.True(donate > 0 && license > donate, tool + " has no License link under Donate.");
 
-    [Fact]
-    public void A_new_text_tool_first_then_a_shipped_tool_that_drops_the_list_ask_once_each_and_never_again()
-    {
-        OpenNew();
-        // The shipped tool sees a hash that is not its own, asks, and rewrites the file without the list.
-        OpenShipped();
-        Assert.DoesNotContain("hashes", File.ReadAllText(ToolLicense.SettingsPath));
-        OpenNew();
-        SwitchBackAndForth();
-        Assert.Equal(1, _shippedAsked);
-        Assert.Equal(1, _newAsked);
-    }
-
-    [Fact]
-    public void A_corrupt_answer_file_asks_each_tool_once_more_and_then_never_again()
-    {
-        OpenShipped();
-        OpenNew();
-        File.WriteAllText(ToolLicense.SettingsPath, "{ not json");
-        // The side file alone never counts, so a corrupt answer file still asks again.
-        Assert.False(ToolLicense.IsAccepted(NewText));
-        Assert.False(ToolLicense.IsAccepted(OldText));
-        OpenNew();
-        SwitchBackAndForth();
-        Assert.Equal(2, _shippedAsked);
-        Assert.Equal(2, _newAsked);
-    }
-
-    [Fact]
-    public void A_missing_answer_file_asks_again_even_with_the_side_file()
-    {
-        ToolLicense.Accept(NewText, "be-launcher", DateTimeOffset.UtcNow);
-        Assert.True(File.Exists(ToolLicense.ListPath));
-        File.Delete(ToolLicense.SettingsPath);
-        Assert.False(ToolLicense.IsAccepted(NewText));
-    }
-
-    [Fact]
-    public void A_corrupt_side_file_only_loses_the_list()
-    {
-        ToolLicense.Accept(OldText, "taom-launcher", DateTimeOffset.UtcNow);
-        ToolLicense.Accept(NewText, "be-launcher", DateTimeOffset.UtcNow);
-        File.WriteAllText(ToolLicense.ListPath, "{ not json");
-        Assert.True(ToolLicense.IsAccepted(OldText));
-        Assert.True(ToolLicense.IsAccepted(NewText));
-
-        // The shipped tool's rewrite plus the corrupt side file loses the new answer, so it asks once and repairs both.
-        ShippedAccept(OldText);
-        Assert.False(ToolLicense.IsAccepted(NewText));
-        ToolLicense.Accept(NewText, "be-launcher", DateTimeOffset.UtcNow);
-        ShippedAccept(OldText);
-        Assert.True(ToolLicense.IsAccepted(NewText));
-    }
-
-    [Fact]
-    public void The_single_hash_an_older_tool_wrote_still_counts_and_is_kept()
-    {
-        Directory.CreateDirectory(_folder);
-        File.WriteAllText(ToolLicense.SettingsPath, "{ \"hash\": \"" + ToolLicense.Hash("Old license text") + "\", \"tool\": \"taom-server\" }");
-        Assert.True(ToolLicense.IsAccepted("Old license text"));
-        Assert.False(ToolLicense.IsAccepted("New license text"));
-
-        ToolLicense.Accept("New license text", "be-server", DateTimeOffset.UtcNow);
-        Assert.True(ToolLicense.IsAccepted("Old license text"));
-        Assert.True(ToolLicense.IsAccepted("New license text"));
-        // The older tool reads only hash, so it must still hold the older tool's answer.
-        var saved = System.Text.Json.JsonSerializer.Deserialize<ToolLicense.Acceptance>(File.ReadAllText(ToolLicense.SettingsPath));
-        Assert.Equal(ToolLicense.Hash("Old license text"), saved?.Hash);
-    }
-
-    [Fact]
-    public void A_corrupt_or_empty_answer_file_asks_again()
-    {
-        Directory.CreateDirectory(_folder);
-        File.WriteAllText(ToolLicense.SettingsPath, "{ not json");
-        Assert.False(ToolLicense.IsAccepted());
-        File.WriteAllText(ToolLicense.SettingsPath, "{}");
-        Assert.False(ToolLicense.IsAccepted());
-        File.WriteAllText(ToolLicense.SettingsPath, "");
-        Assert.False(ToolLicense.IsAccepted());
-
-        ToolLicense.Accept("coodsz-host");
-        Assert.True(ToolLicense.IsAccepted());
-    }
-
-    [Fact]
-    public void A_build_without_license_text_never_locks_a_tool() =>
-        Assert.True(ToolLicense.IsAccepted(""));
-
-    [Fact]
-    public void Every_tool_asks_for_the_license_at_startup()
-    {
-        foreach (var app in new[] { "BannerlordCoopLauncher", "CoodszHost", "TaomCoopHost", "TaomCoopLauncher", "AD1259Launcher", "BurningEmpiresHost", "BurningEmpiresLauncher" })
-            Assert.Contains("Coodsz.Ui.UiLanguage.LicenseOnce(", File.ReadAllText(Path.Combine(RepoRoot(), "src", app, "App.xaml.cs")));
+            var window = SourceFiles.Window(SourceFiles.Root(), tool);
+            Assert.Contains("LicenseSlot.Content = Coodsz.Ui.UiLanguage.MakeLicenseButton();", window);
+            Assert.Contains("Add(\"License\", \"" + ToolLicense.ButtonTip + "\",", SourceFiles.Method(window, "private void CompactMore_Click("));
+        }
     }
 
     [Fact]
     public void The_license_window_is_translated_into_every_language()
     {
-        string[] lines = [ToolLicense.Title, ToolLicense.Intro, ToolLicense.EnglishOnly, ToolLicense.Agree, ToolLicense.AgreeTip, ToolLicense.Exit, ToolLicense.ExitTip];
+        string[] lines = [ToolLicense.Title, ToolLicense.ButtonTip, ToolLicense.EnglishOnly, "Close", "Closes this window."];
         foreach (var language in Translator.Languages.Where(language => language.Code != Translator.English))
         {
             var table = Translator.Entries(language.Code);

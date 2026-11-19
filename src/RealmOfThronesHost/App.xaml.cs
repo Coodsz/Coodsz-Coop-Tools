@@ -52,7 +52,6 @@ public partial class App : Application
             }
         };
         Coodsz.Ui.UiLanguage.Start();
-        Coodsz.Ui.UiLanguage.LicenseOnce("rot-server");
         Coodsz.Ui.UiLanguage.WhatsNewOnce("rot-server", ReleaseNotice.RotVersion, WhatsNew.Rot);
         // The tool's own colour on the sidebar brand mark (build-plan.md 1.2); the red page edge comes from KeepColors.Rot.xaml.
         Coodsz.Ui.ToolAccent.Apply(Resources, Coodsz.Ui.FrameRules.RotServer);

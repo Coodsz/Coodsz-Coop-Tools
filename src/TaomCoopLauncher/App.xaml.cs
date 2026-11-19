@@ -34,7 +34,6 @@ public partial class App : Application
         // Settings in %LOCALAPPDATA%\Coodsz (copied once from beside the exe), and the modules this exe carries.
         ToolData.Start(ToolData.TaomClient);
         Coodsz.Ui.UiLanguage.Start();
-        Coodsz.Ui.UiLanguage.LicenseOnce("taom-launcher");
         Coodsz.Ui.UiLanguage.WhatsNewOnce("taom-launcher", ReleaseNotice.TaomVersion, WhatsNew.Taom);
         // The tool's own colour on the sidebar brand mark and the selected page edge (build-plan.md 1.2), and the dwarven gate of the TAOM Server Tool
         // behind the pages. After InitializeComponent, so the keys land in the App.xaml resources.
