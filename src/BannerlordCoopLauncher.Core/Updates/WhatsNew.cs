@@ -504,6 +504,9 @@ public static class WhatsNew
     // 8a966595 and c2d3d987 (ServerPageStatusCard, on the page the nav calls Saves), 855bd782 (ShowBlockedDllFix opens Settings).
     private const string TaomServerPageNote = "When Prepare server or Choose Coop 0.1.6 server stops, the Saves page now shows why, not only the Dashboard.";
     private const string BlockedDllSettings = "When Windows blocks a DLL the server needs, the Server Tool now opens Settings, where the red Unblock DLLs button is. Before, it opened the Saves page, which has no such button.";
+    // Every tool, next round (feat/remove-license-window): the tools are GPL 3, so the first start no longer asks to agree,
+    // and UiLanguage.MakeLicenseButton shows the license read only. Not in a version list yet: the next versions are not set.
+    public const string LicenseNoAsk = "The tools no longer ask you to agree to a license when you open them. They are free software under the GNU General Public License, and License under Donate in the sidebar shows the full text.";
     // TAOM v1.2.16 (826b2478): LICENSE.txt names the Coodsz Realm of Thrones tools in its scope line, so ToolLicense asks once more.
     public const string LicenseRotTools = "The license now also names the Coodsz Realm of Thrones tools. You are asked to accept it once more.";
     // v1.3.15, v1.2.14, v1.1.16 and BE v1.0.15 (every tool): LICENSE.txt point 1 reworded and point 5 added, like

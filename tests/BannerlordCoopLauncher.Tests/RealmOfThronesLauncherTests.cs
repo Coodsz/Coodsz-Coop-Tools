@@ -73,7 +73,6 @@ public class RealmOfThronesLauncherTests
     {
         var app = File_("App.xaml.cs");
         Assert.Contains("ToolData.Start(ToolData.RotClient)", app);
-        Assert.Contains("LicenseOnce(\"rot-launcher\")", app);
         Assert.Contains("WhatsNewOnce(\"rot-launcher\", ReleaseNotice.RotVersion, WhatsNew.Rot)", app);
         Assert.Contains("FrameRules.RotClient", app);
         Assert.Equal(new Coodsz.Ui.ToolAccentColors(Coodsz.Ui.FrameRules.RotClient, "coodsz-rot-client.svg", "#2E1D1F", "#E8736B"),
@@ -271,7 +270,7 @@ public class RealmOfThronesLauncherTests
         InOrder(SourceFiles.Method(window, "private void LogCoop(string line)"), "Log(line);", "_actions.Note(\"Coop\", line);");
         Assert.Contains("LogCoop(line);", putIn);
         InOrder(File_("App.xaml.cs"), "Coodsz.Ui.UiLanguage.Start();", "new Mutex(true, @\"Local\\CoodszRotClientLauncher\", out var first);",
-            "if (!first)", "UiLanguage.Message(AlreadyOpen,", "Environment.Exit(0);", "LicenseOnce(\"rot-launcher\");");
+            "if (!first)", "UiLanguage.Message(AlreadyOpen,", "Environment.Exit(0);", "WhatsNewOnce(\"rot-launcher\",");
         // The rows and Connect read the carried Coop like the carried compat module.
         Assert.Contains("id.Equals(RotStack.CoopModuleId, StringComparison.OrdinalIgnoreCase) && _carriedCoopXml is { } coop ? coop", window);
         Assert.Contains("var xml = CoreModuleXml(moduleId);", SourceFiles.Method(window, "private (string Name, string Version, string? Directory)? Describe(string moduleId)"));

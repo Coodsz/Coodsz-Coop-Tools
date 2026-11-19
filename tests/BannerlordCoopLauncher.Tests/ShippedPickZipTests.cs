@@ -171,7 +171,8 @@ public class ShippedPickZipTests
         Assert.Contains("Copyright (c) 2026 aderimo", ThirdPartyNotices.Text);
         var file = SourceFiles.Read("THIRD-PARTY-NOTICES.md").Replace("\r\n", "\n").Trim().Replace("\n", "\r\n");
         Assert.Equal(file, ThirdPartyNotices.Text);
-        Assert.Contains("ThirdPartyNotices.Text", SourceFiles.Read("src/BannerlordCoopLauncher/UiLanguage.cs"));
+        Assert.Contains(ThirdPartyNotices.Text, ToolLicense.WithNotices);
+        Assert.Contains("ToolLicense.WithNotices", SourceFiles.Read("src/BannerlordCoopLauncher/UiLanguage.cs"));
         Assert.False(string.IsNullOrWhiteSpace(ToolLicense.Text));
     }
 }

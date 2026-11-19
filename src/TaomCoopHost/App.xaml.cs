@@ -52,7 +52,6 @@ public partial class App : Application
             }
         };
         Coodsz.Ui.UiLanguage.Start();
-        Coodsz.Ui.UiLanguage.LicenseOnce("taom-server");
         Coodsz.Ui.UiLanguage.WhatsNewOnce("taom-server", ReleaseNotice.TaomVersion, WhatsNew.Taom);
         // The tool's own colour on the sidebar brand mark and the selected page edge (build-plan.md 1.2).
         Coodsz.Ui.ToolAccent.Apply(Resources, Coodsz.Ui.FrameRules.TaomServer);

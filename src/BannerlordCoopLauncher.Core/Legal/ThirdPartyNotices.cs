@@ -5,7 +5,7 @@ namespace BannerlordCoopLauncher.Core.Legal;
 /// <summary>
 /// THIRD-PARTY-NOTICES.md at the repository root, embedded so every exe carries the licenses of the
 /// code ported from other projects (CoopKeep, MIT). The two exe zips hold only the exes, so this copy
-/// is the one players get. The license window shows it under the Coodsz license.
+/// is the one players get. The License window shows it under the tools' license.
 /// </summary>
 public static class ThirdPartyNotices
 {

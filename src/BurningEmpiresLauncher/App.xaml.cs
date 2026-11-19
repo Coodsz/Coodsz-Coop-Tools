@@ -34,7 +34,6 @@ public partial class App : Application
         // Settings in %LOCALAPPDATA%\Coodsz (copied once from beside the exe), and the modules this exe carries.
         ToolData.Start(ToolData.BeClient);
         Coodsz.Ui.UiLanguage.Start();
-        Coodsz.Ui.UiLanguage.LicenseOnce("be-launcher");
         Coodsz.Ui.UiLanguage.WhatsNewOnce("be-launcher", ReleaseNotice.BeVersion, WhatsNew.Be);
         // The tool's own colour on the sidebar brand mark and the selected page edge (build-plan.md 1.2), and the Coop castle (until Burning Empires has art of its own)
         // behind the pages. After InitializeComponent, so the keys land in the App.xaml resources.

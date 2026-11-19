@@ -52,7 +52,6 @@ public partial class App : Application
             }
         };
         Coodsz.Ui.UiLanguage.Start();
-        Coodsz.Ui.UiLanguage.LicenseOnce("be-server");
         Coodsz.Ui.UiLanguage.WhatsNewOnce("be-server", ReleaseNotice.BeVersion, WhatsNew.Be);
         // The tool's own colour on the sidebar brand mark and the selected page edge (build-plan.md 1.2).
         Coodsz.Ui.ToolAccent.Apply(Resources, Coodsz.Ui.FrameRules.BeServer);

@@ -39,7 +39,7 @@
     <EmbeddedResource Include="..\..\compat-list\mods.json" LogicalName="Coodsz.CompatList.mods.json" />
     <!-- The known crash patterns, used until a copy has been downloaded (compat-list\crash-signatures.json). -->
     <EmbeddedResource Include="..\..\compat-list\crash-signatures.json" LogicalName="Coodsz.CompatList.crash-signatures.json" />
-    <!-- The Coodsz Coop Tools License every tool shows once (Legal\ToolLicense). -->
+    <!-- The tools' license (GPL 3), shown by the License button in every tool (Legal\ToolLicense). -->
     <EmbeddedResource Include="..\..\LICENSE" LogicalName="Coodsz.LICENSE.txt" />
     <!-- The licenses of ported code (Legal\ThirdPartyNotices), since the release zips hold only the exes. -->
     <EmbeddedResource Include="..\..\THIRD-PARTY-NOTICES.md" LogicalName="Coodsz.THIRD-PARTY-NOTICES.md" />

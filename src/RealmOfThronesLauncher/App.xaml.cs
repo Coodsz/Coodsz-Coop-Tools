@@ -48,7 +48,6 @@ public partial class App : Application
             Environment.Exit(0);
             return;
         }
-        Coodsz.Ui.UiLanguage.LicenseOnce("rot-launcher");
         Coodsz.Ui.UiLanguage.WhatsNewOnce("rot-launcher", ReleaseNotice.RotVersion, WhatsNew.Rot);
         // The tool's own colour on the sidebar brand mark (build-plan.md 1.2), and the dark stone picture behind the pages
         // under a near black gradient, 30% at the top to 82% at the bottom. After InitializeComponent, so the keys land in the

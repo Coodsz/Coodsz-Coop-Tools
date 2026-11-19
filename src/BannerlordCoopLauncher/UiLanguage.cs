@@ -176,34 +176,18 @@ public static class UiLanguage
         if (owner.Tag is NoTranslate)
             return;
         Watch(owner);
-        if (!_askFirst && _whatsNew == null && _licenseTool == null)
+        if (!_askFirst && _whatsNew == null)
             return;
         _popupThisStart |= StartupPopupPending();
         var ask = _askFirst;
         var whatsNew = _whatsNew;
-        var licenseTool = _licenseTool;
         _askFirst = false;
         _whatsNew = null;
-        _licenseTool = null;
-        // Nothing in the window can be used until the license is accepted.
-        if (licenseTool != null)
-            owner.IsEnabled = false;
-        // Language first, so the license and the notes come up in the language the player just picked.
+        // Language first, so the notes come up in the language the player just picked.
         owner.Dispatcher.BeginInvoke(() =>
         {
             if (ask)
                 AskLanguage(owner);
-            if (licenseTool != null)
-            {
-                if (!AskLicense(owner, licenseTool))
-                {
-                    Application.Current?.Shutdown();
-                    return;
-                }
-
-                owner.IsEnabled = true;
-            }
-
             if (whatsNew is { } notes)
                 ShowWhatsNewNow(owner, notes.Tool, notes.Version, notes.Entries);
         }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
@@ -214,32 +198,21 @@ public static class UiLanguage
     private static bool _popupThisStart;
 
     /// <summary>
-    /// True when this start opens the language pick, the license or the What's new popup. The one
+    /// True when this start opens the language pick or the What's new popup. The one
     /// time cards (New: send crash reports, New: report mods) then wait for a later start, so a
     /// player gets one thing at a time.
     /// </summary>
     public static bool StartupPopupThisStart => _popupThisStart || StartupPopupPending();
 
     private static bool StartupPopupPending() =>
-        _askFirst || _licenseTool != null
+        _askFirst
         || (_whatsNew is { } notes && WhatsNew.Since(notes.Entries, WhatsNew.LastSeen(notes.Tool)).Count > 0);
 
-    /// <summary>The tool that still has to ask for the license, or null when it was accepted.</summary>
-    private static string? _licenseTool;
-
     /// <summary>
-    /// Call in App.OnStartup after <see cref="Start"/>: when this Windows user has not
-    /// accepted the current Coodsz Coop Tools License in any of the tools, the first window
-    /// asks for it (after the language pick) and stays locked until I agree. Exit closes the tool.
+    /// The License window: the GPL and the third party notices, read only, with Close. The tools never ask
+    /// anyone to agree to the license, so this only opens from the License button.
     /// </summary>
-    public static void LicenseOnce(string tool)
-    {
-        if (!BannerlordCoopLauncher.Core.Legal.ToolLicense.IsAccepted())
-            _licenseTool = tool;
-    }
-
-    /// <summary>The one time license screen. True when the player pressed I agree.</summary>
-    public static bool AskLicense(Window? owner, string tool)
+    public static void ShowLicense(Window? owner)
     {
         var gold = new SolidColorBrush(Color.FromRgb(0xE2, 0xC2, 0x7A));
         var ivory = new SolidColorBrush(Color.FromRgb(0xF1, 0xEA, 0xD8));
@@ -253,14 +226,6 @@ public static class UiLanguage
             FontSize = 24,
             Foreground = gold,
             Margin = new Thickness(0, 0, 0, 8),
-        });
-        panel.Children.Add(new TextBlock
-        {
-            Text = Translator.T(BannerlordCoopLauncher.Core.Legal.ToolLicense.Intro),
-            Tag = NoTranslate,
-            FontSize = 16,
-            Foreground = ivory,
-            TextWrapping = TextWrapping.Wrap,
         });
         if (Translator.Current != Translator.English)
         {
@@ -278,10 +243,9 @@ public static class UiLanguage
 
         // The license itself stays English: it is the legal text. The third party notices follow it,
         // because the zips no longer carry THIRD-PARTY-NOTICES.md beside the exe.
-        var notices = BannerlordCoopLauncher.Core.Legal.ThirdPartyNotices.Text;
         panel.Children.Add(new TextBox
         {
-            Text = BannerlordCoopLauncher.Core.Legal.ToolLicense.Text + (notices.Length == 0 ? "" : "\r\n\r\n\r\n" + notices),
+            Text = BannerlordCoopLauncher.Core.Legal.ToolLicense.WithNotices,
             Tag = NoTranslate,
             IsReadOnly = true,
             TextWrapping = TextWrapping.Wrap,
@@ -313,54 +277,67 @@ public static class UiLanguage
             Tag = NoTranslate,
         };
         Coodsz.Ui.WindowPlacement.KeepOnScreen(window);
-        var agreed = false;
-        var exit = new Button
+        var close = new Button
         {
-            Content = Translator.T(BannerlordCoopLauncher.Core.Legal.ToolLicense.Exit),
-            ToolTip = Translator.T(BannerlordCoopLauncher.Core.Legal.ToolLicense.ExitTip),
-            Tag = NoTranslate,
-            FontSize = 16,
-            MinWidth = 120,
-            Padding = new Thickness(16, 8, 16, 8),
-            Cursor = System.Windows.Input.Cursors.Hand,
-            Foreground = ivory,
-            Background = new SolidColorBrush(Color.FromRgb(0x1B, 0x28, 0x33)),
-            BorderBrush = line,
-            IsCancel = true,
-        };
-        exit.Click += (_, _) => window.Close();
-        var agree = new Button
-        {
-            Content = Translator.T(BannerlordCoopLauncher.Core.Legal.ToolLicense.Agree),
-            ToolTip = Translator.T(BannerlordCoopLauncher.Core.Legal.ToolLicense.AgreeTip),
+            Content = Translator.T("Close"),
+            ToolTip = Translator.T("Closes this window."),
             Tag = NoTranslate,
             FontSize = 16,
             FontWeight = FontWeights.SemiBold,
             MinWidth = 140,
             Padding = new Thickness(16, 8, 16, 8),
-            Margin = new Thickness(10, 0, 0, 0),
+            Margin = new Thickness(0, 16, 0, 0),
+            HorizontalAlignment = HorizontalAlignment.Right,
             Cursor = System.Windows.Input.Cursors.Hand,
             Foreground = Brushes.Black,
             Background = gold,
             BorderBrush = gold,
+            IsCancel = true,
+            IsDefault = true,
         };
-        agree.Click += (_, _) =>
-        {
-            agreed = true;
-            BannerlordCoopLauncher.Core.Legal.ToolLicense.Accept(tool);
-            window.Close();
-        };
-        var buttons = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 16, 0, 0) };
-        buttons.Children.Add(exit);
-        buttons.Children.Add(agree);
-        panel.Children.Add(buttons);
+        close.Click += (_, _) => window.Close();
+        panel.Children.Add(close);
         window.Content = panel;
         if (ownerShown)
             window.Owner = owner;
-        // Closing the window without an answer is the same as Exit.
         window.ShowDialog();
-        return agreed;
     }
+
+    /// <summary>
+    /// The small License link under Donate in the sidebar footer. It opens <see cref="ShowLicense"/>.
+    /// </summary>
+    public static Button MakeLicenseButton()
+    {
+        var label = new TextBlock { Tag = NoTranslate, FontSize = 12 };
+        void Show() => label.Text = Translator.T(BannerlordCoopLauncher.Core.Legal.ToolLicense.Title);
+        Show();
+        // A plain text link, so it stays quieter than the buttons over it.
+        var button = new Button
+        {
+            Content = label,
+            Tag = NoTranslate,
+            ToolTip = Translator.T(BannerlordCoopLauncher.Core.Legal.ToolLicense.ButtonTip),
+            Foreground = KeepBrush("Keep.TextDim", 0x8E, 0xA0, 0xAE),
+            Cursor = System.Windows.Input.Cursors.Hand,
+            HorizontalAlignment = HorizontalAlignment.Left,
+            Template = (ControlTemplate)System.Windows.Markup.XamlReader.Parse(LinkTemplate),
+        };
+        button.MouseEnter += (_, _) => label.TextDecorations = TextDecorations.Underline;
+        button.MouseLeave += (_, _) => label.TextDecorations = null;
+        button.Click += (_, _) => ShowLicense(Window.GetWindow(button));
+        Translator.Changed += () => button.Dispatcher.Invoke(() =>
+        {
+            Show();
+            button.ToolTip = Translator.T(BannerlordCoopLauncher.Core.Legal.ToolLicense.ButtonTip);
+        });
+        return button;
+    }
+
+    private const string LinkTemplate = """
+        <ControlTemplate xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" TargetType="Button">
+            <ContentPresenter Margin="6,0,0,0" TextElement.Foreground="{TemplateBinding Foreground}"/>
+        </ControlTemplate>
+        """;
 
     /// <summary>
     /// Call in App.OnStartup after <see cref="Start"/>: once after each update, the first

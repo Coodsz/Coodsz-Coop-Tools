@@ -41,7 +41,6 @@ public partial class App : Application
         ToolData.Start(ToolData.CoopClient);
         DispatcherUnhandledException += OnDispatcherUnhandledException;
         Coodsz.Ui.UiLanguage.Start();
-        Coodsz.Ui.UiLanguage.LicenseOnce("friends-launcher");
         Coodsz.Ui.UiLanguage.WhatsNewOnce("friends-launcher", ReleaseNotice.FriendsVersion, WhatsNew.Friends);
     }
 

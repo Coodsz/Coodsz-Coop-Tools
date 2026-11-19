@@ -226,7 +226,6 @@ public class RealmOfThronesHostTests
         Assert.Single(Regex.Matches(window, Regex.Escape("ModReportWindow.Show(")));
         var app = SourceFiles.Read(Path.Combine("src", "RealmOfThronesHost", "App.xaml.cs"));
         Assert.Contains("ToolData.Start(ToolData.RotServer);", app);
-        Assert.Contains("LicenseOnce(\"rot-server\")", app);
         Assert.Contains("WhatsNewOnce(\"rot-server\", ReleaseNotice.RotVersion, WhatsNew.Rot)", app);
         Assert.Contains("FrameRules.RotServer", app);
     }

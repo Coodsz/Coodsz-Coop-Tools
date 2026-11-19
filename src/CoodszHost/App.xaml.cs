@@ -35,7 +35,6 @@ public partial class App : Application
         ToolData.Start(CoodszHost.Services.Edition.IsAD1259 ? ToolData.AD1259Server : ToolData.CoopServer);
         DispatcherUnhandledException += (_, args) => args.Handled = true;
         Coodsz.Ui.UiLanguage.Start();
-        Coodsz.Ui.UiLanguage.LicenseOnce(CoodszHost.Services.Edition.IsAD1259 ? "ad1259-server" : "coodsz-host");
         if (CoodszHost.Services.Edition.IsAD1259)
             Coodsz.Ui.UiLanguage.WhatsNewOnce("ad1259-server", ReleaseNotice.AD1259Version, WhatsNew.AD1259);
         else

@@ -148,6 +148,7 @@ public partial class MainWindow
         Add("Language", "Picks the language of this window.", () => Press(LanguageSlot.Content));
         Add("What's new", "Shows what changed in this version.", () => Press(WhatsNewSlot.Content));
         Add("Donate", "Opens Coodsz's donation page in your browser.", () => Press(DonateSlot.Content));
+        Add("License", "Shows the license of the tools and the licenses of code from other projects.", () => Press(LicenseSlot.Content));
         Add("Join my server", "The Realm Bannerlord, my custom modded server", () => ShowPage("Realm"));
         menu.IsOpen = true;
     }

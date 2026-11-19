@@ -120,9 +120,9 @@ public sealed class ClientWave5Tests
         var banners = Named(xaml, "Banners");
         Assert.Equal("1", (string?)banners.Attribute("MaxShown"));
         Assert.Equal(new[] { "AnnouncementBanner", "ReplyBannerHost", "ReportBarHost", "UpdateNoticeBar" }, banners.Elements().Select(element => (string?)element.Attribute(X + "Name")));
-        // The footer: Language, What's new, Donate and the version.
+        // The footer: Language, What's new, Donate, License and the version.
         var footer = Named(xaml, "FooterFit").Descendants().Select(element => (string?)element.Attribute(X + "Name")).Where(name => name != null);
-        Assert.Equal(new[] { "LanguageSlot", "WhatsNewSlot", "DonateSlot", "VersionText" }, footer);
+        Assert.Equal(new[] { "LanguageSlot", "WhatsNewSlot", "DonateSlot", "LicenseSlot", "VersionText" }, footer);
         // The header: the title, the setup picker with its Locked tag, the state pill and the clock.
         Assert.Equal("NotReady", (string?)Named(xaml, "ClientPill").Attribute("Kind"));
         Assert.Single(xaml.Descendants(Ui + "HeaderClock"));
