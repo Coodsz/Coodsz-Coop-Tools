@@ -7025,6 +7025,5 @@
   "Language, What's new, Donate and License.": "语言、新功能、捐赠和许可协议。",
   "Language, What's new, Donate, License and Join my server.": "语言、新功能、捐赠、许可协议和加入我的服务器。",
   "Language, What's new, Donate, License, Join my server and streamer mode.": "语言、新功能、捐赠、许可协议、加入我的服务器和主播模式。",
-  "Shows the license of the tools and the licenses of code from other projects.": "显示这些工具的许可协议，以及来自其他项目的代码的许可。",
-  "The tools no longer ask you to agree to a license when you open them. They are free software under the GNU General Public License, and License under Donate in the sidebar shows the full text.": "工具打开时不再要求你同意许可协议。这些工具是 GNU 通用公共许可证下的自由软件，侧边栏捐赠下方的许可协议会显示全文。"
+  "Shows the license of the tools and the licenses of code from other projects.": "显示这些工具的许可协议，以及来自其他项目的代码的许可。"
 }
