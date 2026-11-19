@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module>
+    <Name value="Burning Empires Coop Compat"/>
+    <Id value="BurningEmpires.CoopCompat"/>
+    <Version value="v1.0.0"/>
+    <ModuleType value="Community"/>
+    <Official value="false"/>
+    <DefaultModule value="false"/>
+    <SingleplayerModule value="true"/>
+    <MultiplayerModule value="false"/>
+    <DependedModules>
+        <DependedModule Id="Bannerlord.Harmony"/>
+    </DependedModules>
+    <DependedModuleMetadatas>
+        <DependedModuleMetadata id="Bannerlord.Harmony" order="LoadBeforeThis"/>
+        <DependedModuleMetadata id="BurningEmpires" order="LoadAfterThis"/>
+        <DependedModuleMetadata id="BurningEmpires_Elephants" order="LoadAfterThis" optional="true"/>
+        <DependedModuleMetadata id="Coop" order="LoadBeforeThis" optional="true"/>
+        <DependedModuleMetadata id="CoopNightly" order="LoadBeforeThis" optional="true"/>
+    </DependedModuleMetadatas>
+    <SubModules>
+        <SubModule>
+            <Name value="Burning Empires Coop Compat"/>
+            <DLLName value="BurningEmpires.CoopCompat.dll"/>
+            <SubModuleClassType value="BurningEmpiresCoopCompat.SubModule"/>
+            <Tags/>
+        </SubModule>
+    </SubModules>
+</Module>

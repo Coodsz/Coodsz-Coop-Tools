@@ -1,0 +1,9 @@
+<Tasks>
+    <GetItem>
+        <ItemId Value="{ITEM_ID}"/>
+    </GetItem>
+    <UpdateItem>
+        <ModuleFolder Value="{PACKAGE}"/>
+        <ChangeNotes Value="{CHANGE_NOTES}"/>
+    </UpdateItem>
+</Tasks>

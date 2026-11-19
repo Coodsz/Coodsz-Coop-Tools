@@ -1,0 +1,199 @@
+<UserControl x:Class="CoodszHost.Keep.SkillSheetView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Foreground="{StaticResource Keep.TextMain}" FontFamily="Segoe UI">
+    <!-- The game's character screen: unspent points, 6 attribute boxes, 18 skill cards and the edit panel. -->
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="Visible"/>
+        <Style x:Key="PointBox" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource Keep.BgRaised}"/>
+            <Setter Property="CornerRadius" Value="2"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Keep.BorderDim}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12,3,6,3"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+        </Style>
+        <Style x:Key="Tiny" TargetType="Button" BasedOn="{StaticResource Keep.Icon}">
+            <Setter Property="Padding" Value="7,1"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="2,0,0,0"/>
+        </Style>
+    </UserControl.Resources>
+    <StackPanel>
+        <!-- Level, XP and unspent points -->
+        <WrapPanel Margin="0,0,0,12">
+            <StackPanel Orientation="Horizontal" Margin="0,0,18,0" VerticalAlignment="Center">
+                <TextBlock Text="Level" Style="{StaticResource Keep.Dim}" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding LevelText}" FontSize="22" FontWeight="Bold" Foreground="{StaticResource Keep.Accent}" Margin="7,0,0,0" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,18,0" VerticalAlignment="Center">
+                <TextBlock Text="Total XP" Style="{StaticResource Keep.Dim}" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding TotalXpText}" FontWeight="Bold" Margin="7,0,0,0" VerticalAlignment="Center"/>
+            </StackPanel>
+            <Border Style="{StaticResource PointBox}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Unspent attribute points" Style="{StaticResource Keep.Dim}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding UnspentAttributeText}" FontWeight="Bold" Margin="7,0,4,0" VerticalAlignment="Center"/>
+                    <Button Style="{StaticResource Tiny}" Content="&#x2212;" Tag="-1" Click="UnspentAttribute_Click" ToolTip="Take one unspent attribute point"/>
+                    <Button Style="{StaticResource Tiny}" Content="+" Tag="1" Click="UnspentAttribute_Click" ToolTip="Give one unspent attribute point"/>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource PointBox}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Unspent focus points" Style="{StaticResource Keep.Dim}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding UnspentFocusText}" FontWeight="Bold" Margin="7,0,4,0" VerticalAlignment="Center"/>
+                    <Button Style="{StaticResource Tiny}" Content="&#x2212;" Tag="-1" Click="UnspentFocus_Click" ToolTip="Take one unspent focus point"/>
+                    <Button Style="{StaticResource Tiny}" Content="+" Tag="1" Click="UnspentFocus_Click" ToolTip="Give one unspent focus point"/>
+                </StackPanel>
+            </Border>
+            <TextBlock Text="Reading the skills..." Style="{StaticResource Keep.Dim}" VerticalAlignment="Center" Visibility="{Binding Loading, Converter={StaticResource Visible}}"/>
+        </WrapPanel>
+
+        <Border Style="{StaticResource Keep.Note}" Margin="0,0,0,12" Visibility="{Binding HasError, Converter={StaticResource Visible}}">
+            <TextBlock Text="{Binding Error}" TextWrapping="Wrap"/>
+        </Border>
+
+        <!-- Attributes and their skills, in the game's columns -->
+        <ItemsControl ItemsSource="{Binding Attributes}" Tag="coodsz:no-translate">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate><UniformGrid Columns="6" Rows="1"/></ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="0,0,8,0">
+                        <Button Click="Attribute_Click" Margin="0,0,0,8" ToolTip="{Binding Name}">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource Keep.CardButton}">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderBrush" Value="{StaticResource Keep.AccentSoft}"/>
+                                    <Setter Property="Padding" Value="10,7"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="BorderBrush" Value="{StaticResource Keep.Accent}"/>
+                                            <Setter Property="Background" Value="{StaticResource Keep.AccentSoft}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <Grid>
+                                <TextBlock Text="{Binding Short}" FontWeight="SemiBold" Foreground="{StaticResource Keep.AccentHover}"/>
+                                <TextBlock Text="{Binding Value}" FontWeight="Bold" FontSize="15" HorizontalAlignment="Right"/>
+                            </Grid>
+                        </Button>
+                        <ItemsControl ItemsSource="{Binding Skills}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Click="Skill_Click" Margin="0,0,0,8" Height="74" ToolTip="{Binding Name}">
+                                        <Button.Style>
+                                            <Style TargetType="Button" BasedOn="{StaticResource Keep.CardButton}">
+                                                <Setter Property="Padding" Value="8,7"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                        <Setter Property="BorderBrush" Value="{StaticResource Keep.Accent}"/>
+                                                        <Setter Property="Background" Value="{StaticResource Keep.AccentSoft}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <!-- Icon: the game's picture when built, else the skill's letters on its attribute colour -->
+                                            <Border Width="32" Height="32" CornerRadius="2" Background="{Binding Tint}" BorderBrush="{StaticResource Keep.BorderDim}" BorderThickness="1" VerticalAlignment="Top">
+                                                <Grid>
+                                                    <TextBlock Text="{Binding Monogram}" FontWeight="Bold" FontSize="12" Foreground="{StaticResource Keep.TextMain}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <Image Source="{Binding Icon.Source}" Stretch="UniformToFill"/>
+                                                </Grid>
+                                            </Border>
+                                            <StackPanel Grid.Column="1" Margin="8,0,0,0" VerticalAlignment="Top">
+                                                <TextBlock Text="{Binding Value}" FontSize="17" FontWeight="Bold" LineHeight="19"/>
+                                                <TextBlock Text="{Binding Name}" FontSize="11" Foreground="{StaticResource Keep.TextDim}" TextTrimming="CharacterEllipsis"/>
+                                            </StackPanel>
+                                            <ItemsControl Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding FocusDots}" Margin="0,4,0,3">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border Width="7" Height="7" Margin="0,0,3,0" BorderThickness="1" BorderBrush="{StaticResource Keep.Accent}">
+                                                            <Border.Style>
+                                                                <Style TargetType="Border">
+                                                                    <Setter Property="Background" Value="Transparent"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding}" Value="True">
+                                                                            <Setter Property="Background" Value="{StaticResource Keep.Accent}"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Border.Style>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                            <Grid Grid.Row="2" Grid.ColumnSpan="2" Height="3" HorizontalAlignment="Left" Width="120">
+                                                <Border Background="#338EB4D4" CornerRadius="1.5"/>
+                                                <Border Background="{StaticResource Keep.Accent}" CornerRadius="1.5" HorizontalAlignment="Left" Width="{Binding BarWidth}"/>
+                                            </Grid>
+                                        </Grid>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <!-- Edit panel -->
+        <Border Background="{StaticResource Keep.BgPanel}" BorderBrush="{StaticResource Keep.BorderDim}" BorderThickness="1" CornerRadius="2" Padding="16,12" Margin="0,4,8,0">
+            <StackPanel>
+                <TextBlock Text="{Binding SelectionText}" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                <StackPanel Visibility="{Binding HasSelectedSkill, Converter={StaticResource Visible}}">
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="120"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <TextBlock Text="Skill level" Style="{StaticResource Keep.Dim}" VerticalAlignment="Center"/>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <Button Style="{StaticResource Keep.Small}" Content="&#x2212;10" Tag="-10" Click="SkillLevel_Click" ToolTip="Lowers the picked skill by 10 levels."/>
+                            <Button Style="{StaticResource Keep.Small}" Content="&#x2212;1" Tag="-1" Click="SkillLevel_Click" ToolTip="Lowers the picked skill by 1 level."/>
+                            <Button Style="{StaticResource Keep.SmallGold}" Content="+1" Tag="1" Click="SkillLevel_Click" ToolTip="Raises the picked skill by 1 level."/>
+                            <Button Style="{StaticResource Keep.SmallGold}" Content="+10" Tag="10" Click="SkillLevel_Click" ToolTip="Raises the picked skill by 10 levels."/>
+                            <Button Style="{StaticResource Keep.SmallGold}" Content="+50" Tag="50" Click="SkillLevel_Click" ToolTip="Raises the picked skill by 50 levels."/>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="120"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <TextBlock Text="Focus point" Style="{StaticResource Keep.Dim}" VerticalAlignment="Center"/>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <Button Style="{StaticResource Keep.Small}" Content="&#x2212;1" Tag="-1" Click="Focus_Click" ToolTip="Takes one focus point from the picked skill."/>
+                            <Button Style="{StaticResource Keep.SmallGold}" Content="+1" Tag="1" Click="Focus_Click" ToolTip="Adds one focus point to the picked skill. A skill holds up to 5."/>
+                        </StackPanel>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="120"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <TextBlock Text="Skill XP" Style="{StaticResource Keep.Dim}" VerticalAlignment="Center"/>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <TextBox Style="{StaticResource Keep.Text}" Width="120" Text="{Binding XpAmount, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Button Style="{StaticResource Keep.Gold}" Content="Give XP" Margin="8,0,0,0" Padding="14,5" Click="GiveXp_Click"
+                                    ToolTip="The game's own learning rate: high skills move slowly. The level buttons change the level directly."/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+                <Grid Visibility="{Binding HasSelectedAttribute, Converter={StaticResource Visible}}">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="120"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                    <TextBlock Text="Attribute points" Style="{StaticResource Keep.Dim}" VerticalAlignment="Center"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <Button Style="{StaticResource Keep.Small}" Content="&#x2212;1" Tag="-1" Click="AttributePoint_Click" ToolTip="Takes one point from the picked attribute."/>
+                        <Button Style="{StaticResource Keep.SmallGold}" Content="+1" Tag="1" Click="AttributePoint_Click" ToolTip="Adds one point to the picked attribute."/>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,28 @@
+Coodsz Menu Guard v1.0.0 (by Coodsz) - for players on the plain Coop client
+
+WHAT IT FIXES
+Your game freezes when you walk into a village or town: Escape and Enter do nothing,
+and settlement names float around the map.
+That happens when Coop sends one of the parties in that village or town to your game without all
+its data.
+This module stops the village/town screen from freezing on that party. The broken entry
+just stays blank and the rest of the menu works.
+
+ONLY THE PLAYERS need it. The server does not need it, and it does not stop you joining.
+Coodsz Coop and Friends, TAOM and AD1259 launcher users already have it (added on Connect).
+The first time you start the game with it, Bannerlord rebuilds its shaders once (it does that
+whenever the mod list changes).
+
+HOW TO INSTALL
+1. Close the game.
+2. Copy the DedicatedServer.CoodszMenuGuard folder from this zip into your game's Modules folder:
+   ...\steamapps\common\Mount & Blade II Bannerlord\Modules\
+   (so you have Modules\DedicatedServer.CoodszMenuGuard\SubModule.xml)
+3. Right-click Modules\DedicatedServer.CoodszMenuGuard\bin\Win64_Shipping_Client\CoodszMenuGuard.dll,
+   Properties, tick Unblock at the bottom (if you see it), OK.
+4. Open the Bannerlord launcher, go to Mods, tick "Coodsz Menu Guard" and keep it BELOW Coop.
+5. Play and join as usual.
+
+If it ever catches the problem, it writes a line to:
+Documents\Mount and Blade II Bannerlord\Client Diagnostics\CoodszMenuGuard.log
+To remove it, untick it in the launcher or delete the folder.

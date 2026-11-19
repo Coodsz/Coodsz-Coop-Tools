@@ -1,0 +1,14 @@
+<Tasks>
+    <CreateItem/>
+    <UpdateItem>
+        <ModuleFolder Value="{PACKAGE}"/>
+        <ItemDescription Value="{DESCRIPTION}"/>
+        <Tags>
+            <Tag Value="Utility"/>
+            <Tag Value="Singleplayer"/>
+            <Tag Value="v1.4.8"/>
+        </Tags>
+        <Image Value="{IMAGE}"/>
+        <Visibility Value="Private"/>
+    </UpdateItem>
+</Tasks>

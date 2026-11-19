@@ -1,0 +1,76 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Same LiteNetLib as the Coop 0.1.6 mod ships, so Check server speaks the server's own handshake. -->
+    <PackageReference Include="LiteNetLib" Version="1.3.1" />
+    <PackageReference Include="Mono.Cecil" Version="0.11.6" />
+    <!-- ClrMD (MIT) reads the crash stack out of a dump already on disk (DumpStackSummary). 3.1 is managed
+         only; 4.x pulls in Azure.Identity for symbol servers the tools never use. -->
+    <PackageReference Include="Microsoft.Diagnostics.Runtime" Version="3.1.512801" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- BackupService.AfterCopy lets a test change a save in the middle of a backup. -->
+    <InternalsVisibleTo Include="BannerlordCoopLauncher.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Localization\Languages\*.json" LogicalName="Coodsz.Languages.%(Filename).json" />
+    <!-- Coodsz Host's Guides page (GuideLibrary). -->
+    <EmbeddedResource Include="Keep\Guides\*.json" LogicalName="Coodsz.Guides.%(Filename).json" />
+    <!-- The Guides pages of the TAOM server tool and the TAOM client launcher (GuideSet). -->
+    <EmbeddedResource Include="Keep\Guides\TaomServer\*.json" LogicalName="Coodsz.TaomServerGuides.%(Filename).json" />
+    <EmbeddedResource Include="Keep\Guides\TaomClient\*.json" LogicalName="Coodsz.TaomClientGuides.%(Filename).json" />
+    <!-- The Guides pages of the Burning Empires server tool and the Burning Empires client launcher. -->
+    <EmbeddedResource Include="Keep\Guides\BeServer\*.json" LogicalName="Coodsz.BeServerGuides.%(Filename).json" />
+    <EmbeddedResource Include="Keep\Guides\BeClient\*.json" LogicalName="Coodsz.BeClientGuides.%(Filename).json" />
+    <!-- The Guides pages of the Realm of Thrones server tool and the Realm of Thrones client launcher. -->
+    <EmbeddedResource Include="Keep\Guides\RotServer\*.json" LogicalName="Coodsz.RotServerGuides.%(Filename).json" />
+    <EmbeddedResource Include="Keep\Guides\RotClient\*.json" LogicalName="Coodsz.RotClientGuides.%(Filename).json" />
+    <!-- The Coop command list of the Console page, made from bannerlordcoop.com/cheats by CoopCommandCatalogTests. -->
+    <EmbeddedResource Include="Keep\CoopCommands\coop-commands.json" LogicalName="Coodsz.CoopCommands.json" />
+    <!-- The community mod list, used until a copy has been downloaded (compat-list\mods.json). -->
+    <EmbeddedResource Include="..\..\compat-list\mods.json" LogicalName="Coodsz.CompatList.mods.json" />
+    <!-- The known crash patterns, used until a copy has been downloaded (compat-list\crash-signatures.json). -->
+    <EmbeddedResource Include="..\..\compat-list\crash-signatures.json" LogicalName="Coodsz.CompatList.crash-signatures.json" />
+    <!-- The Coodsz Coop Tools License every tool shows once (Legal\ToolLicense). -->
+    <EmbeddedResource Include="..\..\LICENSE" LogicalName="Coodsz.LICENSE.txt" />
+    <!-- The licenses of ported code (Legal\ThirdPartyNotices), since the release zips hold only the exes. -->
+    <EmbeddedResource Include="..\..\THIRD-PARTY-NOTICES.md" LogicalName="Coodsz.THIRD-PARTY-NOTICES.md" />
+    <!-- Pictures a What's new entry can show under its lines (WhatsNewEntry.Picture). -->
+    <EmbeddedResource Include="Updates\WhatsNewPictures\*.png" LogicalName="Coodsz.WhatsNew.%(Filename).png" />
+    <!-- The hashes of earlier Coodsz module builds, for coodsz-modules.txt in a report (Support\ModuleFingerprints). -->
+    <EmbeddedResource Include="Support\KnownModuleHashes.txt" LogicalName="Coodsz.KnownModuleHashes.History.txt" />
+    <!-- The real Realm reward code key from the private folder (src\Directory.Build.props, Realm\RealmRewardCode). -->
+    <EmbeddedResource Include="$(CoodszRealmRewardKey)" LogicalName="Coodsz.RealmRewardKey.txt" Condition="Exists('$(CoodszRealmRewardKey)')" />
+    <!-- Compile again when the key file comes, goes or changes, since a key file older than the dll would not. -->
+    <CoreCompileCache Include="RealmRewardKey $([System.IO.File]::GetLastWriteTime('$(CoodszRealmRewardKey)').Ticks)" />
+  </ItemGroup>
+
+  <!--
+    The SHA256 of every Coodsz module DLL in the repository, so a report tells our build from a changed copy
+    (Support\ModuleFingerprints). Hashed again on every build, so nobody keeps the list by hand. A release signs
+    the DLLs before it builds the exes (tools\ReleaseAssets.ps1 Invoke-ModuleDllSigning), so the signed hashes are listed.
+  -->
+  <ItemGroup>
+    <CoodszModuleDll Include="..\..\compat\*\module\bin\**\*.dll" />
+    <CoodszModuleDll Include="..\CoodszHost\ServerTools\**\*.dll;..\CoodszHost\PatchModules\**\*.dll;..\CoodszHost\ImageExporter\**\*.dll;..\CoodszHost\SaveRescue\**\*.dll;..\TaomCoopHost\WarSync\*.dll" />
+  </ItemGroup>
+  <Target Name="CoodszKnownModuleHashes" BeforeTargets="PrepareResourceNames">
+    <GetFileHash Files="@(CoodszModuleDll)" Algorithm="SHA256" HashEncoding="hex" Condition="'@(CoodszModuleDll)' != ''">
+      <Output TaskParameter="Items" ItemName="_CoodszModuleHash" />
+    </GetFileHash>
+    <WriteLinesToFile File="$(IntermediateOutputPath)known-module-hashes.txt" Lines="@(_CoodszModuleHash->'%(FileHash)  %(Filename)%(Extension)')" Overwrite="true" WriteOnlyWhenDifferent="true" />
+    <ItemGroup>
+      <EmbeddedResource Include="$(IntermediateOutputPath)known-module-hashes.txt" LogicalName="Coodsz.KnownModuleHashes.txt" WithCulture="false" Type="Non-Resx" />
+      <FileWrites Include="$(IntermediateOutputPath)known-module-hashes.txt" />
+    </ItemGroup>
+  </Target>
+
+</Project>

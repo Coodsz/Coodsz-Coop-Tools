@@ -1,0 +1,10 @@
+# Realm of Thrones' campaign map for the Coop dedicated server, written by Stage-RotServerMap.ps1
+# from ROT_Map v8.1.8.2 SceneObj\Main_map\scene.xscene. Border = border_min and border_max entities,
+# terrain size = node_dimension_x x node_size (16 x 100).
+module=ROT_Map
+border_min_x=0
+border_min_y=0
+border_max_x=1599.99
+border_max_y=1400.3
+border_max_height=620
+terrain_size=1600

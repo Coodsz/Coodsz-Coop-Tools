@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BannerlordCoopLauncher.Core\BannerlordCoopLauncher.Core.csproj" />
+    <!-- The generic parts (ClientJoin, TaomLaunch, CoopCheats, SaveHeader, LastGoodSave, GameSpeed,
+         CoopModConfig, LogZipBuilder and the TaomSetup model) come from the TAOM library unchanged. -->
+    <ProjectReference Include="..\TaomCoop.Core\TaomCoop.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The server half tests read a module version the way staging does (BeServerPath.VersionOf). -->
+    <InternalsVisibleTo Include="BannerlordCoopLauncher.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The built in Burning Empires compatibility list, used when the online one cannot be read. -->
+    <EmbeddedResource Include="Compat\be-mod-compat.json" LogicalName="BurningEmpires.Compat.be-mod-compat.json" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module>
+    <Name value="Diplomacy Coop Compat"/>
+    <Id value="Diplomacy.CoopCompat"/>
+    <Version value="v1.1.1"/>
+    <ModuleType value="Community"/>
+    <Official value="false"/>
+    <DefaultModule value="false"/>
+    <SingleplayerModule value="true"/>
+    <MultiplayerModule value="false"/>
+    <DependedModules>
+        <DependedModule Id="Bannerlord.Harmony"/>
+        <DependedModule Id="Bannerlord.Diplomacy"/>
+    </DependedModules>
+    <DependedModuleMetadatas>
+        <DependedModuleMetadata id="Bannerlord.Harmony" order="LoadBeforeThis"/>
+        <DependedModuleMetadata id="Bannerlord.Diplomacy" order="LoadBeforeThis"/>
+        <DependedModuleMetadata id="Coop" order="LoadBeforeThis" optional="true"/>
+        <DependedModuleMetadata id="CoopNightly" order="LoadBeforeThis" optional="true"/>
+    </DependedModuleMetadatas>
+    <SubModules>
+        <SubModule>
+            <Name value="Diplomacy Coop Compat"/>
+            <DLLName value="Diplomacy.CoopCompat.dll"/>
+            <SubModuleClassType value="DiplomacyCoopCompat.SubModule"/>
+            <Tags/>
+        </SubModule>
+    </SubModules>
+</Module>

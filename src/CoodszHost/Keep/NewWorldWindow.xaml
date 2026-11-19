@@ -1,0 +1,126 @@
+<Window x:Class="CoodszHost.Keep.NewWorldWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="New world" Width="860" Height="640" MinWidth="760" MinHeight="560"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent" ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
+        Foreground="{StaticResource Keep.TextMain}" FontFamily="Segoe UI">
+    <!-- New world: Start, Name, Difficulty, Rules, Server, then Create world. -->
+    <Window.Resources>
+        <Style TargetType="ScrollBar" BasedOn="{StaticResource Keep.ScrollBar}"/>
+        <Style x:Key="Step" TargetType="StackPanel">
+            <Setter Property="Visibility" Value="Collapsed"/>
+        </Style>
+    </Window.Resources>
+
+    <Border Background="{StaticResource Keep.BgInput}" BorderBrush="{StaticResource Keep.Frame}" BorderThickness="1" Margin="8">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="24" ShadowDepth="0" Opacity="0.6" Color="Black"/>
+        </Border.Effect>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header and step bars -->
+            <StackPanel Margin="30,24,24,0" Background="Transparent" MouseLeftButtonDown="Header_MouseDown">
+                <Grid>
+                    <StackPanel>
+                        <TextBlock Text="New world" Style="{StaticResource Keep.H1}"/>
+                    </StackPanel>
+                    <Button Style="{StaticResource Keep.Icon}" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Close_Click" ToolTip="Close without creating a world">
+                        <Path Data="{StaticResource Keep.IconClose}" Stroke="{StaticResource Keep.TextMain}" StrokeThickness="1.6" Width="16" Height="16"/>
+                    </Button>
+                </Grid>
+                <UniformGrid x:Name="StepBars" Columns="5" Margin="0,14,0,0"/>
+            </StackPanel>
+
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="30,18,24,12">
+                <Grid>
+                    <!-- Start -->
+                    <StackPanel x:Name="StartStep" Style="{StaticResource Step}">
+                        <TextBlock Text="How does this world begin?" Style="{StaticResource Keep.H2}"/>
+                        <TextBlock Text="The world is the campaign save the server runs. Nothing is written until you press Create world." Style="{StaticResource Keep.Dim}" TextWrapping="Wrap" Margin="0,4,0,14"/>
+                        <RadioButton x:Name="FreshChoice" Style="{StaticResource Keep.Choice}" ToolTip="The server makes a new sandbox campaign for this world." GroupName="Begin" IsChecked="True" Margin="0,0,0,10" HorizontalContentAlignment="Stretch">
+                            <StackPanel>
+                                <TextBlock Text="Start a fresh campaign" FontWeight="SemiBold"/>
+                                <TextBlock Text="The server makes a new sandbox campaign the first time it starts this world." Style="{StaticResource Keep.Dim}" TextWrapping="Wrap" Margin="0,3,0,0"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton x:Name="SinglePlayerChoice" Style="{StaticResource Keep.Choice}" ToolTip="Copies one of your single player saves to the server to keep playing it together." GroupName="Begin" HorizontalContentAlignment="Stretch">
+                            <StackPanel>
+                                <TextBlock Text="Continue a single-player campaign" FontWeight="SemiBold"/>
+                                <TextBlock Text="Create world asks for a single-player .sav and copies it into the server Game Saves folder. The original save stays." Style="{StaticResource Keep.Dim}" TextWrapping="Wrap" Margin="0,3,0,0"/>
+                            </StackPanel>
+                        </RadioButton>
+                    </StackPanel>
+
+                    <!-- Name -->
+                    <StackPanel x:Name="NameStep" Style="{StaticResource Step}">
+                        <TextBlock Text="Name your world" Style="{StaticResource Keep.H2}"/>
+                        <TextBlock Text="This is the save name on the server and in the save list." Style="{StaticResource Keep.Dim}" TextWrapping="Wrap" Margin="0,4,0,14"/>
+                        <TextBox x:Name="NameBox" Style="{StaticResource Keep.Text}" Tag="Calradia" FontSize="15" MaxLength="120" TextChanged="Name_Changed"/>
+                        <TextBlock x:Name="NameProblem" Foreground="{StaticResource Keep.Red}" TextWrapping="Wrap" Margin="0,8,0,0" Visibility="Collapsed"/>
+                    </StackPanel>
+
+                    <!-- Difficulty -->
+                    <StackPanel x:Name="DifficultyStep" Style="{StaticResource Step}">
+                        <TextBlock Text="Difficulty" Style="{StaticResource Keep.H2}"/>
+                        <TextBlock Text="The settings you see when starting a new campaign in the game. You can change them later on Settings." Style="{StaticResource Keep.Dim}" TextWrapping="Wrap" Margin="0,4,0,14"/>
+                        <UniformGrid x:Name="PresetCards" Columns="3"/>
+                    </StackPanel>
+
+                    <!-- Rules -->
+                    <StackPanel x:Name="RulesStep" Style="{StaticResource Step}">
+                        <TextBlock Text="Rules" Style="{StaticResource Keep.H2}"/>
+                        <TextBlock Text="Coop settings for this world. The rest keep their current values." Style="{StaticResource Keep.Dim}" TextWrapping="Wrap" Margin="0,4,0,14"/>
+                        <StackPanel x:Name="RuleBoxes"/>
+                        <TextBlock Text="Battle size" FontWeight="SemiBold" Margin="0,14,0,6"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="60"/>
+                            </Grid.ColumnDefinitions>
+                            <Slider x:Name="BattleSizeSlider" ToolTip="Battle size for coop battles, from 200 to 1000." Minimum="200" Maximum="1000" TickFrequency="10" IsSnapToTickEnabled="True" ValueChanged="BattleSize_Changed" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" x:Name="BattleSizeLabel" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Tag="coodsz:no-translate"/>
+                        </Grid>
+                        <TextBlock x:Name="BattleSizeHint" Text="Battle size for coop battles, from 200 to 1000. Coop's default is 1000." Style="{StaticResource Keep.Dim}" TextWrapping="Wrap" Margin="0,4,0,0"/>
+                    </StackPanel>
+
+                    <!-- Server -->
+                    <StackPanel x:Name="ServerStep" Style="{StaticResource Step}">
+                        <TextBlock Text="Server" Style="{StaticResource Keep.H2}"/>
+                        <TextBlock Text="The join password is for every world of this setup. Leave it empty and anyone with the address can join." Style="{StaticResource Keep.Dim}" TextWrapping="Wrap" Margin="0,4,0,14"/>
+                        <TextBlock Text="Server password" Style="{StaticResource Keep.Label}" Margin="0,0,0,4"/>
+                        <Grid>
+                            <TextBox x:Name="PasswordText" Style="{StaticResource Keep.Text}"/>
+                            <PasswordBox x:Name="PasswordHidden" Visibility="Collapsed" Background="{StaticResource Keep.BgInput}" Foreground="{StaticResource Keep.TextMain}"
+                                         BorderBrush="{StaticResource Keep.BorderDim}" Padding="10,7" FontSize="13" CaretBrush="{StaticResource Keep.TextMain}"/>
+                        </Grid>
+                        <TextBlock x:Name="StreamerNote" Text="Streamer mode is on, so the password shows as dots." Style="{StaticResource Keep.Dim}" Margin="0,6,0,0" Visibility="Collapsed"/>
+                        <Border Style="{StaticResource Keep.Card}" Margin="0,18,0,0" Padding="16,12">
+                            <StackPanel>
+                                <TextBlock Text="Summary" Style="{StaticResource Keep.Label}" Margin="0,0,0,6"/>
+                                <TextBlock x:Name="SummaryText" TextWrapping="Wrap" Tag="coodsz:no-translate"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer>
+
+            <!-- Footer -->
+            <Border Grid.Row="2" BorderBrush="{StaticResource Keep.BorderDim}" BorderThickness="0,1,0,0" Padding="30,14,24,18">
+                <Grid>
+                    <Button x:Name="BackButton" Style="{StaticResource Keep.Button}" HorizontalAlignment="Left" Click="Back_Click" ToolTip="Goes back to the step before.">
+                        <TextBlock Text="Back"/>
+                    </Button>
+                    <Button x:Name="NextButton" Style="{StaticResource Keep.Gold}" HorizontalAlignment="Right" Padding="20,8" Click="Next_Click" ToolTip="Goes to the next step. On the last step it creates the world.">
+                        <TextBlock x:Name="NextText" Text="Continue"/>
+                    </Button>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

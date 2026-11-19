@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module>
+    <Name value="Coodsz Server Tools"/>
+    <Id value="DedicatedServer.CoodszTools"/>
+    <Version value="v1.8.1"/>
+    <ModuleType value="Community"/>
+    <Official value="false"/>
+    <DefaultModule value="false"/>
+    <SingleplayerModule value="true"/>
+    <MultiplayerModule value="false"/>
+    <DependedModules>
+        <DependedModule Id="Native"/>
+        <DependedModule Id="SandBoxCore"/>
+        <DependedModule Id="Sandbox"/>
+    </DependedModules>
+    <DependedModuleMetadatas>
+        <DependedModuleMetadata id="Coop" order="LoadBeforeThis" optional="true"/>
+        <DependedModuleMetadata id="CoopNightly" order="LoadBeforeThis" optional="true"/>
+    </DependedModuleMetadatas>
+    <SubModules>
+        <SubModule>
+            <Name value="Coodsz Server Tools"/>
+            <DLLName value="DedicatedServer.CoodszTools.dll"/>
+            <SubModuleClassType value="CoodszServerTools.ToolsSubModule"/>
+            <Tags/>
+        </SubModule>
+    </SubModules>
+    <Xmls/>
+</Module>

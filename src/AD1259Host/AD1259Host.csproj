@@ -1,0 +1,60 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Coodsz AD1259 Server Tool: the Coodsz Coop Server Tool source built with AD1259 defined (see Services/Edition.cs). -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>CoodszHost</RootNamespace>
+    <AssemblyName>Coodsz AD1259 Server Tool</AssemblyName>
+    <Product>Coodsz AD1259 Server Tool</Product>
+    <AssemblyTitle>Coodsz AD1259 Server Tool</AssemblyTitle>
+    <Description>Coodsz AD1259 Server Tool: hosts an AD1259 Coop server</Description>
+    <ApplicationIcon>..\..\assets\icons\coodsz-ad1259.ico</ApplicationIcon>
+    <Version>1.1.17</Version>
+    <DefineConstants>$(DefineConstants);AD1259</DefineConstants>
+    <HostSource>..\CoodszHost\</HostSource>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BannerlordCoopLauncher.Core\BannerlordCoopLauncher.Core.csproj" />
+    <ProjectReference Include="..\TaomCoop.Core\TaomCoop.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="$(HostSource)**\*.cs" Exclude="$(HostSource)obj\**;$(HostSource)bin\**;$(HostSource)CopyMark.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
+    <ApplicationDefinition Include="$(HostSource)App.xaml" Link="App.xaml" />
+    <Page Include="$(HostSource)**\*.xaml" Exclude="$(HostSource)App.xaml;$(HostSource)obj\**;$(HostSource)bin\**" Link="%(RecursiveDir)%(Filename)%(Extension)" />
+    <Resource Include="$(HostSource)Assets\*.png;$(HostSource)Assets\*.jpg" Link="Assets\%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <!-- Embedded in the exe and written out on first use (CoodszPayload.targets, ToolPayload). -->
+  <ItemGroup>
+    <CoodszPayload Include="$(HostSource)DedicatedServerRepair\**\*" Payload="DedicatedServerRepair" />
+    <!-- The prebuilt server DLLs from the private folder (src\Directory.Build.props). -->
+    <CoodszPayload Include="$(CoodszPrivateRepair)**\*" Payload="DedicatedServerRepair" />
+    <CoodszPayload Include="$(HostSource)SaveRescue\**\*" Payload="SaveRescue" />
+    <!-- Build pictures on the Cheats page draws with the player's own game, the same as in Coodsz Host. -->
+    <CoodszPayload Include="$(HostSource)ImageExporter\**\*" Payload="ImageExporter" />
+    <!-- Coodsz Server Tools (compat\CoodszServerTools): the host rules and the MCM settings sync for players. -->
+    <CoodszPayload Include="$(HostSource)ServerTools\**\*" Payload="ServerTools" />
+    <!-- SkyApolo's AD1259 - Coop Compatibility, bundled with permission; source in compat\AD1259CoopCompat. -->
+    <CoodszPayload Include="..\..\compat\AD1259CoopCompat\module\**\*" Payload="ServerAddOns" PayloadFolder="DedicatedServer.AD1259CoopCompat\" />
+  </ItemGroup>
+
+  <Import Project="..\CoodszPayload.targets" />
+
+  <ItemGroup>
+    <Compile Include="..\BannerlordCoopLauncher\UiLanguage.cs" Link="UiLanguage.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\WindowPlacement.cs" Link="WindowPlacement.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\NewBadges.cs" Link="NewBadges.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\JoinGuideWindow.cs" Link="JoinGuideWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\AntivirusWindow.cs" Link="AntivirusWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\ModReportWindow.cs" Link="ModReportWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\CrashReportWindow.cs" Link="CrashReportWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\ReportReplyWindow.cs" Link="ReportReplyWindow.cs" />
+  </ItemGroup>
+
+</Project>

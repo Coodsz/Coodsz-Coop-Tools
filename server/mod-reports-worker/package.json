@@ -1,0 +1,8 @@
+{
+  "name": "coodsz-mod-reports-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/index.test.mjs test/crash.test.mjs test/replies.test.mjs test/followup.test.mjs test/webhook.test.mjs test/budget.test.mjs ../../crash-repos/.github/scripts/reply-signature.test.mjs ../../.github/scripts/tally-mod-compat.test.mjs ../../.github/scripts/tally-taom-compat.test.mjs ../../.github/scripts/compat-records.test.mjs ../../.github/scripts/auto-approve-reports.test.mjs"
+  }
+}

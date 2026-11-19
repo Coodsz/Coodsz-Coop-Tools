@@ -1,0 +1,18 @@
+<Prefab>
+  <!-- Coodsz PvP countdown (compat\CoodszSettingsSync\src\Client\PvpCountdownClient.cs): the response timer's
+       seconds left, small and gold at the bottom center, over the map and Coop's meeting screens. -->
+  <Window>
+    <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" DoNotAcceptEvents="true">
+      <Children>
+        <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                MarginBottom="24" Sprite="BlankWhiteSquare_9" Color="#0000008C" DoNotAcceptEvents="true">
+          <Children>
+            <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginLeft="16" MarginRight="16" MarginTop="6" MarginBottom="6"
+                        Brush="Clan.TabControl.Text" Brush.FontSize="22" Brush.FontColor="#E2C27AFF"
+                        Brush.TextHorizontalAlignment="Center" Brush.TextVerticalAlignment="Center" DoNotAcceptEvents="true" Text="@Text"/>
+          </Children>
+        </Widget>
+      </Children>
+    </Widget>
+  </Window>
+</Prefab>

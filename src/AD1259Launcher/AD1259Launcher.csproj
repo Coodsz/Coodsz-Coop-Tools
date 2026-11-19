@@ -1,0 +1,66 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>AD1259Launcher</RootNamespace>
+    <AssemblyName>Coodsz AD1259 Client Launcher</AssemblyName>
+    <Product>Coodsz AD1259 Client Launcher</Product>
+    <AssemblyTitle>Coodsz AD1259 Client Launcher</AssemblyTitle>
+    <Description>Coodsz AD1259 Client Launcher: sets up AD1259 Coop and joins a server</Description>
+    <ApplicationIcon>..\..\assets\icons\coodsz-ad1259-client.ico</ApplicationIcon>
+    <Version>1.1.17</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TaomCoop.Core\TaomCoop.Core.csproj" />
+    <ProjectReference Include="..\BannerlordCoopLauncher.Core\BannerlordCoopLauncher.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- RBM's four switches, written on Connect exactly the way the server tool writes them. -->
+    <Compile Include="..\CoodszHost\Services\RbmSwitches.cs" Link="RbmSwitches.cs" />
+    <Compile Include="..\CoodszHost\Services\RbmConfigFile.cs" Link="RbmConfigFile.cs" />
+  </ItemGroup>
+
+  <!-- The ClientAddOns payload, embedded in the exe and written out on first use (CoodszPayload.targets, ToolPayload). -->
+  <ItemGroup>
+    <!-- SkyApolo's AD1259 - Coop Client Stability, bundled with permission; see compat\AD1259CoopClientFix. -->
+    <CoodszPayload Include="..\..\compat\AD1259CoopClientFix\module\**\*" Payload="ClientAddOns" PayloadFolder="DedicatedServer.AD1259CoopClientFix\" />
+    <!-- Coodsz Join Password: sends the password on the first auto-connect and carries the settings sync client; see compat\CoodszJoinPassword. -->
+    <CoodszPayload Include="..\..\compat\CoodszJoinPassword\module\**\*" Payload="ClientAddOns" PayloadFolder="DedicatedServer.CoodszJoinPassword\" />
+  </ItemGroup>
+
+  <Import Project="..\CoodszPayload.targets" />
+
+  <ItemGroup>
+    <!-- The Coop castle behind the pages until AD1259 has art of its own (Backdrop.Apply in App.xaml.cs). -->
+    <Resource Include="..\CoodszHost\Assets\redesign-backdrop-castle.jpg" Link="Assets\redesign-backdrop-castle.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\BannerlordCoopLauncher\UiLanguage.cs" Link="UiLanguage.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\GameAlreadyOpen.cs" Link="GameAlreadyOpen.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\WindowPlacement.cs" Link="WindowPlacement.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\NewBadges.cs" Link="NewBadges.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\JoinGuideWindow.cs" Link="JoinGuideWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\AntivirusWindow.cs" Link="AntivirusWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\JoinCheckWindow.cs" Link="JoinCheckWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\ModReportWindow.cs" Link="ModReportWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\CrashReportWindow.cs" Link="CrashReportWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\ReportReplyWindow.cs" Link="ReportReplyWindow.cs" />
+  </ItemGroup>
+
+  <!-- The shared window frame (sidebar, header, chips, banners) and the Keep look it uses: docs/design/redesign/build-plan.md 1.1. -->
+  <!-- App.xaml merges the two Keep files (redesign wave 7). -->
+  <ItemGroup>
+    <Page Include="..\CoodszHost\Keep\KeepColors.xaml" Link="Keep\KeepColors.xaml" />
+    <Page Include="..\CoodszHost\Keep\KeepTheme.xaml" Link="Keep\KeepTheme.xaml" />
+    <Page Include="..\CoodszHost\Shared\Frame\*.xaml" Link="Shared\Frame\%(Filename)%(Extension)" />
+    <Compile Include="..\CoodszHost\Shared\Frame\*.cs" Link="Shared\Frame\%(Filename)%(Extension)" />
+  </ItemGroup>
+
+</Project>

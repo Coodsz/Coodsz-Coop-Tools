@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module>
+    <Name value="Coodsz Image Exporter"/>
+    <Id value="CoodszImageExporter"/>
+    <Version value="v1.0.0"/>
+    <ModuleType value="Community"/>
+    <Official value="false"/>
+    <DefaultModule value="false"/>
+    <SingleplayerModule value="true"/>
+    <MultiplayerModule value="false"/>
+    <DependedModules>
+        <DependedModule Id="Native"/>
+        <DependedModule Id="SandBoxCore"/>
+        <DependedModule Id="Sandbox"/>
+    </DependedModules>
+    <SubModules>
+        <SubModule>
+            <Name value="Coodsz Image Exporter"/>
+            <DLLName value="CoodszImageExporter.dll"/>
+            <SubModuleClassType value="CoodszImageExporter.ExporterSubModule"/>
+            <Tags/>
+        </SubModule>
+    </SubModules>
+    <Xmls/>
+</Module>

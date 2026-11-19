@@ -1,0 +1,415 @@
+<UserControl x:Class="CoodszHost.Keep.CheatsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:CoodszHost"
+             xmlns:keep="clr-namespace:CoodszHost.Keep"
+             Foreground="{StaticResource Keep.TextMain}" FontFamily="Segoe UI">
+    <!--
+        The Cheats page: the player cards, the category chips (Gold, Clan, Skills, Party, Hero, World
+        and the favourites), the cheats of the category, the form of the picked cheat with the exact
+        Coop command it sends and the admin log. Every cheat sends a Coop
+        coop.debug SERVER command; the commands that are not about a player are on the Console page.
+    -->
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="Visible"/>
+        <Style TargetType="ScrollBar" BasedOn="{StaticResource Keep.ScrollBar}"/>
+        <Style x:Key="ChipIcon" TargetType="Path">
+            <Setter Property="Width" Value="13"/>
+            <Setter Property="Height" Value="13"/>
+            <Setter Property="Stretch" Value="Uniform"/>
+            <Setter Property="Stroke" Value="{StaticResource Keep.TextMain}"/>
+            <Setter Property="StrokeThickness" Value="1.3"/>
+            <Setter Property="Margin" Value="0,0,6,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="Chip" TargetType="RadioButton" BasedOn="{StaticResource Keep.Pill}">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Margin" Value="0,0,8,8"/>
+        </Style>
+        <Style x:Key="Gap" TargetType="Button" BasedOn="{StaticResource Keep.Button}">
+            <Setter Property="Margin" Value="0,0,8,0"/>
+        </Style>
+        <Style x:Key="Collapser" TargetType="ToggleButton">
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <StackPanel Orientation="Horizontal" Background="Transparent">
+                            <Path x:Name="Chevron" Data="{StaticResource Keep.IconChevron}" Stroke="{StaticResource Keep.TextMain}" StrokeThickness="1.6" Width="16" Height="16"
+                                  RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center" Margin="0,0,8,0">
+                                <Path.RenderTransform><RotateTransform Angle="0"/></Path.RenderTransform>
+                            </Path>
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Chevron" Property="RenderTransform">
+                                    <Setter.Value><RotateTransform Angle="90"/></Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="0,0,8,0">
+            <Border Style="{StaticResource Keep.Panel}" Margin="0,0,0,14">
+                <TextBlock Text="Pick a player, pick a cheat, then press Run. Each cheat sends Coop's own command to the server console." Style="{StaticResource Keep.Dim}" TextWrapping="Wrap"/>
+            </Border>
+
+            <!-- Status strip -->
+            <Border Style="{StaticResource Keep.Card}" Padding="14,10" Margin="0,0,0,16">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel x:Name="PicturePanel" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock x:Name="PictureLine" Style="{StaticResource Keep.Dim}" VerticalAlignment="Center" Margin="12,0,10,0" MaxWidth="460" TextTrimming="CharacterEllipsis"/>
+                        <Button x:Name="BuildPicturesButton" Style="{StaticResource Keep.Button}" Click="BuildPictures_Click"
+                                ToolTip="Starts your own Bannerlord once to draw the item and troop pictures on this PC. It closes by itself when done.">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="{StaticResource Keep.IconPicture}" Stroke="{StaticResource Keep.TextMain}" StrokeThickness="1.3" Width="16" Height="16" Margin="0,0,7,0"/>
+                                <TextBlock Text="Build pictures"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <Path Data="{StaticResource Keep.IconInfo}" Stroke="{StaticResource Keep.TextMain}" StrokeThickness="1.4" Width="16" Height="16" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock x:Name="ServerLine" Text="Cheats work while the server is running." TextWrapping="Wrap"/>
+                        <TextBlock x:Name="StatusLine" Style="{StaticResource Keep.Dim}" TextWrapping="Wrap" Margin="0,2,0,0" Visibility="Collapsed"/>
+                        <!-- Here and not by the pictures, so the AD1259 host (no pictures) shows it too; the sentence wraps and the button sits under it. -->
+                        <StackPanel x:Name="GameMissingPanel" Margin="0,6,0,0" Visibility="Collapsed">
+                            <TextBlock Text="Bannerlord was not found. Press Find Bannerlord and pick its folder." Style="{StaticResource Keep.Dim}" TextWrapping="Wrap"/>
+                            <Button x:Name="FindBannerlordButton" Content="Find Bannerlord" ToolTip="Pick the Mount &amp; Blade II Bannerlord folder. The tool remembers it." Style="{StaticResource Keep.Button}" HorizontalAlignment="Left" Margin="0,6,0,0" Click="FindBannerlord_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- The players, the cheat picker and the cheat in one card, so their text reads over the backdrop. -->
+            <Border Style="{StaticResource Keep.Card}">
+                <StackPanel>
+                    <!-- Players -->
+                    <Grid Margin="0,0,0,10">
+                        <TextBlock Text="Players" Style="{StaticResource Keep.H2}" VerticalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="SheetButton" Style="{StaticResource Keep.Button}" Content="Character sheet" Margin="0,0,8,0" Click="SheetButton_Click" ToolTip="Shows the skills, focus and attributes of the picked player. You can change them there."/>
+                        <Button x:Name="ProfileButton" Style="{StaticResource Keep.Button}" Content="Open profile" Margin="0,0,8,0" Click="OpenProfile_Click" ToolTip="Opens the profile window of this player."/>
+                        <Button Style="{StaticResource Keep.Button}" Padding="7" HorizontalAlignment="Right" Click="RefreshPlayers_Click" ToolTip="Reads the players, their gold and the ids the server knows again.">
+                            <Path Data="{StaticResource Keep.IconRefresh}" Stroke="{StaticResource Keep.TextDim}" StrokeThickness="1.5" Width="16" Height="16"/>
+                        </Button>
+                        </StackPanel>
+                    </Grid>
+                    <TextBlock x:Name="NobodyText" Text="No players yet. Start the server. Players show up here when they join." Style="{StaticResource Keep.Dim}" TextWrapping="Wrap" Margin="0,0,0,12"/>
+                    <ItemsControl x:Name="PlayerList" Tag="coodsz:no-translate" Margin="0,0,0,8">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Click="Player_Click" Width="210" Margin="0,0,10,10" Padding="12,10" ToolTip="Picks this player for the cheats below.">
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource Keep.CardButton}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsTarget}" Value="True">
+                                                    <Setter Property="BorderBrush" Value="{StaticResource Keep.Accent}"/>
+                                                    <Setter Property="Background" Value="{StaticResource Keep.AccentSoft}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Width="34" Height="34" Margin="0,0,10,0" VerticalAlignment="Top">
+                                            <Border CornerRadius="2" Background="{StaticResource Keep.BgDeep}">
+                                                <TextBlock Text="{Binding ShownInitial}" FontWeight="Bold" Foreground="{StaticResource Keep.Accent}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <Border Width="10" Height="10" CornerRadius="5" Background="{StaticResource Keep.Success}" BorderBrush="{StaticResource Keep.BgDeep}" BorderThickness="1"
+                                                    HorizontalAlignment="Right" VerticalAlignment="Bottom" Visibility="{Binding Online, Converter={StaticResource Visible}}"/>
+                                        </Grid>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Shown}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                                            <TextBlock Text="{Binding Detail}" FontSize="11" Foreground="{StaticResource Keep.TextDim}" TextTrimming="CharacterEllipsis"
+                                                       Visibility="{Binding HasDetail, Converter={StaticResource Visible}}"/>
+                                            <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
+                                                <Path Data="{StaticResource Keep.IconGold}" Stroke="{StaticResource Keep.TextDim}" StrokeThickness="1.2" Width="11" Height="11" Stretch="Uniform" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding GoldText}" FontSize="11" Foreground="{StaticResource Keep.TextDim}" Margin="4,0,10,0"/>
+                                                <TextBlock Text="{Binding AgeText}" FontSize="11" Foreground="{StaticResource Keep.TextDim}" Visibility="{Binding HasAge, Converter={StaticResource Visible}}"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <!-- Category chips -->
+                    <WrapPanel Margin="0,4,0,6">
+                        <RadioButton x:Name="ChipGold" Style="{StaticResource Chip}" GroupName="CheatCategory" Tag="Gold" IsChecked="True" Checked="Category_Checked" ToolTip="Give, take or set a player's gold.">
+                            <StackPanel Orientation="Horizontal"><Path Style="{StaticResource ChipIcon}" Data="{StaticResource Keep.IconGold}"/><TextBlock Text="Gold"/></StackPanel>
+                        </RadioButton>
+                        <RadioButton x:Name="ChipClan" Style="{StaticResource Chip}" GroupName="CheatCategory" Tag="Clan" Checked="Category_Checked" ToolTip="Influence and renown of the player's clan, and joining a kingdom.">
+                            <StackPanel Orientation="Horizontal"><Path Style="{StaticResource ChipIcon}" Data="{StaticResource Keep.IconShield}"/><TextBlock Text="Clan"/></StackPanel>
+                        </RadioButton>
+                        <RadioButton x:Name="ChipSkills" Style="{StaticResource Chip}" GroupName="CheatCategory" Tag="Skills" Checked="Category_Checked" ToolTip="Skill XP, attribute points and focus points of the player's hero.">
+                            <StackPanel Orientation="Horizontal"><Path Style="{StaticResource ChipIcon}" Data="{StaticResource Keep.IconStar}"/><TextBlock Text="Skills"/></StackPanel>
+                        </RadioButton>
+                        <RadioButton x:Name="ChipParty" Style="{StaticResource Chip}" GroupName="CheatCategory" Tag="Party" Checked="Category_Checked" ToolTip="Troops, troop XP, crafted items and a trip to a hideout for the player's party.">
+                            <StackPanel Orientation="Horizontal"><Path Style="{StaticResource ChipIcon}" Data="{StaticResource Keep.IconSwords}"/><TextBlock Text="Party"/></StackPanel>
+                        </RadioButton>
+                        <RadioButton x:Name="ChipHero" Style="{StaticResource Chip}" GroupName="CheatCategory" Tag="Hero" Checked="Category_Checked" ToolTip="Age of the player's hero and how other heroes like them.">
+                            <StackPanel Orientation="Horizontal"><Path Style="{StaticResource ChipIcon}" Data="{StaticResource Keep.IconHeart}"/><TextBlock Text="Hero"/></StackPanel>
+                        </RadioButton>
+                        <RadioButton x:Name="ChipWorld" Style="{StaticResource Chip}" GroupName="CheatCategory" Tag="World" Checked="Category_Checked" ToolTip="Town prosperity and village hearth. These are not for a player.">
+                            <StackPanel Orientation="Horizontal"><Path Style="{StaticResource ChipIcon}" Data="{StaticResource Keep.IconChest}"/><TextBlock Text="World"/></StackPanel>
+                        </RadioButton>
+                        <RadioButton x:Name="ChipFavourites" Style="{StaticResource Chip}" GroupName="CheatCategory" Tag="Favourites" Checked="Category_Checked" ToolTip="Your favourite cheats. Press the star next to a cheat to add it here.">
+                            <StackPanel Orientation="Horizontal"><Path Style="{StaticResource ChipIcon}" Data="{StaticResource Keep.IconStar}" Fill="{StaticResource Keep.Warning}" Stroke="{StaticResource Keep.Warning}"/><TextBlock Text="Favourites"/></StackPanel>
+                        </RadioButton>
+                    </WrapPanel>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="330"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- The cheats of the category -->
+                        <StackPanel Margin="0,0,16,0">
+                            <TextBlock x:Name="NoFavourites" Text="No favourites yet. Press the star next to a cheat to keep it here." Style="{StaticResource Keep.Dim}" TextWrapping="Wrap" Visibility="Collapsed"/>
+                            <ItemsControl x:Name="CheatList" Tag="coodsz:no-translate">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0,0,0,6">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button Click="Cheat_Click" Padding="12,9" ToolTip="{Binding Help}">
+                                                <Button.Style>
+                                                    <Style TargetType="Button" BasedOn="{StaticResource Keep.CardButton}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsPicked}" Value="True">
+                                                                <Setter Property="BorderBrush" Value="{StaticResource Keep.Accent}"/>
+                                                                <Setter Property="Background" Value="{StaticResource Keep.AccentSoft}"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Title}" FontWeight="SemiBold"/>
+                                                    <TextBlock Text="{Binding Tags}" FontSize="11" Foreground="{StaticResource Keep.Warning}" Visibility="{Binding HasTags, Converter={StaticResource Visible}}"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Grid.Column="1" Style="{StaticResource Keep.Small}" Margin="6,0,0,0" Padding="9,4" VerticalAlignment="Stretch" Click="Star_Click"
+                                                    ToolTip="Adds this cheat to your favourites, or takes it off.">
+                                                <Path Data="{StaticResource Keep.IconStar}" Width="14" Height="14" Stretch="Uniform" Stroke="{StaticResource Keep.Warning}" StrokeThickness="1.2" Fill="{Binding StarFill}"/>
+                                            </Button>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+
+                        <!-- The form of the picked cheat -->
+                        <Border Grid.Column="1" Style="{StaticResource Keep.Card}" VerticalAlignment="Top">
+                            <Grid>
+                                <TextBlock x:Name="PickCheat" Text="Pick a cheat on the left." Style="{StaticResource Keep.Dim}" FontSize="14"/>
+                                <StackPanel x:Name="FormPanel" Visibility="Collapsed">
+                                    <TextBlock x:Name="FormTitle" Style="{StaticResource Keep.H2}" TextWrapping="Wrap" Tag="coodsz:no-translate"/>
+                                    <TextBlock x:Name="FormHelp" Style="{StaticResource Keep.Dim}" TextWrapping="Wrap" Margin="0,4,0,0" Tag="coodsz:no-translate"/>
+                                    <Border x:Name="FormNote" Style="{StaticResource Keep.Note}" Margin="0,10,0,0" Visibility="Collapsed">
+                                        <TextBlock x:Name="FormNoteText" TextWrapping="Wrap" Foreground="{StaticResource Keep.Warning}" Tag="coodsz:no-translate"/>
+                                    </Border>
+                                    <StackPanel x:Name="FormFields" Margin="0,14,0,0" Tag="coodsz:no-translate"/>
+                                    <StackPanel x:Name="ArmyPanel" Visibility="Collapsed" Margin="0,14,0,0">
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
+                                            <RadioButton x:Name="GiveTroops" Style="{StaticResource Keep.Choice}" GroupName="ArmyMode" Content="Give troops" IsChecked="True" MinWidth="170" Checked="ArmyMode_Checked" ToolTip="Pick troops from the game's troop list to add to the party."/>
+                                            <RadioButton x:Name="TakeTroops" Style="{StaticResource Keep.Choice}" GroupName="ArmyMode" Content="Take troops" MinWidth="170" Checked="ArmyMode_Checked" ToolTip="Pick troops from the player's party to take away. Works on one player at a time."/>
+                                        </StackPanel>
+                                        <Grid Margin="0,0,0,12">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="170"/>
+                                                <ColumnDefinition Width="160"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <ComboBox x:Name="CultureBox" Style="{StaticResource Keep.Combo}" ToolTip="Shows only the troops of this culture." Margin="0,0,8,0" SelectionChanged="TroopFilter_Changed"/>
+                                            <ComboBox x:Name="ClassBox" Grid.Column="1" Style="{StaticResource Keep.Combo}" ToolTip="Shows only the troops of this class." Margin="0,0,8,0" SelectionChanged="TroopFilter_Changed"/>
+                                            <TextBox x:Name="TroopSearch" Grid.Column="2" Style="{StaticResource Keep.Text}" Margin="0,0,8,0" TextChanged="TroopSearch_Changed"/>
+                                            <StackPanel Grid.Column="3" Orientation="Horizontal">
+                                                <TextBlock Text="Per click" Style="{StaticResource Keep.Dim}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                                <TextBox x:Name="TroopPerClick" Style="{StaticResource Keep.Text}" ToolTip="How many troops one click on a troop card adds to the list." Width="64" Padding="4,7" Text="10" HorizontalContentAlignment="Center"/>
+                                                <Button Style="{StaticResource Keep.Button}" Content="&#x25B2;" Padding="9,6" Margin="4,0,0,0" FontSize="10" Tag="1" Click="TroopPerClick_Click" ToolTip="Adds more troops per click."/>
+                                                <Button Style="{StaticResource Keep.Button}" Content="&#x25BC;" Padding="9,6" Margin="4,0,0,0" FontSize="10" Tag="-1" Click="TroopPerClick_Click" ToolTip="Adds fewer troops per click."/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Border x:Name="ArmyNote" Style="{StaticResource Keep.Note}" Margin="0,0,0,10" Visibility="Collapsed">
+                                            <TextBlock x:Name="ArmyNoteText" TextWrapping="Wrap"/>
+                                        </Border>
+                                        <ScrollViewer MaxHeight="430" VerticalScrollBarVisibility="Auto">
+                                            <ItemsControl x:Name="TroopCards" Tag="coodsz:no-translate">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Button Style="{StaticResource Keep.CardButton}" Width="112" Height="190" Margin="0,0,8,8" Click="TroopCard_Click" ToolTip="{Binding Name}">
+                                                            <Grid>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="130"/>
+                                                                    <RowDefinition Height="*"/>
+                                                                </Grid.RowDefinitions>
+                                                                <Border Background="{StaticResource Keep.Picture}">
+                                                                    <Grid>
+                                                                        <TextBlock Text="{Binding CultureName}" FontSize="11" Foreground="{StaticResource Keep.TextFaint}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                                   Visibility="{Binding Image.NoImage, Converter={StaticResource Visible}}"/>
+                                                                        <Image Source="{Binding Image.Source}" Stretch="UniformToFill" VerticalAlignment="Top"/>
+                                                                        <Border Background="{StaticResource Keep.Badge}" CornerRadius="2" Padding="4,0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                                                            <TextBlock Text="{Binding Stars}" FontSize="9" Foreground="{StaticResource Keep.Accent}"/>
+                                                                        </Border>
+                                                                    </Grid>
+                                                                </Border>
+                                                                <StackPanel Grid.Row="1" Margin="7,5,7,5">
+                                                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="11.5" TextTrimming="CharacterEllipsis"/>
+                                                                    <TextBlock Text="{Binding ClassName}" FontSize="11" Foreground="{StaticResource Keep.TextDim}" Margin="0,4,0,0"/>
+                                                                </StackPanel>
+                                                            </Grid>
+                                                        </Button>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </ScrollViewer>
+                                        <ItemsControl x:Name="RosterCards" Tag="coodsz:no-translate" Visibility="Collapsed">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Button Style="{StaticResource Keep.CardButton}" Width="112" Height="176" Margin="0,0,8,8" Click="RosterCard_Click" ToolTip="{Binding Name}">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="120"/>
+                                                                <RowDefinition Height="*"/>
+                                                            </Grid.RowDefinitions>
+                                                            <Border Background="{StaticResource Keep.Picture}">
+                                                                <Grid>
+                                                                    <TextBlock Text="{Binding Stars}" FontSize="12" Foreground="{StaticResource Keep.Accent}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                               Visibility="{Binding Image.NoImage, Converter={StaticResource Visible}}"/>
+                                                                    <Image Source="{Binding Image.Source}" Stretch="UniformToFill" VerticalAlignment="Top"/>
+                                                                    <Border Style="{StaticResource Keep.CountBadge}">
+                                                                        <TextBlock Text="{Binding CountText}" FontSize="11" FontWeight="Bold"/>
+                                                                    </Border>
+                                                                </Grid>
+                                                            </Border>
+                                                            <TextBlock Grid.Row="1" Text="{Binding Name}" FontWeight="SemiBold" FontSize="11.5" TextWrapping="Wrap" Margin="7,5" MaxHeight="32" TextTrimming="CharacterEllipsis"/>
+                                                        </Grid>
+                                                    </Button>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <!-- The troop basket -->
+                                        <Grid Margin="0,8,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel>
+                                                <TextBlock x:Name="TroopBasketHint" Text="Click troops to add them, then press the button." Style="{StaticResource Keep.Dim}"/>
+                                                <ItemsControl x:Name="TroopBasket" Tag="coodsz:no-translate">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Border Background="{StaticResource Keep.BgRaised}" CornerRadius="2" Padding="10,2,4,2" Margin="0,0,6,4">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="{Binding CountText}" FontWeight="Bold" Foreground="{StaticResource Keep.Accent}" VerticalAlignment="Center"/>
+                                                                    <TextBlock Text="{Binding Name}" Margin="4,0,0,0" FontSize="12" VerticalAlignment="Center"/>
+                                                                    <Button Style="{StaticResource Keep.Icon}" Padding="5,1" Margin="4,0,0,0" Click="RemoveTroopLine_Click" ToolTip="Remove">
+                                                                        <Path Data="{StaticResource Keep.IconClose}" Stroke="{StaticResource Keep.TextDim}" StrokeThickness="1.6" Width="10" Height="10" Stretch="Uniform"/>
+                                                                    </Button>
+                                                                </StackPanel>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
+                                    <TextBlock Text="Sends to the server console" Style="{StaticResource Keep.Label}" Margin="0,12,0,4"/>
+                                    <TextBox x:Name="CommandPreview" Style="{StaticResource Keep.Text}" IsReadOnly="True" FontFamily="Consolas" TextWrapping="Wrap" Tag="coodsz:no-translate"
+                                             ToolTip="The exact line Run sends to the server console. You can copy it from here."/>
+                                    <TextBox x:Name="NoteBox" Style="{StaticResource Keep.Text}" Margin="0,8,0,0" ToolTip="An optional note for the admin log, for example troops lost to a cheater."/>
+                                    <StackPanel Orientation="Horizontal" Margin="0,14,0,0">
+                                        <Button x:Name="RunButton" Style="{StaticResource Keep.Gold}" Content="Run" MinWidth="90" Margin="0,0,8,0" Click="Run_Click" ToolTip="Sends the command above to the running server."/>
+                                        <Button Style="{StaticResource Gap}" Content="Reset" MinWidth="90" Click="Reset_Click" ToolTip="Puts the boxes of this cheat back to their first values."/>
+                                    </StackPanel>
+                                    <Grid x:Name="ResultBar" Margin="0,12,0,0" Visibility="Collapsed">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock x:Name="ResultLine" TextWrapping="Wrap" VerticalAlignment="Center" Tag="coodsz:no-translate"/>
+                                        <Button x:Name="UndoButton" Grid.Column="1" Style="{StaticResource Keep.Small}" Content="Undo" Margin="10,0,0,0" Click="UndoLast_Click" Visibility="Collapsed"
+                                                ToolTip="Sends the command that puts this change back."/>
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Character sheet of the picked player (Coodsz Server Tools) -->
+            <Border x:Name="SheetCard" Style="{StaticResource Keep.Card}" Margin="0,16,0,0" Visibility="Collapsed">
+                <StackPanel>
+                    <TextBlock x:Name="SheetTitle" Style="{StaticResource Keep.H2}" Margin="0,0,0,10" Tag="coodsz:no-translate"/>
+                    <keep:SkillSheetView x:Name="CheatSheetView"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Admin log -->
+            <Border Style="{StaticResource Keep.Card}" Margin="0,16,0,0" Padding="18,12">
+                <StackPanel>
+                    <ToggleButton x:Name="LogToggle" Style="{StaticResource Collapser}" Checked="LogToggle_Click" Unchecked="LogToggle_Click" ToolTip="Shows or hides the admin log of every cheat sent, with the line that was sent.">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Admin log" Style="{StaticResource Keep.H2}"/>
+                            <TextBlock x:Name="LogCount" Text="" Style="{StaticResource Keep.Dim}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                        </StackPanel>
+                    </ToggleButton>
+                    <StackPanel x:Name="LogPanel" Visibility="Collapsed" Margin="0,10,0,0">
+                        <TextBlock Text="Every cheat the server took, newest first, with the line that was sent. The newest ones can be undone while this window is open." Style="{StaticResource Keep.Dim}" TextWrapping="Wrap" Margin="0,0,0,8"/>
+                        <TextBlock x:Name="LogEmpty" Text="Nothing yet." Style="{StaticResource Keep.Dim}"/>
+                        <ItemsControl x:Name="LogList" Tag="coodsz:no-translate">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,0,0,4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="140"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding When}" Style="{StaticResource Keep.Dim}" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding Text}" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                                        <Button Grid.Column="2" Style="{StaticResource Keep.Small}" Content="{Binding UndoText}" Click="Undo_Click" ToolTip="Undoes this change on the server."
+                                                Visibility="{Binding CanUndo, Converter={StaticResource Visible}}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

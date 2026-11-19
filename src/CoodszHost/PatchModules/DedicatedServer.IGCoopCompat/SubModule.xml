@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module>
+    <Name value="Improved Garrisons Coop Compat"/>
+    <Id value="DedicatedServer.IGCoopCompat"/>
+    <Version value="v1.0.0"/>
+    <ModuleType value="Community"/>
+    <Official value="false"/>
+    <DefaultModule value="false"/>
+    <SingleplayerModule value="true"/>
+    <MultiplayerModule value="false"/>
+    <DependedModules/>
+    <DependedModuleMetadatas>
+        <DependedModuleMetadata id="Coop" order="LoadBeforeThis" optional="true"/>
+        <DependedModuleMetadata id="CoopNightly" order="LoadBeforeThis" optional="true"/>
+        <DependedModuleMetadata id="ImprovedGarrisons" order="LoadBeforeThis" optional="true"/>
+        <DependedModuleMetadata id="CoopModPatch" order="LoadBeforeThis" optional="true"/>
+    </DependedModuleMetadatas>
+    <SubModules>
+        <SubModule>
+            <Name value="Improved Garrisons Coop Compat"/>
+            <DLLName value="DedicatedServer.IGCoopCompat.dll"/>
+            <SubModuleClassType value="ImprovedGarrisonsCoopCompat.SubModule"/>
+            <Tags/>
+        </SubModule>
+    </SubModules>
+    <Xmls/>
+</Module>

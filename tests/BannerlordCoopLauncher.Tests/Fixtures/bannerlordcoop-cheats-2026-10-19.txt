@@ -1,0 +1,4973 @@
+DEBUG CONSOLE
+
+Cheats
+
+Featured commands are the ones people use most. Search or open a cheat to get a link you can send to someone else.
+
+COMMANDS
+414
+SERVER
+143
+CLIENT
+64
+
+Vanilla cheats prefixed campaign. are DISABLED and cannot be used.
+
+Open the cheat console ingame with Alt + `.
+
+COMMAND DIRECTORY
+
+Commands
+
+CATEGORIES
+
+FEATURED
+31
+ALL CHEATS
+414
+PLAYER
+2
+ALLEYS
+13
+ARENAS
+1
+ARMIES
+8
+BATTLES
+15
+CAMPAIGN OPTIONS
+13
+CAPTIVITY
+9
+CARAVANS
+5
+CHARACTERS
+2
+CLANS
+23
+COMPANIONS
+6
+GAME THREAD
+2
+GENERAL
+5
+HERO DEVELOPMENT
+5
+HEROES
+27
+HIDEOUTS
+1
+INVENTORY
+8
+ISSUES
+3
+ITEM ROSTERS
+4
+ITEMS
+1
+KINGDOMS
+31
+LOCATIONS
+12
+MAP CAMERA
+2
+MAP EVENTS
+48
+METRICS
+1
+MOBILE PARTIES
+40
+MOD OPTIONS
+2
+PARTY VISUALS
+1
+PLAYERS
+2
+ROMANCE
+9
+SAVES
+3
+SETTLEMENTS
+20
+SIEGES
+29
+SMITHING
+9
+STEAM
+2
+TOURNAMENTS
+1
+TOWNS
+25
+UI
+10
+VILLAGER PARTIES
+2
+VILLAGES
+6
+WORKSHOPS
+6
+Search cheats
+COPY SEARCH LINK
+
+414 shown
+
+TYPE
+
+ALL
+GAMEPLAY
+INSPECT
+
+SIDE
+
+ANY SIDE
+SERVER
+CLIENT
+BOTH
+coop.debug.alley.abandon
+
+Abandons a player-owned alley on the server.
+
+coop.debug.alley.abandon <settlement_id> <alley_index>
+
+Parameters
+ALLEYS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.alley.attack
+
+Starts an AI attack against a player-owned alley.
+
+coop.debug.alley.attack <settlement_id> <alley_index>
+
+Parameters
+ALLEYS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.alley.daily_tick
+
+Runs one authoritative alley daily tick.
+
+coop.debug.alley.daily_tick
+
+ALLEYS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.alley.info
+
+Reports state for an alley.
+
+coop.debug.alley.info <settlement_id> <alley_index>
+
+Parameters
+ALLEYS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.alley.list
+
+Lists alleys in a settlement.
+
+coop.debug.alley.list <settlement_id>
+
+Parameters
+ALLEYS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.alley.my_hero_id
+
+Reports the local main hero registry id.
+
+coop.debug.alley.my_hero_id
+
+ALLEYS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.alley.recruit_conversation
+
+Drives or inspects the alley recruitment conversation.
+
+coop.debug.alley.recruit_conversation <action>
+
+Parameters
+ALLEYS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.alley.recruit_conversation_start
+
+Starts a conversation with the alley overseer.
+
+coop.debug.alley.recruit_conversation_start <settlement_id> <alley_index>
+
+Parameters
+ALLEYS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.alley.recruit_inventory
+
+Drives or inspects the alley recruitment inventory screen.
+
+coop.debug.alley.recruit_inventory <action>
+
+Parameters
+ALLEYS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.alley.recruit_overseer_state
+
+Reports the alley overseer mission state.
+
+coop.debug.alley.recruit_overseer_state <settlement_id> <alley_index>
+
+Parameters
+ALLEYS
+CLIENT
+INSPECT
+COPY LINK
+COPY
+coop.debug.alley.recruit_roster
+
+Reports the recruit roster for a hero party.
+
+coop.debug.alley.recruit_roster <hero_registry_id>
+
+Parameters
+ALLEYS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.alley.recruit_start_looter_battle
+
+Starts the alley recruitment looter battle fixture.
+
+coop.debug.alley.recruit_start_looter_battle <hero_registry_id>
+
+Parameters
+ALLEYS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.alley.set_owner
+
+Sets an alley owner on the server.
+
+coop.debug.alley.set_owner <settlement_id> <alley_index> <hero_registry_id>
+
+Parameters
+ALLEYS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.arenas.list_interactions
+
+Lists interactions for co-op debugging.
+
+coop.debug.arenas.list_interactions
+
+ARENAS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.army.create
+
+Creates an army on the server.
+
+coop.debug.army.create <kingdom_id> <target_settlement_id> <hero_leader_id> <army_type>
+
+Parameters
+ARMIES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.army.destroy
+
+Destroys an army on the server.
+
+coop.debug.army.destroy <army_id> <disband_reason>
+
+Parameters
+ARMIES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.army.info
+
+Reports state for an army.
+
+coop.debug.army.info <army_id>
+
+Parameters
+ARMIES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.army.list
+
+Lists registered armies.
+
+coop.debug.army.list
+
+ARMIES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.army.mobile_party_add
+
+Adds a mobile party to an army.
+
+coop.debug.army.mobile_party_add <army_id> <mobile_party_id>
+
+Parameters
+ARMIES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.army.mobile_party_list
+
+Lists parties in an army.
+
+coop.debug.army.mobile_party_list <army_id>
+
+Parameters
+ARMIES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.army.mobile_party_remove
+
+Removes a mobile party from an army.
+
+coop.debug.army.mobile_party_remove <army_id> <mobile_party_id>
+
+Parameters
+ARMIES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.army.set_objective
+
+Sets an army objective, or finishes it with None.
+
+coop.debug.army.set_objective <army_id> <type> <object_id>
+
+Parameters
+ARMIES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.battle.capture_mount_pose
+
+Runs the capture mount pose debug operation.
+
+coop.debug.battle.capture_mount_pose <mount_agent_id>
+
+Parameters
+BATTLES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.battle.charge_owned_formations
+
+Runs the charge owned formations debug operation.
+
+coop.debug.battle.charge_owned_formations
+
+BATTLES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.battle.focus_ladder
+
+Runs the focus ladder debug operation.
+
+coop.debug.battle.focus_ladder <machine_id>
+
+Parameters
+BATTLES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.battle.focus_mount
+
+Runs the focus mount debug operation.
+
+coop.debug.battle.focus_mount <mount_agent_id>
+
+Parameters
+BATTLES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.battle.hold_cavalry
+
+Runs the hold cavalry debug operation.
+
+coop.debug.battle.hold_cavalry
+
+BATTLES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.battle.ladder_state
+
+Reports ladder state.
+
+coop.debug.battle.ladder_state [<machine_id>]
+
+Parameters
+BATTLES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.battle.mount_camera_state
+
+Reports mount camera state.
+
+coop.debug.battle.mount_camera_state
+
+BATTLES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.battle.mount_pose_samples
+
+Runs the mount pose samples debug operation.
+
+coop.debug.battle.mount_pose_samples <mount_agent_id>
+
+Parameters
+BATTLES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.battle.mount_state
+
+Reports mount state.
+
+coop.debug.battle.mount_state [<authority>]
+
+Parameters
+BATTLES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.battle.move_cavalry
+
+Runs the move cavalry debug operation.
+
+coop.debug.battle.move_cavalry <distance>
+
+Parameters
+BATTLES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.battle.release_ladder_camera
+
+Restores or clears release ladder camera.
+
+coop.debug.battle.release_ladder_camera
+
+BATTLES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.battle.release_mount_camera
+
+Restores or clears release mount camera.
+
+coop.debug.battle.release_mount_camera
+
+BATTLES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.battle.size_state
+
+Reports size state.
+
+coop.debug.battle.size_state
+
+BATTLES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.battle.state
+
+Reports state.
+
+coop.debug.battle.state
+
+BATTLES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.battle.turn_cavalry
+
+Runs the turn cavalry debug operation.
+
+coop.debug.battle.turn_cavalry <degrees>
+
+Parameters
+BATTLES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.campaign_options.auto_allocate_clan_member_perks
+
+Runs the auto allocate clan member perks debug operation.
+
+coop.debug.campaign_options.auto_allocate_clan_member_perks [<value>]
+
+Parameters
+CAMPAIGN OPTIONS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.campaign_options.battle_death
+
+Runs the battle death debug operation.
+
+coop.debug.campaign_options.battle_death [<value>]
+
+Parameters
+CAMPAIGN OPTIONS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.campaign_options.clan_member_death_chance
+
+Runs the clan member death chance debug operation.
+
+coop.debug.campaign_options.clan_member_death_chance [<value>]
+
+Parameters
+CAMPAIGN OPTIONS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.campaign_options.combat_ai_difficulty
+
+Runs the combat ai difficulty debug operation.
+
+coop.debug.campaign_options.combat_ai_difficulty [<value>]
+
+Parameters
+CAMPAIGN OPTIONS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.campaign_options.is_ironman_mode
+
+Runs the is ironman mode debug operation.
+
+coop.debug.campaign_options.is_ironman_mode [<value>]
+
+Parameters
+CAMPAIGN OPTIONS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.campaign_options.is_life_death_cycle_disabled
+
+Runs the is life death cycle disabled debug operation.
+
+coop.debug.campaign_options.is_life_death_cycle_disabled [<value>]
+
+Parameters
+CAMPAIGN OPTIONS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.campaign_options.list
+
+Reports list.
+
+coop.debug.campaign_options.list
+
+CAMPAIGN OPTIONS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.campaign_options.persuasion_success_chance
+
+Runs the persuasion success chance debug operation.
+
+coop.debug.campaign_options.persuasion_success_chance [<value>]
+
+Parameters
+CAMPAIGN OPTIONS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.campaign_options.player_map_movement_speed
+
+Runs the player map movement speed debug operation.
+
+coop.debug.campaign_options.player_map_movement_speed [<value>]
+
+Parameters
+CAMPAIGN OPTIONS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.campaign_options.player_received_damage_difficulty
+
+Runs the player received damage difficulty debug operation.
+
+coop.debug.campaign_options.player_received_damage_difficulty [<value>]
+
+Parameters
+CAMPAIGN OPTIONS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.campaign_options.player_troops_received_damage
+
+Runs the player troops received damage debug operation.
+
+coop.debug.campaign_options.player_troops_received_damage [<value>]
+
+Parameters
+CAMPAIGN OPTIONS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.campaign_options.recruitment_difficulty
+
+Runs the recruitment difficulty debug operation.
+
+coop.debug.campaign_options.recruitment_difficulty [<value>]
+
+Parameters
+CAMPAIGN OPTIONS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.campaign_options.stealth_and_disguise_difficulty
+
+Runs the stealth and disguise difficulty debug operation.
+
+coop.debug.campaign_options.stealth_and_disguise_difficulty [<value>]
+
+Parameters
+CAMPAIGN OPTIONS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.player_captivity.captivity_state
+
+Reports captivity state.
+
+coop.debug.player_captivity.captivity_state <hero_id>
+
+Parameters
+CAPTIVITY
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.player_captivity.capture_player
+
+Runs the capture player debug operation.
+
+coop.debug.player_captivity.capture_player <hero_id> <captor_party_id>
+
+Parameters
+CAPTIVITY
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.player_captivity.discard_player_from_party_screen
+
+Runs the discard player from party screen debug operation.
+
+coop.debug.player_captivity.discard_player_from_party_screen <hero_id> <captor_party_id>
+
+Parameters
+CAPTIVITY
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.player_captivity.liberate_prisoner
+
+Runs the liberate prisoner debug operation.
+
+coop.debug.player_captivity.liberate_prisoner <hero_id>
+
+Parameters
+CAPTIVITY
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.player_captivity.observe_player
+
+Runs the observe player debug operation.
+
+coop.debug.player_captivity.observe_player <hero_id>
+
+Parameters
+CAPTIVITY
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.player_captivity.random_capture_player
+
+Runs the random capture player debug operation.
+
+coop.debug.player_captivity.random_capture_player <hero_id>
+
+Parameters
+CAPTIVITY
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.player_captivity.ransom_player_at_settlement
+
+Runs the ransom player at settlement debug operation.
+
+coop.debug.player_captivity.ransom_player_at_settlement <hero_id>
+
+Parameters
+CAPTIVITY
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.player_captivity.release_player
+
+Runs the release player debug operation.
+
+coop.debug.player_captivity.release_player <hero_id>
+
+Parameters
+CAPTIVITY
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.player_captivity.status
+
+Reports status.
+
+coop.debug.player_captivity.status <hero_id>
+
+Parameters
+CAPTIVITY
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.caravans.view_interacted_caravans
+
+Reports view interacted caravans.
+
+coop.debug.caravans.view_interacted_caravans
+
+CARAVANS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.caravans.view_looted_caravans
+
+Reports view looted caravans.
+
+coop.debug.caravans.view_looted_caravans
+
+CARAVANS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.caravans.view_prohibited_kingdoms
+
+Reports view prohibited kingdoms.
+
+coop.debug.caravans.view_prohibited_kingdoms
+
+CARAVANS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.caravans.view_taken_trade_rumors
+
+Reports view taken trade rumors.
+
+coop.debug.caravans.view_taken_trade_rumors
+
+CARAVANS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.caravans.view_trade_action_logs
+
+Reports view trade action logs.
+
+coop.debug.caravans.view_trade_action_logs
+
+CARAVANS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.character_objects.info
+
+Reports info.
+
+coop.debug.character_objects.info <character_id>
+
+Parameters
+CHARACTERS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.character_objects.list
+
+Reports list.
+
+coop.debug.character_objects.list
+
+CHARACTERS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.clan.add_companion
+
+Adds a registered companion to a clan.
+
+coop.debug.clan.add_companion <clan_id> <hero_id>
+
+Parameters
+CLANS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.clan.add_heirs
+
+Creates eligible heirs for a registered player clan on the server.
+
+coop.debug.clan.add_heirs <clan_id> <count> [<parent>]
+
+Parameters
+CLANS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.clan.add_influence
+
+Adds influence to a registered clan.
+
+coop.debug.clan.add_influence <clan_id> <amount>
+
+Parameters
+CLANS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.clan.add_renown
+
+Adds renown to a registered clan.
+
+coop.debug.clan.add_renown <clan_id> <renown>
+
+Parameters
+CLANS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.clan.change_clan_kingdom
+
+Moves a registered clan to a kingdom.
+
+coop.debug.clan.change_clan_kingdom <clan_id> <kingdom_id>
+
+Parameters
+CLANS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.clan.change_clan_leader
+
+Changes the leader of a registered clan.
+
+coop.debug.clan.change_clan_leader <clan_id> <hero_id>
+
+Parameters
+CLANS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.clan.close
+
+Closes the clan screen on a client.
+
+coop.debug.clan.close
+
+CLANS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.clan.daily_gold_change
+
+Reports predicted daily gold changes for a clan.
+
+coop.debug.clan.daily_gold_change <clan_id>
+
+Parameters
+CLANS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.clan.destroy_clan
+
+Destroys a registered clan.
+
+coop.debug.clan.destroy_clan <clan_id>
+
+Parameters
+CLANS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.clan.economy
+
+Reports battle-economy values for a clan.
+
+coop.debug.clan.economy [<clan_id_or_name>]
+
+Parameters
+CLANS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.clan.field_dump
+
+Dumps every field of a registered clan.
+
+coop.debug.clan.field_dump <clan_id>
+
+Parameters
+CLANS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.clan.give_influence
+
+Gives influence to a registered clan.
+
+coop.debug.clan.give_influence <clan_id> <amount>
+
+Parameters
+CLANS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.clan.info
+
+Reports a curated summary for a registered clan.
+
+coop.debug.clan.info <clan_id>
+
+Parameters
+CLANS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.clan.join_kingdom
+
+Joins a registered clan to a kingdom.
+
+coop.debug.clan.join_kingdom <clan_id> <kingdom_id>
+
+Parameters
+CLANS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.clan.leave_kingdom
+
+Removes a registered clan from its kingdom.
+
+coop.debug.clan.leave_kingdom <clan_id>
+
+Parameters
+CLANS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.clan.list
+
+Lists campaign clans.
+
+coop.debug.clan.list
+
+CLANS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.clan.membership
+
+Reports kingdom membership for a clan.
+
+coop.debug.clan.membership <clan_id>
+
+Parameters
+CLANS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.clan.open
+
+Opens the clan screen on a client.
+
+coop.debug.clan.open
+
+CLANS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.clan.refresh_burst
+
+Sends repeated party role refresh messages.
+
+coop.debug.clan.refresh_burst <party_id> <count>
+
+Parameters
+CLANS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.clan.remove_companion
+
+Removes a registered companion from a clan.
+
+coop.debug.clan.remove_companion <hero_id>
+
+Parameters
+CLANS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.clan.screen_state
+
+Reports clan screen state.
+
+coop.debug.clan.screen_state
+
+CLANS
+CLIENT
+INSPECT
+COPY LINK
+COPY
+coop.debug.clan.select_parties
+
+Selects the parties tab on the clan screen.
+
+coop.debug.clan.select_parties
+
+CLANS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.clan.wage_state
+
+Reports clan party wage state.
+
+coop.debug.clan.wage_state [<clan_id>]
+
+Parameters
+CLANS
+CLIENT
+INSPECT
+COPY LINK
+COPY
+coop.debug.companions.clear_wanderers
+
+Clears available wanderer heroes.
+
+coop.debug.companions.clear_wanderers
+
+COMPANIONS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.companions.close_party_screen
+
+Closes the companion party screen.
+
+coop.debug.companions.close_party_screen
+
+COMPANIONS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.companions.commit_party_screen
+
+Commits changes on the companion party screen.
+
+coop.debug.companions.commit_party_screen
+
+COMPANIONS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.companions.list_wanderers
+
+Lists available wanderer heroes.
+
+coop.debug.companions.list_wanderers
+
+COMPANIONS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.companions.open_party_screen
+
+Opens the companion party screen.
+
+coop.debug.companions.open_party_screen
+
+COMPANIONS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.companions.scout_role_state
+
+Reports the scout assigned to a party.
+
+coop.debug.companions.scout_role_state <party_id>
+
+Parameters
+COMPANIONS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.game_thread.instrument
+
+Runs the instrument debug operation.
+
+coop.debug.game_thread.instrument [<mode>]
+
+Parameters
+GAME THREAD
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.game_thread.stall
+
+Runs the stall debug operation.
+
+coop.debug.game_thread.stall <milliseconds>
+
+Parameters
+GAME THREAD
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.advance_time
+
+Runs the advance time debug operation.
+
+coop.debug.advance_time [<days>]
+
+Parameters
+GENERAL
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.fix_camera
+
+Runs the fix camera debug operation.
+
+coop.debug.fix_camera
+
+GENERAL
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.get_time_mode
+
+Reports get time mode.
+
+coop.debug.get_time_mode
+
+GENERAL
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.set_time_mode
+
+Runs the set time mode debug operation.
+
+coop.debug.set_time_mode <time_mode>
+
+Parameters
+GENERAL
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.template
+
+Runs the template debug operation.
+
+coop.debug.template
+
+GENERAL
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.hero_developer.add_attribute_points
+
+Runs the add attribute points debug operation.
+
+coop.debug.hero_developer.add_attribute_points <hero_name_or_id> <point_count>
+
+Parameters
+HERO DEVELOPMENT
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.hero_developer.add_focus_points
+
+Runs the add focus points debug operation.
+
+coop.debug.hero_developer.add_focus_points <hero_name_or_id> <point_count>
+
+Parameters
+HERO DEVELOPMENT
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.hero_developer.add_skill_xp
+
+Runs the add skill xp debug operation.
+
+coop.debug.hero_developer.add_skill_xp <hero_name_or_id> <skill_name> <xp_amount>
+
+Parameters
+HERO DEVELOPMENT
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.hero_developer.reset_skills
+
+Runs the reset skills debug operation.
+
+coop.debug.hero_developer.reset_skills <hero_name_or_id>
+
+Parameters
+HERO DEVELOPMENT
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.hero_developer.stats
+
+Reports stats.
+
+coop.debug.hero_developer.stats <hero_name>
+
+Parameters
+HERO DEVELOPMENT
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.hero.add_power
+
+Adds power to a registered hero on the server.
+
+coop.debug.hero.add_power <hero_id> <power>
+
+Parameters
+HEROES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.hero.audit
+
+Audits registered hero state.
+
+coop.debug.hero.audit
+
+HEROES
+BOTH
+AUDIT
+COPY LINK
+COPY
+coop.debug.hero.boost_fighter
+
+Boosts a registered hero for fighter fixture testing.
+
+coop.debug.hero.boost_fighter <hero_registry_id>
+
+Parameters
+HEROES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.hero.create_hero
+
+Creates a hero from a character template on the server.
+
+coop.debug.hero.create_hero <character_object_id> [<age>]
+
+Parameters
+HEROES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.hero.get_banneritem
+
+Reports the banner item for a registered hero.
+
+coop.debug.hero.get_banneritem <hero_id>
+
+Parameters
+HEROES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.hero.get_effective_relation
+
+Reports the effective relation between two registered heroes.
+
+coop.debug.hero.get_effective_relation <hero1_id> <hero2_id>
+
+Parameters
+HEROES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.hero.get_issue
+
+Reports the issue for a registered hero.
+
+coop.debug.hero.get_issue <hero_id>
+
+Parameters
+HEROES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.hero.get_relation
+
+Reports the base relation between two registered heroes.
+
+coop.debug.hero.get_relation <hero1_id> <hero2_id>
+
+Parameters
+HEROES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.hero.gold_state
+
+Reports gold for a registered hero.
+
+coop.debug.hero.gold_state <hero_id>
+
+Parameters
+HEROES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.hero.home_settlement_snapshot
+
+Reports registered hero home-settlement state.
+
+coop.debug.hero.home_settlement_snapshot <resolve_missing>
+
+Parameters
+HEROES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.hero.id
+
+Finds registered ids for heroes with an exact display name.
+
+coop.debug.hero.id <heroName>
+
+Parameters
+HEROES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.hero.ill_days
+
+Reports the local player's illness duration on clients or matching heroes on the server.
+
+coop.debug.hero.ill_days [<hero_name>]
+
+Parameters
+HEROES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.hero.info
+
+Dumps fields for a registered hero.
+
+coop.debug.hero.info <hero_id>
+
+Parameters
+HEROES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.hero.issues
+
+Lists heroes with active issues.
+
+coop.debug.hero.issues
+
+HEROES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.hero.kill_player
+
+Kills a living registered player hero on the server.
+
+coop.debug.hero.kill_player <hero_id> <death_detail> [<killer_hero_id>]
+
+Parameters
+HEROES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.hero.list
+
+Lists registered heroes, optionally filtered by display-name prefix.
+
+coop.debug.hero.list [<name_prefix>]
+
+Parameters
+HEROES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.hero.list_banneritems
+
+Lists available banner items.
+
+coop.debug.hero.list_banneritems
+
+HEROES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.hero.refresh_volunteers
+
+Refreshes volunteers for a settlement on the server.
+
+coop.debug.hero.refresh_volunteers [<settlement_id>]
+
+Parameters
+HEROES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.hero.set_age
+
+Sets the age of heroes matching a display name or registered id on the server.
+
+coop.debug.hero.set_age <hero_name_or_id> <age>
+
+Parameters
+HEROES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.hero.set_banneritem
+
+Sets the banner item for a registered hero on the server.
+
+coop.debug.hero.set_banneritem <hero_id> <banner_item_id>
+
+Parameters
+HEROES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.hero.set_effective_relation
+
+Sets effective relation between two registered heroes.
+
+coop.debug.hero.set_effective_relation <hero1_id> <hero2_id> <value>
+
+Parameters
+HEROES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.hero.set_gold
+
+Sets gold for every hero with an exact display name on the server.
+
+coop.debug.hero.set_gold <hero_name> <gold>
+
+Parameters
+HEROES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.hero.set_gold_state
+
+Sets non-negative gold for a registered hero on the server.
+
+coop.debug.hero.set_gold_state <hero_id> <gold>
+
+Parameters
+HEROES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.hero.set_hitpoints
+
+Sets hit points for a registered hero on the server.
+
+coop.debug.hero.set_hitpoints <hero_id> <hit_points>
+
+Parameters
+HEROES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.hero.set_issue
+
+Sets an issue for a registered hero on the server.
+
+coop.debug.hero.set_issue <hero_id> <issue_id>
+
+Parameters
+HEROES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.hero.set_relation
+
+Sets the base relation between two registered heroes.
+
+coop.debug.hero.set_relation <hero1_id> <hero2_id> <value>
+
+Parameters
+HEROES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.hero.volunteers
+
+Lists volunteers for a hero.
+
+coop.debug.hero.volunteers <hero_id>
+
+Parameters
+HEROES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.hideout.teleport_party
+
+Reveals the nearest populated hideout off cooldown and teleports the party with the given id to its entrance.
+
+coop.debug.hideout.teleport_party <partyId>
+
+Parameters
+HIDEOUTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.inventory.give_animals
+
+Runs the give animals debug operation.
+
+coop.debug.inventory.give_animals <hero_name>
+
+Parameters
+INVENTORY
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.inventory.give_warhorses
+
+Runs the give warhorses debug operation.
+
+coop.debug.inventory.give_warhorses <hero_name>
+
+Parameters
+INVENTORY
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.inventory.hero_equipment
+
+Runs the hero equipment debug operation.
+
+coop.debug.inventory.hero_equipment <hero_name>
+
+Parameters
+INVENTORY
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.inventory.item_ids
+
+Runs the item ids debug operation.
+
+coop.debug.inventory.item_ids <hero_name>
+
+Parameters
+INVENTORY
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.inventory.item_values
+
+Runs the item values debug operation.
+
+coop.debug.inventory.item_values <hero_name>
+
+Parameters
+INVENTORY
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.inventory.view_entered_settlements
+
+Reports view entered settlements.
+
+coop.debug.inventory.view_entered_settlements
+
+INVENTORY
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.inventory.view_player_trade_data
+
+Reports view player trade data.
+
+coop.debug.inventory.view_player_trade_data
+
+INVENTORY
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.inventory.view_player_trade_rumors
+
+Reports view player trade rumors.
+
+coop.debug.inventory.view_player_trade_rumors
+
+INVENTORY
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.issues.complete
+
+Runs the complete debug operation.
+
+coop.debug.issues.complete <hero_id> [<outcome>]
+
+Parameters
+ISSUES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.issues.give
+
+Runs the give debug operation.
+
+coop.debug.issues.give <hero_id> <quest_type_key>
+
+Parameters
+ISSUES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.issues.list_types
+
+Reports list types.
+
+coop.debug.issues.list_types
+
+ISSUES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.item_rosters.add_item_burst
+
+Runs the add item burst debug operation.
+
+coop.debug.item_rosters.add_item_burst <settlement_id> <count>
+
+Parameters
+ITEM ROSTERS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.item_rosters.add_random_item
+
+Runs the add random item debug operation.
+
+coop.debug.item_rosters.add_random_item <settlement_id>
+
+Parameters
+ITEM ROSTERS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.item_rosters.export
+
+Runs the export debug operation.
+
+coop.debug.item_rosters.export <party_or_settlement_id>
+
+Parameters
+ITEM ROSTERS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.item_rosters.info
+
+Reports info.
+
+coop.debug.item_rosters.info <party_or_settlement_id>
+
+Parameters
+ITEM ROSTERS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.item_object.data
+
+Reports data.
+
+coop.debug.item_object.data <item_id>
+
+Parameters
+ITEMS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.kingdom.add_decision
+
+Adds a supported decision to a kingdom.
+
+coop.debug.kingdom.add_decision <kingdom_id> <proposer_clan_id> <ignore_influence_cost> <decision_type> [<decision_arg1>] [<decision_arg2>] [<decision_arg3>]
+
+Parameters
+KINGDOMS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.kingdom.add_decision_usage
+
+Lists supported kingdom decision arguments.
+
+coop.debug.kingdom.add_decision_usage
+
+KINGDOMS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.kingdom.close
+
+Closes the kingdom screen on a client.
+
+coop.debug.kingdom.close
+
+KINGDOMS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.kingdom.collection_add
+
+Adds a value to a synced kingdom collection.
+
+coop.debug.kingdom.collection_add <collection> <kingdom_id> <value_id> [<ignore_influence_cost>] [<decision_type>] [<decision_arg1>] [<decision_arg2>] [<decision_arg3>]
+
+Parameters
+KINGDOMS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.kingdom.collection_list
+
+Lists a synced kingdom collection.
+
+coop.debug.kingdom.collection_list <collection> <kingdom_id>
+
+Parameters
+KINGDOMS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.kingdom.collection_remove
+
+Removes a value from a synced kingdom collection.
+
+coop.debug.kingdom.collection_remove <collection> <kingdom_id> <value_id_or_index>
+
+Parameters
+KINGDOMS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.kingdom.create
+
+Creates a kingdom for a clan leader on the server.
+
+coop.debug.kingdom.create <leader_hero_name> <kingdom_name>
+
+Parameters
+KINGDOMS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.kingdom.decisions
+
+Lists queued decisions and client votes for a kingdom.
+
+coop.debug.kingdom.decisions <kingdom_id>
+
+Parameters
+KINGDOMS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.kingdom.declare_war
+
+Declares war between two factions on the server.
+
+coop.debug.kingdom.declare_war <faction1_id> <faction2_id>
+
+Parameters
+KINGDOMS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.kingdom.force_ally
+
+Forms an alliance between two kingdoms on the server.
+
+coop.debug.kingdom.force_ally <kingdom1_id> <kingdom2_id>
+
+Parameters
+KINGDOMS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.kingdom.force_player_join_kingdom
+
+Moves a player clan into a kingdom.
+
+coop.debug.kingdom.force_player_join_kingdom <controller_id> <kingdom_id>
+
+Parameters
+KINGDOMS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.kingdom.force_player_vassalage
+
+Requests player vassalage in a kingdom.
+
+coop.debug.kingdom.force_player_vassalage <controller_id> <kingdom_id> [<grant_rewards>]
+
+Parameters
+KINGDOMS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.kingdom.force_trade_agreement
+
+Forms a trade agreement between two kingdoms on the server.
+
+coop.debug.kingdom.force_trade_agreement <kingdom1_id> <kingdom2_id>
+
+Parameters
+KINGDOMS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.kingdom.info
+
+Reports state for a registered kingdom.
+
+coop.debug.kingdom.info <kingdom_id>
+
+Parameters
+KINGDOMS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.kingdom.list
+
+Lists campaign kingdoms.
+
+coop.debug.kingdom.list
+
+KINGDOMS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.kingdom.list_decision_outcomes
+
+Lists possible outcomes for a kingdom decision.
+
+coop.debug.kingdom.list_decision_outcomes <kingdom_id> <decision_index>
+
+Parameters
+KINGDOMS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.kingdom.list_kingdom_decisions
+
+Lists queued decisions for a kingdom.
+
+coop.debug.kingdom.list_kingdom_decisions <kingdom_id>
+
+Parameters
+KINGDOMS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.kingdom.list_policies
+
+Lists active policies for a kingdom.
+
+coop.debug.kingdom.list_policies <kingdom_id>
+
+Parameters
+KINGDOMS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.kingdom.make_peace
+
+Makes peace between two factions on the server.
+
+coop.debug.kingdom.make_peace <faction1_id> <faction2_id>
+
+Parameters
+KINGDOMS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.kingdom.open
+
+Opens the kingdom screen on a client.
+
+coop.debug.kingdom.open
+
+KINGDOMS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.kingdom.open_decision
+
+Opens one queued kingdom decision.
+
+coop.debug.kingdom.open_decision <kingdom_id> <decision_index>
+
+Parameters
+KINGDOMS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.kingdom.policy_timeout_capture
+
+Captures the kingdom policy-timeout fixture.
+
+coop.debug.kingdom.policy_timeout_capture
+
+KINGDOMS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.kingdom.policy_timeout_restore
+
+Restores the kingdom policy-timeout fixture.
+
+coop.debug.kingdom.policy_timeout_restore <kingdom_id> <proposer_clan_id> <policy_id> <policy_was_active>
+
+Parameters
+KINGDOMS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.kingdom.policy_timeout_stage
+
+Stages the kingdom policy-timeout fixture.
+
+coop.debug.kingdom.policy_timeout_stage <kingdom_id> <proposer_clan_id> <policy_id> <policy_was_active>
+
+Parameters
+KINGDOMS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.kingdom.policy_timeout_state
+
+Reports kingdom policy-timeout fixture state.
+
+coop.debug.kingdom.policy_timeout_state
+
+KINGDOMS
+CLIENT
+INSPECT
+COPY LINK
+COPY
+coop.debug.kingdom.policy_timeout_verify
+
+Verifies the kingdom policy-timeout fixture.
+
+coop.debug.kingdom.policy_timeout_verify <kingdom_id> <policy_id> <policy_was_active>
+
+Parameters
+KINGDOMS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.kingdom.remove_decision
+
+Removes a queued decision from a kingdom.
+
+coop.debug.kingdom.remove_decision <kingdom_id> <decision_index>
+
+Parameters
+KINGDOMS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.kingdom.remove_decision_usage
+
+Describes kingdom decision removal arguments.
+
+coop.debug.kingdom.remove_decision_usage
+
+KINGDOMS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.kingdom.resolve_decision
+
+Resolves a queued kingdom decision.
+
+coop.debug.kingdom.resolve_decision <kingdom_id> <decision_index>
+
+Parameters
+KINGDOMS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.kingdom.screen_state
+
+Reports kingdom screen state.
+
+coop.debug.kingdom.screen_state
+
+KINGDOMS
+CLIENT
+INSPECT
+COPY LINK
+COPY
+coop.debug.kingdom.vote_decision
+
+Requests a client vote on a kingdom decision.
+
+coop.debug.kingdom.vote_decision <kingdom_id> <decision_index> <outcome> <support_weight> [<is_final>]
+
+Parameters
+KINGDOMS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.location.add_character
+
+Adds character for co-op debugging.
+
+coop.debug.location.add_character <locationId> <characterObjectId>
+
+Parameters
+LOCATIONS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.location.add_special_item
+
+Adds special item for co-op debugging.
+
+coop.debug.location.add_special_item <locationId> <itemObjectId>
+
+Parameters
+LOCATIONS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.location.enter
+
+Enters the relevant state for co-op debugging.
+
+coop.debug.location.enter <locationId>
+
+Parameters
+LOCATIONS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.location.info
+
+Shows the relevant state for co-op debugging.
+
+coop.debug.location.info <locationId>
+
+Parameters
+LOCATIONS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.location.leave
+
+Leaves the relevant state for co-op debugging.
+
+coop.debug.location.leave
+
+LOCATIONS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.location.list
+
+Lists the relevant state for co-op debugging.
+
+coop.debug.location.list
+
+LOCATIONS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.location.list_characters
+
+Lists characters for co-op debugging.
+
+coop.debug.location.list_characters <locationId>
+
+Parameters
+LOCATIONS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.location.list_special_items
+
+Lists special items for co-op debugging.
+
+coop.debug.location.list_special_items <locationId>
+
+Parameters
+LOCATIONS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.location.populate
+
+Runs the relevant state for co-op debugging.
+
+coop.debug.location.populate <settlementStringId>
+
+Parameters
+LOCATIONS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.location.remove_all_characters
+
+Removes all characters for co-op debugging.
+
+coop.debug.location.remove_all_characters <locationId>
+
+Parameters
+LOCATIONS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.location.remove_character
+
+Removes character for co-op debugging.
+
+coop.debug.location.remove_character <locationId> <characterObjectId>
+
+Parameters
+LOCATIONS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.location.remove_special_item
+
+Removes special item for co-op debugging.
+
+coop.debug.location.remove_special_item <locationId> <itemObjectId>
+
+Parameters
+LOCATIONS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_camera.focus_main_party
+
+Runs the focus main party debug operation.
+
+coop.debug.map_camera.focus_main_party
+
+MAP CAMERA
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_camera.state
+
+Reports state.
+
+coop.debug.map_camera.state
+
+MAP CAMERA
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.map_event.battle_reward_client_state
+
+Reports battle reward client state.
+
+coop.debug.map_event.battle_reward_client_state
+
+MAP EVENTS
+CLIENT
+INSPECT
+COPY LINK
+COPY
+coop.debug.map_event.choose_battle_mode
+
+Runs the choose battle mode debug operation.
+
+coop.debug.map_event.choose_battle_mode <mode>
+
+Parameters
+MAP EVENTS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.click_deployment_ready
+
+Runs the click deployment ready debug operation.
+
+coop.debug.map_event.click_deployment_ready
+
+MAP EVENTS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.collapse_scoreboard_parties
+
+Runs the collapse scoreboard parties debug operation.
+
+coop.debug.map_event.collapse_scoreboard_parties
+
+MAP EVENTS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.complete_encounter_meeting
+
+Runs the complete encounter meeting debug operation.
+
+coop.debug.map_event.complete_encounter_meeting
+
+MAP EVENTS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.conversation_hold_state
+
+Reports conversation hold state.
+
+coop.debug.map_event.conversation_hold_state <party_base_id>
+
+Parameters
+MAP EVENTS
+SERVER
+INSPECT
+COPY LINK
+COPY
+coop.debug.map_event.deployment_state
+
+Reports deployment state.
+
+coop.debug.map_event.deployment_state
+
+MAP EVENTS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.map_event.encounter_state
+
+Reports encounter state.
+
+coop.debug.map_event.encounter_state
+
+MAP EVENTS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.map_event.engage_nearest_bandit
+
+Places the nearest bandit next to a player and orders it to engage them.
+
+coop.debug.map_event.engage_nearest_bandit <controller_id> [<excluded_party_id>]
+
+Parameters
+MAP EVENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.enter_current_battle
+
+Runs the enter current battle debug operation.
+
+coop.debug.map_event.enter_current_battle
+
+MAP EVENTS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.finish_current_encounter
+
+Runs the finish current encounter debug operation.
+
+coop.debug.map_event.finish_current_encounter
+
+MAP EVENTS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.finish_deployment
+
+Runs the finish deployment debug operation.
+
+coop.debug.map_event.finish_deployment
+
+MAP EVENTS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.finish_non_battle_encounter
+
+Runs the finish non battle encounter debug operation.
+
+coop.debug.map_event.finish_non_battle_encounter
+
+MAP EVENTS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.finish_player_encounter
+
+Runs the finish player encounter debug operation.
+
+coop.debug.map_event.finish_player_encounter <controller_id>
+
+Parameters
+MAP EVENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.get_event
+
+Reports event.
+
+coop.debug.map_event.get_event <map_event_id>
+
+Parameters
+MAP EVENTS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.map_event.get_events
+
+Reports events.
+
+coop.debug.map_event.get_events
+
+MAP EVENTS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.map_event.hold_ai_conversation
+
+Holds an AI lord party for a player's map conversation.
+
+coop.debug.map_event.hold_ai_conversation <controller_id> <hero_id>
+
+Parameters
+MAP EVENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.join_existing
+
+Runs the join existing debug operation.
+
+coop.debug.map_event.join_existing <map_event_id> <side>
+
+Parameters
+MAP EVENTS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.kill_all_but_one
+
+Runs the kill all but one debug operation.
+
+coop.debug.map_event.kill_all_but_one
+
+MAP EVENTS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.kill_enemy
+
+Runs the kill enemy debug operation.
+
+coop.debug.map_event.kill_enemy
+
+MAP EVENTS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.kill_enemy_team
+
+Runs the kill enemy team debug operation.
+
+coop.debug.map_event.kill_enemy_team
+
+MAP EVENTS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.kill_own_team
+
+Runs the kill own team debug operation.
+
+coop.debug.map_event.kill_own_team
+
+MAP EVENTS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.kill_random_troop
+
+Runs the kill random troop debug operation.
+
+coop.debug.map_event.kill_random_troop
+
+MAP EVENTS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.kms
+
+Runs the kms debug operation.
+
+coop.debug.map_event.kms [<force>]
+
+Parameters
+MAP EVENTS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.late_join_mode_cleanup
+
+Runs the late join mode cleanup debug operation.
+
+coop.debug.map_event.late_join_mode_cleanup
+
+MAP EVENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.late_join_mode_enter
+
+Runs the late join mode enter debug operation.
+
+coop.debug.map_event.late_join_mode_enter
+
+MAP EVENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.late_join_mode_join
+
+Runs the late join mode join debug operation.
+
+coop.debug.map_event.late_join_mode_join
+
+MAP EVENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.late_join_mode_state
+
+Reports late join mode state.
+
+coop.debug.map_event.late_join_mode_state <controller_id>
+
+Parameters
+MAP EVENTS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.map_event.leave_battle
+
+Runs the leave battle debug operation.
+
+coop.debug.map_event.leave_battle
+
+MAP EVENTS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.leave_settlement
+
+Runs the leave settlement debug operation.
+
+coop.debug.map_event.leave_settlement <controller_id>
+
+Parameters
+MAP EVENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.list_player_encounter
+
+Reports player encounter.
+
+coop.debug.map_event.list_player_encounter
+
+MAP EVENTS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.map_event.peace_pursuit_state
+
+Reports peace pursuit state.
+
+coop.debug.map_event.peace_pursuit_state <controller_id> <party_string_id>
+
+Parameters
+MAP EVENTS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.map_event.player_interaction_state
+
+Reports player interaction state.
+
+coop.debug.map_event.player_interaction_state
+
+MAP EVENTS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.map_event.prisoner_prompt
+
+Runs the prisoner prompt debug operation.
+
+coop.debug.map_event.prisoner_prompt <action>
+
+Parameters
+MAP EVENTS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.prisoner_prompt_state
+
+Reports prisoner prompt state.
+
+coop.debug.map_event.prisoner_prompt_state
+
+MAP EVENTS
+CLIENT
+INSPECT
+COPY LINK
+COPY
+coop.debug.map_event.request_player_field_battle
+
+Runs the request player field battle debug operation.
+
+coop.debug.map_event.request_player_field_battle <defender_mobile_party_id>
+
+Parameters
+MAP EVENTS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.restore_player_field_battle
+
+Restores or clears restore player field battle.
+
+coop.debug.map_event.restore_player_field_battle
+
+MAP EVENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.retreat_confirmation
+
+Runs the retreat confirmation debug operation.
+
+coop.debug.map_event.retreat_confirmation <action>
+
+Parameters
+MAP EVENTS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.scoreboard_state
+
+Reports scoreboard state.
+
+coop.debug.map_event.scoreboard_state
+
+MAP EVENTS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.map_event.start_attack_mission
+
+Runs the start attack mission debug operation.
+
+coop.debug.map_event.start_attack_mission
+
+MAP EVENTS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.start_looter
+
+Runs the start looter debug operation.
+
+coop.debug.map_event.start_looter
+
+MAP EVENTS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.start_nearest_bandit_attack
+
+Runs the start nearest bandit attack debug operation.
+
+coop.debug.map_event.start_nearest_bandit_attack <controller_id> [<excluded_party_id>]
+
+Parameters
+MAP EVENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.start_nearest_looter
+
+Runs the start nearest looter debug operation.
+
+coop.debug.map_event.start_nearest_looter
+
+MAP EVENTS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.start_player_field_battle
+
+Runs the start player field battle debug operation.
+
+coop.debug.map_event.start_player_field_battle <attacker_mobile_party_id> <defender_mobile_party_id>
+
+Parameters
+MAP EVENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.submit_player_interaction
+
+Runs the submit player interaction debug operation.
+
+coop.debug.map_event.submit_player_interaction <option>
+
+Parameters
+MAP EVENTS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.test_peace_stops_pursuit
+
+Runs the test peace stops pursuit debug operation.
+
+coop.debug.map_event.test_peace_stops_pursuit <controller_id> <party_string_id>
+
+Parameters
+MAP EVENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.map_event.toggle_scoreboard
+
+Runs the toggle scoreboard debug operation.
+
+coop.debug.map_event.toggle_scoreboard
+
+MAP EVENTS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mapevent.allow_raid_ai_intervention
+
+Controls raid ai intervention for co-op debugging.
+
+coop.debug.mapevent.allow_raid_ai_intervention <mode>
+
+Parameters
+MAP EVENTS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.metrics.party_sync_performance_logs
+
+Runs the party sync performance logs debug operation.
+
+coop.debug.metrics.party_sync_performance_logs <mode> [<seconds>] [<file_name>]
+
+Parameters
+METRICS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobile_party.add_prisoners
+
+Runs the addprisoners debug operation.
+
+coop.debug.mobile_party.add_prisoners <hero_name>
+
+Parameters
+MOBILE PARTIES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobile_party.add_troop_xp
+
+Runs the addtroopxp debug operation.
+
+coop.debug.mobile_party.add_troop_xp <hero_name> <xp_amount>
+
+Parameters
+MOBILE PARTIES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobile_party.add_troops
+
+Runs the addtroops debug operation.
+
+coop.debug.mobile_party.add_troops <hero_name>
+
+Parameters
+MOBILE PARTIES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobile_party.character_ids
+
+Runs the characterids debug operation.
+
+coop.debug.mobile_party.character_ids <hero_name_or_id>
+
+Parameters
+MOBILE PARTIES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobile_party.clan_party_transfer_screen_state
+
+Reports clan party transfer screen state.
+
+coop.debug.mobile_party.clan_party_transfer_screen_state <clan_party_id> <character_id> <expected_state>
+
+Parameters
+MOBILE PARTIES
+CLIENT
+INSPECT
+COPY LINK
+COPY
+coop.debug.mobile_party.commit_clan_party_transfer
+
+Runs the commit clan party transfer debug operation.
+
+coop.debug.mobile_party.commit_clan_party_transfer
+
+MOBILE PARTIES
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobile_party.commit_garrison_xp_withdrawal
+
+Runs the commit garrison xp withdrawal debug operation.
+
+coop.debug.mobile_party.commit_garrison_xp_withdrawal
+
+MOBILE PARTIES
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobile_party.declare_war
+
+Runs the declare war debug operation.
+
+coop.debug.mobile_party.declare_war <party_id> <settlement_id>
+
+Parameters
+MOBILE PARTIES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobile_party.imprison_companion
+
+Runs the imprison companion debug operation.
+
+coop.debug.mobile_party.imprison_companion <captor_hero> <prisoner_hero>
+
+Parameters
+MOBILE PARTIES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobile_party.move_offset
+
+Runs the move offset debug operation.
+
+coop.debug.mobile_party.move_offset <offset_x> <offset_y>
+
+Parameters
+MOBILE PARTIES
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobile_party.move_to_settlement
+
+Runs the move to settlement debug operation.
+
+coop.debug.mobile_party.move_to_settlement <party_id> <settlement_id> [<instant>]
+
+Parameters
+MOBILE PARTIES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobile_party.open_clan_party_transfer
+
+Runs the open clan party transfer debug operation.
+
+coop.debug.mobile_party.open_clan_party_transfer <clan_party_id>
+
+Parameters
+MOBILE PARTIES
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobile_party.party_screen_troop_state
+
+Reports party screen troop state.
+
+coop.debug.mobile_party.party_screen_troop_state <character_id>
+
+Parameters
+MOBILE PARTIES
+CLIENT
+INSPECT
+COPY LINK
+COPY
+coop.debug.mobile_party.position
+
+Runs the position debug operation.
+
+coop.debug.mobile_party.position <party_id>
+
+Parameters
+MOBILE PARTIES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobile_party.remove_prisoners
+
+Runs the removeprisoners debug operation.
+
+coop.debug.mobile_party.remove_prisoners <hero_name>
+
+Parameters
+MOBILE PARTIES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobile_party.restore_position
+
+Restores a party to a campaign-map position and hold state.
+
+coop.debug.mobile_party.restore_position <party_id> <x> <y> <is_on_land>
+
+Parameters
+MOBILE PARTIES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobile_party.select_party_screen_troop
+
+Runs the select party screen troop debug operation.
+
+coop.debug.mobile_party.select_party_screen_troop <character_id>
+
+Parameters
+MOBILE PARTIES
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobile_party.set_troop_state
+
+Reports set troop state.
+
+coop.debug.mobile_party.set_troop_state <party_id> <character_id> <exists> <number> <wounded_count> <xp>
+
+Parameters
+MOBILE PARTIES
+SERVER
+INSPECT
+COPY LINK
+COPY
+coop.debug.mobile_party.set_troop_wounded
+
+Runs the set troop wounded debug operation.
+
+coop.debug.mobile_party.set_troop_wounded <party_id> <character_id> <wounded_count>
+
+Parameters
+MOBILE PARTIES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobile_party.siege_buff
+
+Runs the siege buff debug operation.
+
+coop.debug.mobile_party.siege_buff <party_id>
+
+Parameters
+MOBILE PARTIES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobile_party.snapshot_prison
+
+Runs the snapshot prison debug operation.
+
+coop.debug.mobile_party.snapshot_prison <hero_name_or_id>
+
+Parameters
+MOBILE PARTIES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobile_party.stage_clan_party_transfer
+
+Runs the stage clan party transfer debug operation.
+
+coop.debug.mobile_party.stage_clan_party_transfer <clan_party_id> <character_id>
+
+Parameters
+MOBILE PARTIES
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobile_party.stage_garrison_xp_withdrawal
+
+Runs the stage garrison xp withdrawal debug operation.
+
+coop.debug.mobile_party.stage_garrison_xp_withdrawal <garrison_party_id> <character_id>
+
+Parameters
+MOBILE PARTIES
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobile_party.stage_party_screen_transfer
+
+Runs the stage party screen transfer debug operation.
+
+coop.debug.mobile_party.stage_party_screen_transfer <character_id>
+
+Parameters
+MOBILE PARTIES
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobile_party.upgrade_party_screen_troop
+
+Runs the upgrade party screen troop debug operation.
+
+coop.debug.mobile_party.upgrade_party_screen_troop <character_id> [<upgrade_target_index>]
+
+Parameters
+MOBILE PARTIES
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobile_party.who_am_i
+
+Runs the whoami debug operation.
+
+coop.debug.mobile_party.who_am_i
+
+MOBILE PARTIES
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobileparty.attachment_ids
+
+Runs ids for co-op debugging.
+
+coop.debug.mobileparty.attachment_ids <partyStringId>
+
+Parameters
+MOBILE PARTIES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobileparty.audit
+
+Audits the relevant state for co-op debugging.
+
+coop.debug.mobileparty.audit
+
+MOBILE PARTIES
+BOTH
+AUDIT
+COPY LINK
+COPY
+coop.debug.mobileparty.component_info
+
+Runs info for co-op debugging.
+
+coop.debug.mobileparty.component_info <partyStringId>
+
+Parameters
+MOBILE PARTIES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobileparty.create_party
+
+Creates party for co-op debugging.
+
+coop.debug.mobileparty.create_party <heroId> <settlementId>
+
+Parameters
+MOBILE PARTIES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobileparty.destroy_all_bandit_parties
+
+Destroys all bandit parties for co-op debugging.
+
+coop.debug.mobileparty.destroy_all_bandit_parties
+
+MOBILE PARTIES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobileparty.destroy_party
+
+Destroys party for co-op debugging.
+
+coop.debug.mobileparty.destroy_party <mobilePartyId>
+
+Parameters
+MOBILE PARTIES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobileparty.disorganization_cache
+
+Inspects party speed cache versions, optionally evaluating the local speed cache.
+
+coop.debug.mobileparty.disorganization_cache <partyId> <evaluate>
+
+Parameters
+MOBILE PARTIES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobileparty.info
+
+Shows the relevant state for co-op debugging.
+
+coop.debug.mobileparty.info <partyStringId>
+
+Parameters
+MOBILE PARTIES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobileparty.list
+
+Lists the relevant state for co-op debugging.
+
+coop.debug.mobileparty.list
+
+MOBILE PARTIES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.mobileparty.set_disorganized
+
+Calls the authoritative disorganization action for a registered party.
+
+coop.debug.mobileparty.set_disorganized <partyId> <value>
+
+Parameters
+MOBILE PARTIES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobileparty.set_wage_limit_updated
+
+Sets wage limit updated for co-op debugging.
+
+coop.debug.mobileparty.set_wage_limit_updated <partyStringId> <value>
+
+Parameters
+MOBILE PARTIES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobileparty.set_wage_unlimited
+
+Sets wage unlimited for co-op debugging.
+
+coop.debug.mobileparty.set_wage_unlimited <partyStringId> <value>
+
+Parameters
+MOBILE PARTIES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobileparty.spawn_test_parties
+
+Spawns test parties for co-op debugging.
+
+coop.debug.mobileparty.spawn_test_parties [<count>] [<settlementId>]
+
+Parameters
+MOBILE PARTIES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mobileparty.verify_ai_authority
+
+Verifies ai authority for co-op debugging.
+
+coop.debug.mobileparty.verify_ai_authority <mobilePartyId>
+
+Parameters
+MOBILE PARTIES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.mod_config.list
+
+Reports list.
+
+coop.debug.mod_config.list
+
+MOD OPTIONS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.mod_config.voice_enabled
+
+Enables or disables voice for the entire server this session.
+
+coop.debug.mod_config.voice_enabled <value>
+
+Parameters
+MOD OPTIONS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.party_visuals.buffer_state
+
+Reports buffer state.
+
+coop.debug.party_visuals.buffer_state
+
+PARTY VISUALS
+CLIENT
+INSPECT
+COPY LINK
+COPY
+coop.delete_player
+
+Requests deletion of the local player from the server.
+
+coop.delete_player
+
+PLAYER
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.unstuck
+
+Runs the unstuck debug operation.
+
+coop.unstuck [<player>]
+
+Parameters
+PLAYER
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.players.list
+
+Lists registered co-op players.
+
+coop.debug.players.list
+
+PLAYERS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.players.party_state
+
+Reports replicated party state for a player.
+
+coop.debug.players.party_state <controller_id>
+
+Parameters
+PLAYERS
+SERVER
+INSPECT
+COPY LINK
+COPY
+coop.debug.romance.agree
+
+Marks a romance pair as agreed on marriage.
+
+coop.debug.romance.agree <player_hero_id> <npc_hero_id>
+
+Parameters
+ROMANCE
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.romance.compatible
+
+Marks a romance pair as compatible.
+
+coop.debug.romance.compatible <player_hero_id> <npc_hero_id>
+
+Parameters
+ROMANCE
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.romance.divorce
+
+Divorces a player hero and NPC hero.
+
+coop.debug.romance.divorce <player_hero_id> <npc_hero_id>
+
+Parameters
+ROMANCE
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.romance.fail_practicalities
+
+Sets a marriage fixture pair to failed in practicalities.
+
+coop.debug.romance.fail_practicalities <first_hero_id> <second_hero_id>
+
+Parameters
+ROMANCE
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.romance.help
+
+Describes the romance debug commands.
+
+coop.debug.romance.help
+
+ROMANCE
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.romance.list
+
+Lists current romance states.
+
+coop.debug.romance.list
+
+ROMANCE
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.romance.marry
+
+Marries a player hero and NPC hero.
+
+coop.debug.romance.marry <player_hero_id> <npc_hero_id>
+
+Parameters
+ROMANCE
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.romance.start
+
+Starts courtship between a player and NPC.
+
+coop.debug.romance.start <player_hero_id> <npc_hero_id>
+
+Parameters
+ROMANCE
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.romance.status
+
+Reports romance state for a player and NPC.
+
+coop.debug.romance.status <player_hero_id> <npc_hero_id>
+
+Parameters
+ROMANCE
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.save.force_autosave
+
+Runs the force autosave debug operation.
+
+coop.debug.save.force_autosave [<evidence_hold_milliseconds>]
+
+Parameters
+SAVES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.save.save_as
+
+Runs the save as debug operation.
+
+coop.debug.save.save_as <save_name>
+
+Parameters
+SAVES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.save.state
+
+Reports state.
+
+coop.debug.save.state
+
+SAVES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.settlement_component.set_gold
+
+Sets gold for co-op debugging.
+
+coop.debug.settlement_component.set_gold <settlementComponentId> <gold>
+
+Parameters
+SETTLEMENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.settlement_component.set_is_owner_unassigned
+
+Sets is owner unassigned for co-op debugging.
+
+coop.debug.settlement_component.set_is_owner_unassigned <settlementComponentId> <value>
+
+Parameters
+SETTLEMENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.settlement_component.set_owner
+
+Sets owner for co-op debugging.
+
+coop.debug.settlement_component.set_owner <settlementComponentId> <mobilePartyId>
+
+Parameters
+SETTLEMENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.settlements.audit
+
+Audits the relevant state for co-op debugging.
+
+coop.debug.settlements.audit
+
+SETTLEMENTS
+CLIENT
+AUDIT
+COPY LINK
+COPY
+coop.debug.settlements.capture_by_siege
+
+Captures by siege for co-op debugging.
+
+coop.debug.settlements.capture_by_siege <settlementNameOrId> [<capturerHeroId>]
+
+Parameters
+SETTLEMENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.settlements.collect_cache_notables
+
+Collects cache notables for co-op debugging.
+
+coop.debug.settlements.collect_cache_notables <settlementId>
+
+Parameters
+SETTLEMENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.settlements.enter_random_castle
+
+Enters random castle for co-op debugging.
+
+coop.debug.settlements.enter_random_castle [<castleId>]
+
+Parameters
+SETTLEMENTS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.settlements.get_town_name
+
+Gets town name for co-op debugging.
+
+coop.debug.settlements.get_town_name <settlementId>
+
+Parameters
+SETTLEMENTS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.settlements.info
+
+Shows the relevant state for co-op debugging.
+
+coop.debug.settlements.info <settlementId>
+
+Parameters
+SETTLEMENTS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.settlements.last_attacker
+
+Runs attacker for co-op debugging.
+
+coop.debug.settlements.last_attacker <settlementId> <lastAttackerPartyId>
+
+Parameters
+SETTLEMENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.settlements.list_siege_state
+
+Lists siege state for co-op debugging.
+
+coop.debug.settlements.list_siege_state
+
+SETTLEMENTS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.settlements.owner_state
+
+Shows state for co-op debugging.
+
+coop.debug.settlements.owner_state <settlementNameOrId>
+
+Parameters
+SETTLEMENTS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.settlements.set_allies_spotted
+
+Sets allies spotted for co-op debugging.
+
+coop.debug.settlements.set_allies_spotted <settlementId> <value>
+
+Parameters
+SETTLEMENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.settlements.set_bribe_paid
+
+Sets bribe paid for co-op debugging.
+
+coop.debug.settlements.set_bribe_paid <settlementId> <value>
+
+Parameters
+SETTLEMENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.settlements.set_enemies_spotted
+
+Sets enemies spotted for co-op debugging.
+
+coop.debug.settlements.set_enemies_spotted <settlementId> <value>
+
+Parameters
+SETTLEMENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.settlements.set_garrison_pay_limit
+
+Sets garrison pay limit for co-op debugging.
+
+coop.debug.settlements.set_garrison_pay_limit <settlementId> <payLimit>
+
+Parameters
+SETTLEMENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.settlements.set_hit_points
+
+Sets hit points for co-op debugging.
+
+coop.debug.settlements.set_hit_points <settlementId> <value>
+
+Parameters
+SETTLEMENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.settlements.set_militia
+
+Sets militia for co-op debugging.
+
+coop.debug.settlements.set_militia <settlementId> <militia>
+
+Parameters
+SETTLEMENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.settlements.set_owner_clan
+
+Sets owner clan for co-op debugging.
+
+coop.debug.settlements.set_owner_clan <settlementNameOrId> <heroId>
+
+Parameters
+SETTLEMENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.settlements.set_siege_state
+
+Sets siege state for co-op debugging.
+
+coop.debug.settlements.set_siege_state <settlementId> <siegeState>
+
+Parameters
+SETTLEMENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.besiegercamp.add_besieger_party
+
+Adds besieger party for co-op debugging.
+
+coop.debug.besiegercamp.add_besieger_party <besiegerCampId> <partyId>
+
+Parameters
+SIEGES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.besiegercamp.remove_party
+
+Removes party for co-op debugging.
+
+coop.debug.besiegercamp.remove_party <besiegerCampId> <partyId>
+
+Parameters
+SIEGES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.besiegercamp.set_leader_party
+
+Sets leader party for co-op debugging.
+
+coop.debug.besiegercamp.set_leader_party <besiegerCampId> <partyId>
+
+Parameters
+SIEGES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.besiegercamp.set_number_of_troops_killed_on_side
+
+Sets number of troops killed on side for co-op debugging.
+
+coop.debug.besiegercamp.set_number_of_troops_killed_on_side <besiegerCampId> <value>
+
+Parameters
+SIEGES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.besiegercamp.set_progress
+
+Sets progress for co-op debugging.
+
+coop.debug.besiegercamp.set_progress <besiegerCampId> <progress>
+
+Parameters
+SIEGES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.besiegercamp.set_siege_strategy
+
+Sets siege strategy for co-op debugging.
+
+coop.debug.besiegercamp.set_siege_strategy <besiegerCampId> <strategyId>
+
+Parameters
+SIEGES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.siege.army_relief_state
+
+Runs relief state for co-op debugging.
+
+coop.debug.siege.army_relief_state <controllerId> <settlementId>
+
+Parameters
+SIEGES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.siege.assault
+
+Runs the relevant state for co-op debugging.
+
+coop.debug.siege.assault <settlementId>
+
+Parameters
+SIEGES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.siege.assault_entry_state
+
+Runs entry state for co-op debugging.
+
+coop.debug.siege.assault_entry_state
+
+SIEGES
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.siege.dump_engines
+
+Dumps engines for co-op debugging.
+
+coop.debug.siege.dump_engines
+
+SIEGES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.siege.dump_machines
+
+Dumps machines for co-op debugging.
+
+coop.debug.siege.dump_machines [<includeAll>]
+
+Parameters
+SIEGES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.siege.dump_party
+
+Dumps party for co-op debugging.
+
+coop.debug.siege.dump_party <heroNameOrPartyId>
+
+Parameters
+SIEGES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.siege.focus
+
+Focuses the relevant state for co-op debugging.
+
+coop.debug.siege.focus <settlementId>
+
+Parameters
+SIEGES
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.siege.graph
+
+Runs the relevant state for co-op debugging.
+
+coop.debug.siege.graph <settlementId>
+
+Parameters
+SIEGES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.siege.join_active_assault
+
+Joins active assault for co-op debugging.
+
+coop.debug.siege.join_active_assault <settlementId>
+
+Parameters
+SIEGES
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.siege.join_players
+
+Joins players for co-op debugging.
+
+coop.debug.siege.join_players <settlementId> <expectedPlayerCount> [<declareMissingWars>]
+
+Parameters
+SIEGES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.siege.leave
+
+Leaves the relevant state for co-op debugging.
+
+coop.debug.siege.leave
+
+SIEGES
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.siege.leave_settlement
+
+Leaves settlement for co-op debugging.
+
+coop.debug.siege.leave_settlement
+
+SIEGES
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.siege.list
+
+Lists the relevant state for co-op debugging.
+
+coop.debug.siege.list
+
+SIEGES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.siege.player_state
+
+Runs state for co-op debugging.
+
+coop.debug.siege.player_state <partyId>
+
+Parameters
+SIEGES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.siege.prepare_ladders_only
+
+Prepares ladders only for co-op debugging.
+
+coop.debug.siege.prepare_ladders_only <settlementId>
+
+Parameters
+SIEGES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.siege.request_assault
+
+Requests assault for co-op debugging.
+
+coop.debug.siege.request_assault <settlementId>
+
+Parameters
+SIEGES
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.siege.request_besiege
+
+Requests besiege for co-op debugging.
+
+coop.debug.siege.request_besiege <settlementId>
+
+Parameters
+SIEGES
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.siege.resolve_starvation
+
+Resolves starvation for co-op debugging.
+
+coop.debug.siege.resolve_starvation <settlementId>
+
+Parameters
+SIEGES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.siege.stage_machines
+
+Stages machines for co-op debugging.
+
+coop.debug.siege.stage_machines <settlementId>
+
+Parameters
+SIEGES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.siege.start
+
+Starts the relevant state for co-op debugging.
+
+coop.debug.siege.start <settlementId> [<besiegerPartyId>]
+
+Parameters
+SIEGES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.siege.start_army_relief
+
+Starts army relief for co-op debugging.
+
+coop.debug.siege.start_army_relief <controllerId> <settlementId> [<armyPartyCount>]
+
+Parameters
+SIEGES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.siege.stop
+
+Stops the relevant state for co-op debugging.
+
+coop.debug.siege.stop <settlementId> <originalX> <originalY> <originalIsOnLand>
+
+Parameters
+SIEGES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.siege.terminal_status
+
+Runs status for co-op debugging.
+
+coop.debug.siege.terminal_status <settlementId>
+
+Parameters
+SIEGES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.crafting.add_crafted_items
+
+Runs the add crafted items debug operation.
+
+coop.debug.crafting.add_crafted_items <hero_name>
+
+Parameters
+SMITHING
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.crafting.add_town_order
+
+Runs the add town order debug operation.
+
+coop.debug.crafting.add_town_order <hero_name>
+
+Parameters
+SMITHING
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.crafting.crafted_item_history
+
+Runs the crafted item history debug operation.
+
+coop.debug.crafting.crafted_item_history
+
+SMITHING
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.crafting.crafting_pieces_xp
+
+Runs the crafting pieces xp debug operation.
+
+coop.debug.crafting.crafting_pieces_xp
+
+SMITHING
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.crafting.give_supplies
+
+Runs the give supplies debug operation.
+
+coop.debug.crafting.give_supplies <hero_name>
+
+Parameters
+SMITHING
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.crafting.stamina
+
+Runs the stamina debug operation.
+
+coop.debug.crafting.stamina
+
+SMITHING
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.crafting.town_orders
+
+Runs the town orders debug operation.
+
+coop.debug.crafting.town_orders <town_name>
+
+Parameters
+SMITHING
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.crafting.unlock_all_crafting_pieces
+
+Runs the unlock all crafting pieces debug operation.
+
+coop.debug.crafting.unlock_all_crafting_pieces
+
+SMITHING
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.crafting.unlocked_crafting_pieces
+
+Runs the unlocked crafting pieces debug operation.
+
+coop.debug.crafting.unlocked_crafting_pieces
+
+SMITHING
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.steam.host_lobby
+
+Runs the host lobby debug operation.
+
+coop.debug.steam.host_lobby
+
+STEAM
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.steam.invite
+
+Runs the invite debug operation.
+
+coop.debug.steam.invite
+
+STEAM
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.tournaments.add_tournament_to_town
+
+Adds tournament to town for co-op debugging.
+
+coop.debug.tournaments.add_tournament_to_town <townNameOrId>
+
+Parameters
+TOURNAMENTS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.town.add_item_to_sold_items
+
+Adds item to sold items for co-op debugging.
+
+coop.debug.town.add_item_to_sold_items <townId> <itemId> <numberOfItems>
+
+Parameters
+TOWNS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.town.apply_garrison_lifecycle
+
+Applies garrison lifecycle for co-op debugging.
+
+coop.debug.town.apply_garrison_lifecycle <townId> <operation>
+
+Parameters
+TOWNS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.town.auditor
+
+Runs the relevant state for co-op debugging.
+
+coop.debug.town.auditor
+
+TOWNS
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.town.change_current_building
+
+Changes current building for co-op debugging.
+
+coop.debug.town.change_current_building <townId>
+
+Parameters
+TOWNS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.town.change_current_building_queue
+
+Changes current building queue for co-op debugging.
+
+coop.debug.town.change_current_building_queue <townId>
+
+Parameters
+TOWNS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.town.focus_garrison
+
+Focuses garrison for co-op debugging.
+
+coop.debug.town.focus_garrison <townId>
+
+Parameters
+TOWNS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.town.garrison_backlink
+
+Runs backlink for co-op debugging.
+
+coop.debug.town.garrison_backlink <townId>
+
+Parameters
+TOWNS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.town.info
+
+Shows the relevant state for co-op debugging.
+
+coop.debug.town.info <townId>
+
+Parameters
+TOWNS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.town.list_buildings
+
+Lists buildings for co-op debugging.
+
+coop.debug.town.list_buildings <townId>
+
+Parameters
+TOWNS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.town.list_items
+
+Lists items for co-op debugging.
+
+coop.debug.town.list_items
+
+TOWNS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.town.list_towns
+
+Lists towns for co-op debugging.
+
+coop.debug.town.list_towns
+
+TOWNS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.town.list_workshops
+
+Lists workshops for co-op debugging.
+
+coop.debug.town.list_workshops <townId>
+
+Parameters
+TOWNS
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.town.management_data
+
+Runs data for co-op debugging.
+
+coop.debug.town.management_data <townName>
+
+Parameters
+TOWNS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.town.refresh_mercenary_stocks
+
+Refreshes mercenary stocks for co-op debugging.
+
+coop.debug.town.refresh_mercenary_stocks <townName>
+
+Parameters
+TOWNS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.town.request_mercenary_stock
+
+Requests mercenary stock for co-op debugging.
+
+coop.debug.town.request_mercenary_stock <townName>
+
+Parameters
+TOWNS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.town.set_food_stocks
+
+Sets food stocks for co-op debugging.
+
+coop.debug.town.set_food_stocks <townId> <foodStocks>
+
+Parameters
+TOWNS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.town.set_garrison_auto_recruitment
+
+Sets garrison auto recruitment for co-op debugging.
+
+coop.debug.town.set_garrison_auto_recruitment <townId> <enabled>
+
+Parameters
+TOWNS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.town.set_governor
+
+Sets governor for co-op debugging.
+
+coop.debug.town.set_governor <townId> <heroId>
+
+Parameters
+TOWNS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.town.set_in_rebellious_state
+
+Sets in rebellious state for co-op debugging.
+
+coop.debug.town.set_in_rebellious_state <townId> <inRebelliousState>
+
+Parameters
+TOWNS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.town.set_last_captured_by
+
+Sets last captured by for co-op debugging.
+
+coop.debug.town.set_last_captured_by <townId> <clanId>
+
+Parameters
+TOWNS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.town.set_loyalty
+
+Sets loyalty for co-op debugging.
+
+coop.debug.town.set_loyalty <townId> <loyalty>
+
+Parameters
+TOWNS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.town.set_prosperity
+
+Sets prosperity for co-op debugging.
+
+coop.debug.town.set_prosperity <townId> <prosperity>
+
+Parameters
+TOWNS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.town.set_security
+
+Sets security for co-op debugging.
+
+coop.debug.town.set_security <townId> <security>
+
+Parameters
+TOWNS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.town.set_trade_tax_acc
+
+Sets trade tax acc for co-op debugging.
+
+coop.debug.town.set_trade_tax_acc <townId> <tradeTax>
+
+Parameters
+TOWNS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.town.start_rebellion
+
+Starts rebellion for co-op debugging.
+
+coop.debug.town.start_rebellion <townId>
+
+Parameters
+TOWNS
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.ui.active_state
+
+Reports active state.
+
+coop.debug.ui.active_state
+
+UI
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.ui.close_screen
+
+Runs the close screen debug operation.
+
+coop.debug.ui.close_screen
+
+UI
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.ui.evidence_map_state
+
+Reports evidence map state.
+
+coop.debug.ui.evidence_map_state
+
+UI
+CLIENT
+INSPECT
+COPY LINK
+COPY
+coop.debug.ui.leave_settlement_encounter
+
+Runs the leave settlement encounter debug operation.
+
+coop.debug.ui.leave_settlement_encounter
+
+UI
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.ui.loading_window_state
+
+Reports loading window state.
+
+coop.debug.ui.loading_window_state
+
+UI
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.ui.pop_state
+
+Reports pop state.
+
+coop.debug.ui.pop_state
+
+UI
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.ui.prepare_evidence_map
+
+Runs the prepare evidence map debug operation.
+
+coop.debug.ui.prepare_evidence_map
+
+UI
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.ui.saving_overlay_state
+
+Reports saving overlay state.
+
+coop.debug.ui.saving_overlay_state
+
+UI
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.ui.switch_menu
+
+Runs the switch menu debug operation.
+
+coop.debug.ui.switch_menu <menu_id>
+
+Parameters
+UI
+CLIENT
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.ui.tactical_symbols
+
+Runs the tactical symbols debug operation.
+
+coop.debug.ui.tactical_symbols <mode>
+
+Parameters
+UI
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.villagers.view_interacted_villagers
+
+Shows interacted villagers for co-op debugging.
+
+coop.debug.villagers.view_interacted_villagers
+
+VILLAGER PARTIES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.villagers.view_looted_villagers
+
+Shows looted villagers for co-op debugging.
+
+coop.debug.villagers.view_looted_villagers
+
+VILLAGER PARTIES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.village.info
+
+Shows the relevant state for co-op debugging.
+
+coop.debug.village.info <villageId>
+
+Parameters
+VILLAGES
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.village.list
+
+Lists the relevant state for co-op debugging.
+
+coop.debug.village.list
+
+VILLAGES
+BOTH
+INSPECT
+COPY LINK
+COPY
+coop.debug.village.set_demand_time
+
+Sets demand time for co-op debugging.
+
+coop.debug.village.set_demand_time <villageId> <demandTime>
+
+Parameters
+VILLAGES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.village.set_hearth
+
+Sets hearth for co-op debugging.
+
+coop.debug.village.set_hearth <villageId> <hearth>
+
+Parameters
+VILLAGES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.village.set_state
+
+Sets state for co-op debugging.
+
+coop.debug.village.set_state <villageId> <state>
+
+Parameters
+VILLAGES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.village.set_trade_tax_acc
+
+Sets trade tax acc for co-op debugging.
+
+coop.debug.village.set_trade_tax_acc <villageId> <tradeTax>
+
+Parameters
+VILLAGES
+SERVER
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.workshop.hero_owned_workshops
+
+Runs owned workshops for co-op debugging.
+
+coop.debug.workshop.hero_owned_workshops <heroId>
+
+Parameters
+WORKSHOPS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.workshop.owners_in_settlement
+
+Runs in settlement for co-op debugging.
+
+coop.debug.workshop.owners_in_settlement <settlementId>
+
+Parameters
+WORKSHOPS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.workshop.set_workshop_custom_name
+
+Sets workshop custom name for co-op debugging.
+
+coop.debug.workshop.set_workshop_custom_name <settlementId> <workshopType> <newCustomName>
+
+Parameters
+WORKSHOPS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.workshop.set_workshop_owner
+
+Sets workshop owner for co-op debugging.
+
+coop.debug.workshop.set_workshop_owner <settlementId> <workshopType> <newOwnerId>
+
+Parameters
+WORKSHOPS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.workshop.view_warehouse_rosters
+
+Shows warehouse rosters for co-op debugging.
+
+coop.debug.workshop.view_warehouse_rosters
+
+WORKSHOPS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY
+coop.debug.workshop.workshop_info
+
+Runs info for co-op debugging.
+
+coop.debug.workshop.workshop_info <settlementId>
+
+Parameters
+WORKSHOPS
+BOTH
+GAMEPLAY
+COPY LINK
+COPY

@@ -1,0 +1,21 @@
+<Project>
+
+  <!-- The TAOM-Coop CompatOnly zip a TAOM tool carries inside its exe (TaomCompatZip), so nobody has to download it.
+       Make-Release.ps1 passes the kept release file as CoodszTaomCompatZip. The project sets CoodszTaomCompatName and
+       CoodszTaomCompatSha256 (TaomCompatZipTests checks them against TaomStack). A single file publish without the
+       zip, or with any other file, stops here, so no release exe ships without it. A plain build carries no copy. -->
+  <ItemGroup Condition="'$(CoodszTaomCompatZip)' != ''">
+    <EmbeddedResource Include="$(CoodszTaomCompatZip)" LogicalName="Coodsz.TaomCompat.$(CoodszTaomCompatName)" WithCulture="false" Type="Non-Resx" />
+  </ItemGroup>
+
+  <Target Name="CoodszCheckTaomCompatZip" BeforeTargets="PrepareForBuild" Condition="'$(CoodszTaomCompatZip)' != '' or '$(PublishSingleFile)' == 'true'">
+    <Error Condition="'$(CoodszTaomCompatZip)' == ''" Text="A single file build of $(AssemblyName) must carry $(CoodszTaomCompatName). Run tools\Make-Release.ps1 -IncludeTaom, or pass -p:CoodszTaomCompatZip=&lt;path of that zip&gt;." />
+    <Error Condition="!Exists('$(CoodszTaomCompatZip)')" Text="$(CoodszTaomCompatZip) does not exist, and $(AssemblyName) must carry it. Put $(CoodszTaomCompatName) in artifacts\release-assets-cache and run again." />
+    <Error Condition="'$([System.IO.Path]::GetFileName($(CoodszTaomCompatZip)))' != '$(CoodszTaomCompatName)'" Text="$(AssemblyName) must carry $(CoodszTaomCompatName), not $(CoodszTaomCompatZip)." />
+    <GetFileHash Files="$(CoodszTaomCompatZip)" Algorithm="SHA256">
+      <Output TaskParameter="Hash" PropertyName="_CoodszTaomCompatHash" />
+    </GetFileHash>
+    <Error Condition="'$(_CoodszTaomCompatHash)' != '$(CoodszTaomCompatSha256)'" Text="$(CoodszTaomCompatZip) has SHA256 $(_CoodszTaomCompatHash), but $(AssemblyName) must carry the file with $(CoodszTaomCompatSha256). Put the right file in artifacts\release-assets-cache and run again." />
+  </Target>
+
+</Project>

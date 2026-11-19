@@ -1,0 +1,527 @@
+<Window x:Class="AD1259Launcher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="clr-namespace:Coodsz.Ui"
+        Title="Coodsz AD1259 Client Launcher"
+        Height="900" Width="1280"
+        MinHeight="600" MinWidth="900"
+        Background="#FF0E1418" Foreground="#FFD5DEE6" FontFamily="Segoe UI"
+        UseLayoutRounding="True"
+        TextOptions.TextFormattingMode="Display"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <!-- Mod reports (ModReportUi in ModReportWindow.cs): the red of Missing, the gold of Save logs for help and the green of Ready. -->
+        <SolidColorBrush x:Key="ReportRed" Color="#FFC4726A"/>
+        <SolidColorBrush x:Key="ReportRedBack" Color="#FF3A2422"/>
+        <SolidColorBrush x:Key="ReportGold" Color="#FFE2C27A"/>
+        <SolidColorBrush x:Key="ReportGoldBack" Color="#FF3A3420"/>
+        <SolidColorBrush x:Key="ReportGreen" Color="#FF8FBF86"/>
+        <SolidColorBrush x:Key="ReportGreenBack" Color="#FF1E2A22"/>
+        <SolidColorBrush x:Key="ReportInk" Color="#FF101214"/>
+        <!-- The window's own button names, now on the Keep buttons: Primary is the one gold button of a row, Ghost the rest. -->
+        <Style x:Key="Primary" TargetType="Button" BasedOn="{StaticResource Keep.BtnPrimary}">
+            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <!-- Steady gold, no pulse (build-plan.md 6.14). -->
+        <Style x:Key="UpdateInstall" TargetType="Button" BasedOn="{StaticResource Keep.BtnPrimary}"/>
+        <Style x:Key="Ghost" TargetType="Button" BasedOn="{StaticResource Keep.BtnGhost}">
+            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="AccentGhost" TargetType="Button" BasedOn="{StaticResource Ghost}"/>
+        <!-- Unblock DLLs in gold until the first unblock on this PC (ShowUnblockFirst). -->
+        <Style x:Key="UnblockHighlight" TargetType="Button" BasedOn="{StaticResource Keep.BtnGold}">
+            <Setter Property="Margin" Value="0,0,8,8"/>
+        </Style>
+        <!-- The RBM tick boxes on Settings in the Keep look. -->
+        <Style TargetType="CheckBox" BasedOn="{StaticResource Keep.Check}"/>
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="#FF10161B"/>
+            <Setter Property="Foreground" Value="#FFD5DEE6"/>
+            <Setter Property="BorderBrush" Value="#FF3A4C5C"/>
+            <Setter Property="CaretBrush" Value="#FFD5DEE6"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="PasswordBox">
+            <Setter Property="Background" Value="#FF10161B"/>
+            <Setter Property="Foreground" Value="#FFD5DEE6"/>
+            <Setter Property="BorderBrush" Value="#FF3A4C5C"/>
+            <Setter Property="CaretBrush" Value="#FFD5DEE6"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <!-- Near solid (94%), so text on a card keeps its contrast over the picture behind the pages. -->
+        <Style x:Key="Card" TargetType="Border">
+            <Setter Property="Padding" Value="16"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+            <Setter Property="BorderBrush" Value="#FF2A3844"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="2"/>
+            <Setter Property="Background" Value="#F0151D24"/>
+        </Style>
+        <!-- The small gold word over a card (NEXT STEP, GAME) and the label over a box, with the longer help on its hover. -->
+        <Style x:Key="CardHead" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#FFE2C27A"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+        <Style x:Key="FieldLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#FF8EA0AE"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="0,10,0,4"/>
+            <Setter Property="Cursor" Value="Help"/>
+        </Style>
+        <Style x:Key="ActivityLog" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="Height" Value="Auto"/>
+            <Setter Property="MinHeight" Value="160"/>
+            <Setter Property="VerticalContentAlignment" Value="Top"/>
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="False" Background="Transparent"
+                                          VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}"
+                                          HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}"
+                                          Padding="{TemplateBinding Padding}">
+                                <ScrollViewer.Resources>
+                                    <Style TargetType="ScrollBar" BasedOn="{StaticResource Keep.ScrollBar}"/>
+                                </ScrollViewer.Resources>
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- The setup picker in the header, in the Keep colours. -->
+        <Style x:Key="SetupChoice" TargetType="ComboBox">
+            <Setter Property="Foreground" Value="#FFD5DEE6"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ComboBoxItem">
+                                    <Border x:Name="ItemBorder" Background="#FF10161B" Padding="10,7">
+                                        <ContentPresenter TextElement.Foreground="#FFD5DEE6"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsHighlighted" Value="True">
+                                            <Setter TargetName="ItemBorder" Property="Background" Value="#FF24303A"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="ItemBorder" Property="Background" Value="#FF1B2833"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton Focusable="False" ClickMode="Press" Cursor="Hand" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Border x:Name="BoxEdge" Background="#FF10161B" BorderBrush="#FF3A4C5C" BorderThickness="1" CornerRadius="4">
+                                            <Path HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Data="M 0 0 L 4 4 L 8 0" Stroke="#FFE2C27A" StrokeThickness="1.4" Width="8" Height="4"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="BoxEdge" Property="BorderBrush" Value="#FFE2C27A"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <ContentPresenter IsHitTestVisible="False" Margin="10,0,24,0" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                              Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                              TextElement.Foreground="#FFD5DEE6"/>
+                            <Popup Placement="Bottom" AllowsTransparency="True" Focusable="False" PopupAnimation="None" IsOpen="{TemplateBinding IsDropDownOpen}">
+                                <Border Background="#FF10161B" BorderBrush="#FF3A4C5C" BorderThickness="1" MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <ItemsPresenter/>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.45"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- The drop down menu of the Mods page's More button. -->
+        <Style x:Key="DarkMenu" TargetType="ContextMenu" BasedOn="{StaticResource Keep.Menu}"/>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <!-- 220 wide, or 64 with icons only under 1000 px (NavRail.Fit in MainWindow.Frame.cs). -->
+            <ColumnDefinition x:Name="NavColumn" Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Border Style="{StaticResource Keep.Sidebar}">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top" Margin="12,18,12,12">
+                    <DockPanel Margin="4,0,0,0">
+                        <!-- The brand mark: the banner of the tool icon in the tool's own colour (ToolAccent.Apply in App.xaml.cs). -->
+                        <Viewbox x:Name="BrandMark" DockPanel.Dock="Left" Width="30" Height="30" VerticalAlignment="Top" Margin="0,0,10,0">
+                            <Canvas Width="128" Height="128">
+                                <Path Data="{StaticResource Keep.IconBanner}" Fill="{DynamicResource Keep.ToolAccent}" Stroke="#FFEF9F27" StrokeThickness="6"/>
+                            </Canvas>
+                        </Viewbox>
+                        <StackPanel x:Name="BrandText" VerticalAlignment="Center">
+                            <TextBlock Text="COODSZ" FontFamily="Palatino Linotype" FontSize="22" Foreground="#FFD5DEE6" Tag="coodsz:no-translate"/>
+                            <TextBlock x:Name="HeadingText" Text="AD1259 CLIENT LAUNCHER" FontSize="10.5" FontWeight="SemiBold" Foreground="#FF8EA0AE" Margin="1,1,0,0" TextTrimming="CharacterEllipsis" Tag="coodsz:no-translate"/>
+                        </StackPanel>
+                    </DockPanel>
+                </StackPanel>
+                <Border DockPanel.Dock="Bottom" BorderBrush="{StaticResource Keep.Line}" BorderThickness="0,1,0,0" Margin="12,0,12,12" Padding="0,10,0,0">
+                    <Grid>
+                        <!-- The 64 px sidebar shows a More button instead (CompactMore_Click opens Language, What's new and Donate). -->
+                        <Button x:Name="CompactMore" AutomationProperties.Name="More" Style="{StaticResource Keep.Nav}" ui:NavRail.Icon="{StaticResource Keep.IconMore}" Visibility="Collapsed" Click="CompactMore_Click" ToolTip="Language, What's new and Donate."/>
+                        <Viewbox x:Name="FooterFit" StretchDirection="DownOnly" HorizontalAlignment="Left">
+                            <StackPanel>
+                                <ContentControl x:Name="LanguageSlot" HorizontalAlignment="Left"/>
+                                <ContentControl x:Name="WhatsNewSlot" Margin="0,8,0,0" HorizontalAlignment="Left"/>
+                                <ContentControl x:Name="DonateSlot" Margin="0,8,0,0" HorizontalAlignment="Left"/>
+                                <TextBlock x:Name="VersionText" Foreground="#FF8EA0AE" FontSize="11" HorizontalAlignment="Left" Margin="6,8,0,0" Tag="coodsz:no-translate"/>
+                            </StackPanel>
+                        </Viewbox>
+                    </Grid>
+                </Border>
+                <ScrollViewer x:Name="NavScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,4">
+                    <ScrollViewer.Resources>
+                        <Style TargetType="ScrollBar" BasedOn="{StaticResource Keep.ScrollBar}"/>
+                    </ScrollViewer.Resources>
+                    <StackPanel x:Name="NavList" VerticalAlignment="Top" Margin="12,0">
+                        <Button x:Name="NavPlay" ToolTip="Shows the Play page: your game, the server to join and the next step." Style="{StaticResource Keep.Nav}" ui:NavRail.Icon="{StaticResource Keep.IconPlay}" Click="Nav_Click" Tag="Play">
+                            <!-- The word comes from PlayWord in MainWindow.Frame.cs: "Play" alone is the server time button of the TAOM and BE tools. -->
+                            <TextBlock x:Name="NavPlayText" Text="Play" Tag="coodsz:no-translate"/>
+                        </Button>
+                        <Button x:Name="NavMods" ToolTip="Shows the Mods page, where you turn mods on and off and set their load order." Style="{StaticResource Keep.Nav}" ui:NavRail.Icon="{StaticResource Keep.IconMods}" Content="Mods" Click="Nav_Click" Tag="Mods"/>
+                        <Button x:Name="NavLogs" ToolTip="Shows the activity log, Send my logs, My reports and Report a mod." Style="{StaticResource Keep.Nav}" ui:NavRail.Icon="{StaticResource Keep.IconLogs}" Content="Logs and help" Click="Nav_Click" Tag="Logs"/>
+                        <Button x:Name="NavSettings" ToolTip="Shows the RBM settings, the game folder and the advanced tools." Style="{StaticResource Keep.Nav}" ui:NavRail.Icon="{StaticResource Keep.IconSettings}" Content="Settings" Click="Nav_Click" Tag="Settings"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </DockPanel>
+        </Border>
+        <DockPanel Grid.Column="1">
+            <!-- The header: page title, the setup picker, the state pill and the clock. -->
+            <Border DockPanel.Dock="Top" Style="{StaticResource Keep.HeaderBar}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="PageTitle" Grid.Column="0" Style="{StaticResource Keep.PageTitle}" Text="Play" Tag="coodsz:no-translate"/>
+                    <!-- No setups in this tool: the header names the fixed mod pack, with the versions on its hover. -->
+                    <!-- The pack's versions show on the hover (AD1259Stack.SetText, set in StartFrame). -->
+                    <StackPanel Grid.Column="1" Margin="16,0,8,0" VerticalAlignment="Center">
+                        <TextBlock Text="Mod pack" Foreground="#FF8EA0AE" FontSize="11" Margin="0,0,0,4"/>
+                        <TextBlock x:Name="PackText" Text="Anno Domini 1259" FontSize="14" FontWeight="SemiBold" Foreground="#FFD5DEE6" Tag="coodsz:no-translate"/>
+                    </StackPanel>
+                    <ui:StatusPill x:Name="ClientPill" Grid.Column="2" Margin="8,0,0,0" Kind="NotReady" Text="Not ready" ToolTip="Whether you can join now: Not ready, Ready, Joining, In game or Refused."/>
+                    <ui:HeaderClock Grid.Column="3" Margin="16,0,0,0"/>
+                </Grid>
+            </Border>
+            <!-- The notices: one at a time, most urgent first (BannerStack.Priority), the rest behind "1 more notice". -->
+            <ui:BannerStack x:Name="Banners" DockPanel.Dock="Top" MaxShown="1">
+                <!-- Coodsz's notice from compat-list/announcement.json (AnnouncementUi.cs in Shared/Frame): after the crash, report and reply bars, before the other notices, until Dismiss. -->
+                <ui:Banner x:Name="AnnouncementBanner" Kind="Warn" CanDismiss="True" Visibility="Collapsed" Margin="18,12,18,0" ui:BannerStack.Priority="3"/>
+                <!-- Coodsz answered your report CR-XXXXX (ReplyBannerBar in ReportReplyWindow.cs): shows until every answer is read, no x. -->
+                <ContentControl x:Name="ReplyBannerHost" Visibility="Collapsed" Margin="18,12,18,0" ui:BannerStack.Priority="2"/>
+                <!-- The mod report bar: the one time card, How did your mods work? and the crash bar (ModReportBar). -->
+                <ContentControl x:Name="ReportBarHost" Visibility="Collapsed" Margin="18,12,18,0" ui:BannerStack.Priority="1"/>
+                <!-- Above the pages, so every page shows "Install update". -->
+                <Border x:Name="UpdateNoticeBar" Visibility="Collapsed" Background="#F0151D24" BorderBrush="#FF3A4C5C" BorderThickness="0,0,0,1" Padding="16,10" ui:BannerStack.Priority="4">
+                    <DockPanel LastChildFill="True">
+                        <Button x:Name="InstallUpdateButton" ToolTip="Downloads and installs the new version of this launcher, then opens it again." DockPanel.Dock="Right" Content="Install update" Click="InstallUpdate_Click" MinWidth="160" Margin="16,0,0,0" Style="{StaticResource UpdateInstall}" VerticalAlignment="Center"/>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock x:Name="UpdateNotice" FontSize="16" FontWeight="SemiBold" Foreground="#FFD2A36A" TextWrapping="Wrap"/>
+                            <ProgressBar x:Name="UpdateProgress" Height="12" Margin="0,8,0,0" Minimum="0" Maximum="1" Visibility="Collapsed" Foreground="#FFE2C27A" Background="#FF3A3420" BorderBrush="#FFE2C27A" BorderThickness="1"/>
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+            </ui:BannerStack>
+            <Grid Margin="18">
+                <!-- The Coop castle behind the pages (Keep.BackdropArt, set by Backdrop.Apply in App.xaml.cs) under the same
+                     dark gradient as the Server Tools. The cards are near solid, so their text keeps its contrast. -->
+                <Rectangle x:Name="PageBackdrop" Margin="-18" RenderOptions.BitmapScalingMode="HighQuality" IsHitTestVisible="False">
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="{DynamicResource Keep.BackdropArt}" Stretch="UniformToFill" AlignmentX="Right" AlignmentY="Center"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle x:Name="PageBackdropShade" Margin="-18" IsHitTestVisible="False">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color="{DynamicResource Keep.BackdropOverlayTop}" Offset="0"/>
+                            <GradientStop Color="{DynamicResource Keep.BackdropOverlayBottom}" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+
+                <!-- Play: the game and the server to join on the left, the next step on the right (under them on a narrow page, FitPlay). -->
+                <ScrollViewer x:Name="PageScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" PanningMode="VerticalOnly" PreviewMouseWheel="PageScroll_PreviewMouseWheel">
+                    <ScrollViewer.Resources>
+                        <Style TargetType="ScrollBar" BasedOn="{StaticResource Keep.ScrollBar}"/>
+                    </ScrollViewer.Resources>
+                <Grid x:Name="PlayGrid" Width="{Binding ViewportWidth, ElementName=PageScroll}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition x:Name="PlaySideColumn" Width="380"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel x:Name="PlayMain" Grid.Column="0" Margin="0,0,16,0">
+                        <!-- What this pack needs, ticked against this PC (ShowMadeFor), and who made the coop fixes. SetText stays for the log, hidden: the rows say the same. -->
+                        <ui:MadeForCard x:Name="MadeForCard" ToolTip="{Binding Text, ElementName=SetText}">
+                            <StackPanel>
+                                <TextBlock x:Name="SetText" Visibility="Collapsed" FontSize="13" Foreground="#FFD5DEE6" TextWrapping="Wrap" Margin="0,6,0,0"/>
+                                <TextBlock Text="AD1259 coop fixes by SkyApolo: the server compatibility module and the client stability module. Thank you for the help!" FontSize="13" Foreground="#FF8EA0AE" TextWrapping="Wrap" Margin="0,6,0,0"/>
+                            </StackPanel>
+                        </ui:MadeForCard>
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="Game" Style="{StaticResource CardHead}"/>
+                                <TextBlock x:Name="GameText" TextWrapping="Wrap" FontSize="14" Margin="0,6,0,8"/>
+                                <Button x:Name="FindBannerlordButton" Content="Find Bannerlord" ToolTip="Pick the Mount &amp; Blade II Bannerlord folder. The tool remembers it." Style="{StaticResource Ghost}" HorizontalAlignment="Left" Margin="0,0,0,8" Click="FindBannerlord_Click" Visibility="Collapsed"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Ellipse x:Name="SteamDot" Width="10" Height="10" Fill="#FFB08448" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="SteamStatusText" FontSize="15" Foreground="#FF7DAAA4" Text="Steam has not been checked."/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="Join" Style="{StaticResource CardHead}" ToolTip="Join an Anno Domini 1259 server run with Coodsz AD1259 Server Tool. Direct connect on UDP 4200 is the usual way."/>
+                                <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                    <Button x:Name="DirectButton" ToolTip="Switches to joining with the host's address and UDP port." Content="Direct" Style="{StaticResource Ghost}" Click="Direct_Click"/>
+                                    <Button x:Name="SteamButton" ToolTip="Switches to joining by the host's Steam profile name. No port forwarding is needed." Content="Steam lobby" Style="{StaticResource Ghost}" Click="Steam_Click"/>
+                                    <Button x:Name="JoinHelpButton" Content="?" Style="{StaticResource Ghost}" Click="JoinHelp_Click" ToolTip="How to join" MinWidth="36"/>
+                                </StackPanel>
+                                <StackPanel x:Name="DirectPanel">
+                                    <TextBlock Text="Address" Style="{StaticResource FieldLabel}" ToolTip="Enter the host's IP address, such as 192.168.1.10, or a custom port-forwarded address, such as host.example.com. Put the port in the UDP port box. A Steam name goes in Steam lobby. A home address like 192.168 only works on the same Wi-Fi."/>
+                                    <TextBox x:Name="HostBox" Margin="0" TextChanged="JoinField_TextChanged"/>
+                                    <TextBlock x:Name="OwnServerNote" Visibility="Collapsed" FontSize="13" FontWeight="SemiBold" Foreground="#FF8FCB9B" TextWrapping="Wrap" Margin="0,6,0,0"/>
+                                    <TextBlock Text="Port" Style="{StaticResource FieldLabel}" ToolTip="Enter the UDP port the host set."/>
+                                    <TextBox x:Name="PortBox" Margin="0" Width="120" HorizontalAlignment="Left" ToolTip="Enter the UDP port the host set." TextChanged="JoinField_TextChanged"/>
+                                </StackPanel>
+                                <StackPanel x:Name="SteamPanel" Visibility="Collapsed">
+                                    <TextBlock Text="Host Steam profile name" Style="{StaticResource FieldLabel}" ToolTip="Enter the host's Steam profile name, the name friends see in Steam (not the login name)."/>
+                                    <TextBox x:Name="SteamBox" Margin="0" TextChanged="JoinField_TextChanged"/>
+                                </StackPanel>
+                                <TextBlock Text="Password" Style="{StaticResource FieldLabel}" ToolTip="Leave this empty when the server has no password."/>
+                                <DockPanel Margin="0">
+                                    <Button x:Name="ShowPasswordButton" ToolTip="Shows or hides the password you typed." DockPanel.Dock="Right" Content="Show" Style="{StaticResource Ghost}" Margin="8,0,0,0" Click="ShowPassword_Click"/>
+                                    <Grid>
+                                        <PasswordBox x:Name="PasswordHidden"/>
+                                        <TextBox x:Name="PasswordBox" Visibility="Collapsed"/>
+                                    </Grid>
+                                </DockPanel>
+                                <WrapPanel Margin="0,12,0,0">
+                                    <Button Content="Check server" Style="{StaticResource Ghost}" Margin="0,0,12,0" VerticalAlignment="Center" Click="Probe_Click"
+                                            ToolTip="Checks the host address and UDP port. A Steam name cannot be checked this way. A missing reply does not mean the server is stopped."/>
+                                </WrapPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel x:Name="PlaySide" Grid.Column="1">
+                        <!-- One gold button for what to do now (ShowNextStep): Find Bannerlord, Get all missing or a green Connect. -->
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="NEXT STEP" Style="{StaticResource CardHead}"/>
+                                <TextBlock x:Name="NextStepText" Text="Check your mods." FontSize="18" TextWrapping="Wrap" Margin="0,4,0,10"/>
+                                <!-- Only until the first Unblock DLLs on this PC (ShowUnblockFirst). -->
+                                <DockPanel Margin="0,0,0,10" Visibility="{Binding Visibility, ElementName=UnblockFirstJoin}">
+                                    <Button DockPanel.Dock="Right" Content="Unblock DLLs" Style="{StaticResource Keep.BtnGold}" Margin="8,0,0,0" VerticalAlignment="Center" Click="Unblock_Click"
+                                            ToolTip="Clears the Windows download block on files in the Modules folder. The game cannot load a blocked DLL."/>
+                                    <TextBlock x:Name="UnblockFirstJoin" FontSize="13" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="#FFD2A36A" TextWrapping="Wrap" Margin="0" ToolTip="Windows blocks downloaded DLLs (Nexus mods especially). The game cannot load them until that block is cleared." Text="First time on this PC: click Unblock DLLs before Connect."/>
+                                </DockPanel>
+                                <WrapPanel x:Name="ActionButtonRow">
+                                    <Button x:Name="NextFindButton" Content="Find Bannerlord" ToolTip="Pick the Mount &amp; Blade II Bannerlord folder. The tool remembers it." Style="{StaticResource Keep.BtnGhost}" Margin="0,0,8,8" Click="FindBannerlord_Click" Visibility="Collapsed"/>
+                                    <Button x:Name="NextGetButton" Content="Get all missing" Style="{StaticResource Keep.BtnGhost}" Margin="0,0,8,8" Click="GetMissing_Click" Visibility="Collapsed"
+                                            ToolTip="Steam subscribes to every missing Workshop mod and downloads it by itself. Nexus mods open their page, so you can download the exact version."/>
+                                    <Button x:Name="ConnectButton" Content="Connect" Style="{StaticResource Keep.BtnGhost}" Margin="0,0,8,8" MinWidth="120" VerticalAlignment="Center" Click="Connect_Click"
+                                            ToolTip="Writes the RBM settings below, then starts Bannerlord with the AD1259 mod list and joins."/>
+                                    <Button x:Name="PlayCheckModsButton" Content="Check mods" Style="{StaticResource Keep.BtnGhost}" Margin="0,0,8,8" Click="CheckMods_Click"
+                                            ToolTip="Looks for every mod in the game's Modules folder and the Steam Workshop folders. It does not download anything."/>
+                                </WrapPanel>
+                                <!-- This PC's Bannerlord is newer than 1.4.8 (NewerGame): the same line as the Made for card, next to Connect. -->
+                                <TextBlock x:Name="NewerGameText" Visibility="Collapsed" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource Keep.WarningInk}" TextWrapping="Wrap" Margin="0,2,0,4"/>
+                                <TextBlock x:Name="JoinStatus" FontSize="13" FontWeight="SemiBold" Foreground="#FF8EB4D4" TextWrapping="Wrap" Margin="0,2,0,0"/>
+                                <TextBlock Text="The first join takes a long time, up to 20 minutes: the game builds AD1259's shaders and downloads the server's large world. Let it run." FontSize="12" Foreground="#FF8EA0AE" TextWrapping="Wrap" Margin="0,4,0,0"/>
+                                <WrapPanel Margin="0,4,0,0">
+                                    <ContentControl x:Name="CrashLinkSlot" Margin="0,0,16,0"/>
+                                    <ContentControl x:Name="SendLogsLinkSlot" Visibility="Collapsed"/>
+                                </WrapPanel>
+                                <!-- Send my logs and My reports (CrashReportUi and ReportRepliesUi.Attach), for a stuck join, a desync or lag. -->
+                                <ContentControl x:Name="SendLogsSlot" HorizontalAlignment="Left" Margin="0,10,0,0"/>
+                                <Border x:Name="LoadingPanel" Visibility="Collapsed" Margin="0,12,0,0" Padding="14,12" CornerRadius="6" Background="{StaticResource Keep.SuccessSoft}" BorderBrush="{StaticResource Keep.Success}" BorderThickness="1">
+                                    <StackPanel>
+                                        <TextBlock x:Name="LoadingTitle" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource Keep.Success}" TextWrapping="Wrap"/>
+                                        <ProgressBar x:Name="LoadingBar" Height="8" Margin="0,8,0,8" IsIndeterminate="True" Foreground="{StaticResource Keep.Success}" Background="{StaticResource Keep.BgRaised}" BorderThickness="0"/>
+                                        <TextBlock x:Name="LoadingDetail" FontSize="13" Foreground="{StaticResource Keep.TextMain}" TextWrapping="Wrap"/>
+                                        <TextBlock x:Name="LoadingAdvice" Style="{StaticResource Keep.Dim}" TextWrapping="Wrap" Margin="0,6,0,0"
+                                                   Text="The first start with AD1259 can take 20 minutes or more. The game window may go white or say Not Responding while it builds shaders. That is normal: do not close it while this box says it is still working."/>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- The first pack mods that are not Ready (ShowNeedsAttention), with the way to the Mods page. -->
+                        <Border x:Name="NeedsAttentionCard" Visibility="Collapsed" Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="NEEDS ATTENTION" Style="{StaticResource CardHead}" Margin="0,0,0,6"/>
+                                <ItemsControl x:Name="NeedsAttentionList" Focusable="False" IsTabStop="False">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <DockPanel Margin="0,3">
+                                                <ui:Chip DockPanel.Dock="Right" Text="{Binding Status}" Kind="{Binding StatusKind}" Tip="{Binding StatusTip}" MaxWidth="150" Margin="8,0,0,0"/>
+                                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}"/>
+                                            </DockPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <Button Content="Open Mods" Style="{StaticResource Keep.BtnLink}" Tag="Mods" Click="Nav_Click" HorizontalAlignment="Left" Margin="-6,6,0,0" ToolTip="Shows the Mods page with every mod and its status."/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+
+                    <!-- The Realm promo as the Join my server card (redesign D2): under the Next step card, or last when the page stacks (FitPlay). -->
+                    <ui:RealmCard x:Name="RealmCard" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top">
+                        <ui:RealmCard.Actions>
+                            <WrapPanel>
+                                <Button Content="Join on Discord" Style="{StaticResource Keep.BtnSolidGold}" Click="RealmJoin_Click" ToolTip="Opens the invite to The Realm Discord server in your browser." Margin="0,0,8,8"/>
+                                <Button Style="{StaticResource Keep.BtnLink}" Click="RealmReward_Click" ToolTip="New players get a unique starting reward" Margin="0,0,4,8" VerticalAlignment="Center"><TextBlock><Run Text="🎁 " FontFamily="Segoe UI Emoji, Segoe UI Symbol"/><Run Text="Free starter reward"/></TextBlock></Button>
+                                <Button Content="Copy invite" Style="{StaticResource Keep.BtnLink}" Click="RealmCopy_Click" ToolTip="Copies the invite link to The Realm Discord server." Margin="0,0,0,8" VerticalAlignment="Center"/>
+                            </WrapPanel>
+                        </ui:RealmCard.Actions>
+                        <TextBlock x:Name="RealmStatus" Text="The Realm Bannerlord · new players welcome · weekly events, races, bounties and clans" Style="{StaticResource Keep.Dim}" TextWrapping="Wrap"/>
+                    </ui:RealmCard>
+                </Grid>
+                </ScrollViewer>
+
+                <!-- Mods: the fixed AD1259 pack as its own page, with Get all missing. -->
+                <Border x:Name="ModsCard" Visibility="Collapsed" Style="{StaticResource Card}" Margin="0" Padding="16,14">
+                    <DockPanel>
+                        <StackPanel DockPanel.Dock="Top" Margin="0,0,0,10">
+                            <WrapPanel>
+                                <Button x:Name="GetMissingButton" Content="Get all missing" Style="{StaticResource Primary}" Click="GetMissing_Click" ToolTip="Steam subscribes to every missing Workshop mod and downloads it by itself. Nexus mods open their page, so you can download the exact version."/>
+                                <Button x:Name="CheckModsButton" Content="Check mods" Style="{StaticResource Ghost}" Click="CheckMods_Click" ToolTip="Looks for every mod in the game's Modules folder and the Steam Workshop folders. It does not download anything."/>
+                            </WrapPanel>
+                            <DockPanel Margin="0,8,0,0">
+                                <TextBlock DockPanel.Dock="Right" FontSize="13" Margin="12,0,0,0" VerticalAlignment="Center" ToolTip="Opens the AD1259 mod list on GitHub in your browser: every pack mod with its version, player reports and notes.">
+                                    <Hyperlink Click="FullModList_Click" Foreground="#FFE8E6E1" TextDecorations="Underline"><Run Text="Full AD1259 mod list"/></Hyperlink>
+                                </TextBlock>
+                                <TextBlock Text="Connect turns on when every mod says Ready." ToolTip="The server and every player need exactly these mods and versions. Connect stays off until every row says Ready. Click Get it to open the mod's page, install it, then click Check mods." FontSize="13" Foreground="#FF8EA0AE" TextWrapping="Wrap" Cursor="Help" VerticalAlignment="Center"/>
+                            </DockPanel>
+                            <!-- The calm Played with mods? Tell others if they worked. Report a mod line (ModReportUi.Hint), gone for good after a report or its x. -->
+                            <ContentControl x:Name="ReportHintSlot" Margin="0,6,0,0"/>
+                        </StackPanel>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><ScrollViewer.Resources><Style TargetType="ScrollBar" BasedOn="{StaticResource Keep.ScrollBar}"/></ScrollViewer.Resources>
+                            <StackPanel x:Name="ModulePanel"/>
+                        </ScrollViewer>
+                    </DockPanel>
+                </Border>
+
+                <!-- Logs and help: Send my logs with its arrow, My reports and Report a mod above, the activity log below. -->
+                <Grid x:Name="LogsPage" Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0" Style="{StaticResource Card}" Padding="16,12">
+                        <!-- My reports shows beside Send my logs once a report was sent (ReportRepliesUi.AddMyReports). -->
+                        <WrapPanel>
+                            <Button Content="Send my logs" Style="{StaticResource AccentGhost}" Margin="0,0,2,8" Click="SendLogs_Click"
+                                    Background="#FF3A3420" Foreground="#FFE2C27A" BorderBrush="#FFE2C27A"
+                                    ToolTip="Sends your cleaned logs to Coodsz, with Coop_client.log, client-action.log, crash reports and engine logs. You see every file first, then you get a short code to post in Discord. Save a copy instead is in that window. The small arrow next to it has Open client logs."/>
+                            <Button x:Name="LogsMenuButton" Content="▾" Style="{StaticResource AccentGhost}" Padding="10,0" Margin="0,0,8,8" Click="OpenMenu_Click"
+                                    Background="#FF3A3420" Foreground="#FFE2C27A" BorderBrush="#FFE2C27A"
+                                    ToolTip="More log tools: Open client logs and Fix antivirus.">
+                                <Button.ContextMenu>
+                                    <ContextMenu Style="{StaticResource DarkMenu}">
+                                        <MenuItem Header="Open client logs" Click="OpenClientLogs_Click" ToolTip="Opens Coop_client.log and a dated client-action copy for Discord."/>
+                                        <MenuItem Header="Fix antivirus" Click="FixAntivirus_Click" ToolTip="Shows the folders your antivirus should skip on this PC and opens Windows Security. It changes no setting itself."/>
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                            </Button>
+                            <ContentControl x:Name="LogsMyReportsSlot" Focusable="False" VerticalAlignment="Center" Margin="0,0,12,8"/>
+                            <ContentControl x:Name="ReportModSlot" VerticalAlignment="Center" Margin="0,0,0,8"/>
+                        </WrapPanel>
+                    </Border>
+                    <!-- The activity log in the dark frame of the log card (LogCard). -->
+                    <Border Grid.Row="1" CornerRadius="8" BorderThickness="1" Padding="14,10" Background="#FF0A1015" BorderBrush="#FF2A3844">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Top" Text="ACTIVITY" Foreground="#FF8EA0AE" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                            <TextBox x:Name="LogBox" Style="{StaticResource ActivityLog}" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" FontFamily="Consolas" FontSize="14" Background="Transparent" Foreground="#FFC9D6CF" BorderThickness="0" Padding="0"/>
+                        </DockPanel>
+                    </Border>
+                </Grid>
+
+                <!-- Settings: the RBM settings Connect writes, the game folder and the advanced tools, in one button style. -->
+                <ScrollViewer x:Name="SettingsPage" Visibility="Collapsed" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer.Resources>
+                        <Style TargetType="ScrollBar" BasedOn="{StaticResource Keep.ScrollBar}"/>
+                    </ScrollViewer.Resources>
+                    <StackPanel MaxWidth="760" HorizontalAlignment="Left">
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="RBM (Realistic Battle Mod)" Style="{StaticResource CardHead}"/>
+                                <TextBlock Text="Connect writes these into RBM's settings on this PC. RBM runs in your own game and the server does not use RBM settings, so everyone in your group should pick the same ones to make battles feel the same. Keep Campaign off: RBM's economy empties town shops and stops workshops on a Coop server." FontSize="13" Foreground="#FF8EA0AE" TextWrapping="Wrap" Margin="0,6,0,10"/>
+                                <CheckBox x:Name="RbmCombatBox" ToolTip="Turns on RBM's combat changes on this PC when you click Connect. Everyone in your group should pick the same." Content="Combat" FontSize="16" Foreground="#FFE8E6E1" Margin="0,0,0,6"/>
+                                <CheckBox x:Name="RbmAiBox" ToolTip="Turns on RBM's battle AI changes on this PC when you click Connect. Everyone in your group should pick the same." Content="AI" FontSize="16" Foreground="#FFE8E6E1" Margin="0,0,0,6"/>
+                                <CheckBox x:Name="RbmCampaignBox" ToolTip="Turns on RBM's campaign and economy changes. Keep this off on a Coop server. It empties town shops and stops workshops." Content="Campaign (economy)" FontSize="16" Foreground="#FFE8E6E1" Margin="0,0,0,6"/>
+                                <CheckBox x:Name="RbmTournamentBox" ToolTip="Turns on RBM's tournament changes on this PC when you click Connect. Everyone in your group should pick the same." Content="Tournament" FontSize="16" Foreground="#FFE8E6E1"/>
+                                <CheckBox x:Name="RbmCoopFriendlyBox" ToolTip="Connect turns off RBM's Lords buy equipment in your own RBM settings, so lords do not empty the town markets in coop. Untick it to keep your own RBM settings." Content="Keep RBM coop friendly" HorizontalAlignment="Left" FontSize="16" Foreground="#FFE8E6E1" Margin="0,12,0,0" AutomationProperties.AutomationId="RbmCoopFriendlyBox"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="GAME FOLDER" Style="{StaticResource CardHead}"/>
+                                <TextBlock Text="{Binding Text, ElementName=GameText}" TextWrapping="Wrap" Margin="0,6,0,8" FontFamily="Consolas" FontSize="12" Foreground="#FF8EA0AE" Tag="coodsz:no-translate"/>
+                                <Button Content="Find Bannerlord" ToolTip="Pick the Mount &amp; Blade II Bannerlord folder. The tool remembers it." Style="{StaticResource Keep.BtnGhost}" HorizontalAlignment="Left" Click="FindBannerlord_Click"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="ADVANCED" Style="{StaticResource CardHead}" Margin="0,0,0,8"/>
+                                <TextBlock x:Name="UnblockFirstSetup" Text="First time on this PC: click Unblock DLLs before Connect. Windows blocks downloaded DLLs. The game cannot load them until that block is cleared." FontSize="13" FontWeight="SemiBold" Foreground="#FFD2A36A" TextWrapping="Wrap" Margin="0,0,0,8"/>
+                                <WrapPanel>
+                                    <Button x:Name="UnblockButton" Content="Unblock DLLs" Style="{StaticResource UnblockHighlight}" Click="Unblock_Click" ToolTip="Click this before the first Connect and after installing a Nexus mod. It clears the Windows download block on files in the Modules folder. The game cannot load a blocked DLL."/>
+                                    <Button Content="Module folder" ToolTip="Opens the game's Modules folder in File Explorer." Style="{StaticResource Keep.BtnGhost}" Margin="0,0,8,8" Click="ModuleFolder_Click"/>
+                                    <Button Content="Clear shader cache" Style="{StaticResource Keep.BtnGhost}" Margin="0,0,8,8" Click="ClearShaders_Click" ToolTip="Deletes the shader cache in ProgramData. Close Bannerlord first. The game builds the shaders again on the next launch, which takes a while with AD1259. Saves are not touched."/>
+                                </WrapPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>

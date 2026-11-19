@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module>
+    <Name value="Realm of Thrones Coop Compat"/>
+    <Id value="RealmOfThrones.CoopCompat"/>
+    <Version value="v0.1.0"/>
+    <ModuleType value="Community"/>
+    <Official value="false"/>
+    <DefaultModule value="false"/>
+    <SingleplayerModule value="true"/>
+    <MultiplayerModule value="false"/>
+    <DependedModules>
+        <DependedModule Id="Bannerlord.Harmony"/>
+    </DependedModules>
+    <DependedModuleMetadatas>
+        <DependedModuleMetadata id="Bannerlord.Harmony" order="LoadBeforeThis"/>
+        <DependedModuleMetadata id="ROT-Core" order="LoadBeforeThis"/>
+        <DependedModuleMetadata id="ROT_Map" order="LoadBeforeThis"/>
+        <DependedModuleMetadata id="Coop" order="LoadBeforeThis" optional="true"/>
+        <DependedModuleMetadata id="CoopNightly" order="LoadBeforeThis" optional="true"/>
+        <DependedModuleMetadata id="NavalDLC" order="LoadBeforeThis" optional="true"/>
+    </DependedModuleMetadatas>
+    <SubModules>
+        <!-- No tags on purpose. The dedicated server rejects a SubModule tagged
+             IsNoRenderModeElement false and one tagged DedicatedServerType none, and the
+             game rejects IsNoRenderModeElement true, so an empty list is the one that
+             loads on both. -->
+        <SubModule>
+            <Name value="Realm of Thrones Coop Compat"/>
+            <DLLName value="RealmOfThrones.CoopCompat.dll"/>
+            <SubModuleClassType value="RealmOfThronesCoopCompat.SubModule"/>
+            <Tags/>
+        </SubModule>
+    </SubModules>
+</Module>

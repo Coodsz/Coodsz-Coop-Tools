@@ -1,0 +1,40 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Run tests
+        run: dotnet test tests/BannerlordCoopLauncher.Tests/BannerlordCoopLauncher.Tests.csproj --configuration Release
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run the mod report worker, in tool replies, tally, TAOM tally and auto approval tests
+        run: node --test server/mod-reports-worker/test/index.test.mjs server/mod-reports-worker/test/crash.test.mjs server/mod-reports-worker/test/replies.test.mjs server/mod-reports-worker/test/followup.test.mjs server/mod-reports-worker/test/webhook.test.mjs server/mod-reports-worker/test/budget.test.mjs crash-repos/.github/scripts/reply-signature.test.mjs .github/scripts/tally-mod-compat.test.mjs .github/scripts/tally-taom-compat.test.mjs .github/scripts/compat-records.test.mjs .github/scripts/auto-approve-reports.test.mjs
+      - name: Build the programs
+        run: |
+          dotnet build src/CoodszHost/CoodszHost.csproj --configuration Release
+          dotnet build src/TaomCoopHost/TaomCoopHost.csproj --configuration Release
+          dotnet build src/TaomCoopLauncher/TaomCoopLauncher.csproj --configuration Release
+          dotnet build src/CoodszCoopAndFriends/CoodszCoopAndFriends.csproj --configuration Release
+          dotnet build src/AD1259Host/AD1259Host.csproj --configuration Release
+          dotnet build src/AD1259Launcher/AD1259Launcher.csproj --configuration Release
+          dotnet build src/BurningEmpiresHost/BurningEmpiresHost.csproj --configuration Release
+          dotnet build src/BurningEmpiresLauncher/BurningEmpiresLauncher.csproj --configuration Release
+          dotnet build src/RealmOfThronesHost/RealmOfThronesHost.csproj --configuration Release
+          dotnet build src/RealmOfThronesLauncher/RealmOfThronesLauncher.csproj --configuration Release

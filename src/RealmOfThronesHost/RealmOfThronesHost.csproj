@@ -1,0 +1,101 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>RealmOfThronesHost</RootNamespace>
+    <AssemblyName>Coodsz Realm of Thrones Server Tool</AssemblyName>
+    <Product>Coodsz Realm of Thrones Server Tool</Product>
+    <AssemblyTitle>Coodsz Realm of Thrones Server Tool</AssemblyTitle>
+    <Description>Coodsz Realm of Thrones Server Tool: hosts a Realm of Thrones Coop server</Description>
+    <ApplicationIcon>..\..\assets\icons\coodsz-rot.ico</ApplicationIcon>
+    <Version>0.1.2</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The picture behind the pages (Keep.BackdropArt): dark stone with a faint green and a low red glow, drawn for the
+         black, green and red look (no game art). The Join my server page pictures are the TAOM server tool's own Coodsz art. -->
+    <Resource Include="Assets\rot-backdrop-ember-green.jpg" />
+    <Resource Include="..\TaomCoopHost\Assets\realm-emblem.png" Link="Assets\realm-emblem.png" />
+    <Resource Include="..\TaomCoopHost\Assets\realm-hero.jpg" Link="Assets\realm-hero.jpg" />
+    <Resource Include="..\TaomCoopHost\Assets\realm-tile-1.jpg" Link="Assets\realm-tile-1.jpg" />
+    <Resource Include="..\TaomCoopHost\Assets\realm-tile-2.jpg" Link="Assets\realm-tile-2.jpg" />
+    <Resource Include="..\TaomCoopHost\Assets\realm-tile-3.jpg" Link="Assets\realm-tile-3.jpg" />
+    <Resource Include="..\TaomCoopHost\Assets\realm-tile-4.jpg" Link="Assets\realm-tile-4.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TaomCoop.Core\TaomCoop.Core.csproj" />
+    <ProjectReference Include="..\BannerlordCoopLauncher.Core\BannerlordCoopLauncher.Core.csproj" />
+    <ProjectReference Include="..\RealmOfThrones.Core\RealmOfThrones.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\BannerlordCoopLauncher\UiLanguage.cs" Link="UiLanguage.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\WindowPlacement.cs" Link="WindowPlacement.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\NewBadges.cs" Link="NewBadges.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\JoinGuideWindow.cs" Link="JoinGuideWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\AntivirusWindow.cs" Link="AntivirusWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\CustomModWindow.cs" Link="CustomModWindow.cs" />
+    <!-- The Guides page, the same as the TAOM and Burning Empires tools'. -->
+    <Compile Include="..\TaomCoopHost\TaomGuidesPage.cs" Link="TaomGuidesPage.cs" />
+    <!-- The Send my logs button (CrashReportUi) and what it needs. Nothing is sent until RotRelease.ReportsReady. -->
+    <Compile Include="..\BannerlordCoopLauncher\ModReportWindow.cs" Link="ModReportWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\CrashReportWindow.cs" Link="CrashReportWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\ReportReplyWindow.cs" Link="ReportReplyWindow.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The Keep colours and styles and the Coop command list of the Console page, shared with the Coop Server Tool. -->
+    <!-- The Realm of Thrones colours (black, green and red) under the shared file's name, so App.xaml and KeepTheme.xaml
+         load them as the Keep colours and the other tools keep theirs. -->
+    <Page Remove="Keep\KeepColors.Rot.xaml" />
+    <Page Include="Keep\KeepColors.Rot.xaml" Link="Keep\KeepColors.xaml" />
+    <Page Include="..\CoodszHost\Keep\KeepTheme.xaml" Link="Keep\KeepTheme.xaml" />
+    <Page Include="..\CoodszHost\Shared\CoopCommandBrowser.xaml" Link="Shared\CoopCommandBrowser.xaml" />
+    <Compile Include="..\CoodszHost\Shared\CoopCommandBrowser.xaml.cs" Link="Shared\CoopCommandBrowser.xaml.cs" />
+    <!-- The card for a save that needs mods the setup leaves out, the same as Coodsz Host's. -->
+    <Page Include="..\CoodszHost\Shared\SaveModsCard.xaml" Link="Shared\SaveModsCard.xaml" />
+    <Compile Include="..\CoodszHost\Shared\SaveModsCard.xaml.cs" Link="Shared\SaveModsCard.xaml.cs" />
+  </ItemGroup>
+
+  <!-- Realm of Thrones Coop Compat, staged into the server's engine\Modules on every start (RotServerPath.Stage),
+       embedded in the exe and written out on first use (CoodszPayload.targets, ToolPayload). The module folder is
+       the committed output of compat\RealmOfThronesCoopCompat\Build.cmd. A build without it fails, so no exe ships
+       without the module. -->
+  <PropertyGroup>
+    <RotCompatModule>..\..\compat\RealmOfThronesCoopCompat\module</RotCompatModule>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <CoodszPayload Include="$(RotCompatModule)\**\*" Exclude="$(RotCompatModule)\README.txt" Payload="ServerAddOns" PayloadFolder="RealmOfThrones.CoopCompat\" />
+    <!-- Coodsz Server Tools, the Coop Server Tool's server only module (compat\CoodszServerTools build.ps1 output), for the
+         server rules and the mod settings for players (RotServerTools). Copied in and listed after the compat module. -->
+    <CoodszPayload Include="..\CoodszHost\ServerTools\DedicatedServer.CoodszTools\**\*" Payload="ServerAddOns" PayloadFolder="DedicatedServer.CoodszTools\" />
+  </ItemGroup>
+
+  <Target Name="NeedRotCompat" BeforeTargets="BeforeBuild" Condition="!Exists('$(RotCompatModule)\SubModule.xml')">
+    <Error Text="Realm of Thrones Coop Compat is not in compat\RealmOfThronesCoopCompat\module. Run compat\RealmOfThronesCoopCompat\Build.cmd first." />
+  </Target>
+
+  <!-- The RoT build of Coop this exe carries (RotStack.CoopBuild, src\RotCoopBuild.targets): the client zip and the server zip. -->
+  <PropertyGroup>
+    <CoodszRotCoopClientName>Coop-RoT-Client-2026-11-14-01846e1.zip</CoodszRotCoopClientName>
+    <CoodszRotCoopClientSha256>FBC78E7B8594B2F2E2644FA6EB35ED28972B1CE934898D27CBB18E28DB1E908F</CoodszRotCoopClientSha256>
+    <CoodszRotCoopServerName>Coop-RoT-Server-2026-11-14-01846e1.zip</CoodszRotCoopServerName>
+    <CoodszRotCoopServerSha256>5AAC1C6E91EFB34A8E53D96248DD0E5C119753FA5BD1337315B59B0B16C605EA</CoodszRotCoopServerSha256>
+  </PropertyGroup>
+
+  <Import Project="..\RotCoopBuild.targets" />
+  <Import Project="..\CoodszPayload.targets" />
+
+  <!-- The shared window frame (sidebar, header, chips, banners): docs/design/redesign/build-plan.md 1.1. -->
+  <ItemGroup>
+    <Page Include="..\CoodszHost\Shared\Frame\*.xaml" Link="Shared\Frame\%(Filename)%(Extension)" />
+    <Compile Include="..\CoodszHost\Shared\Frame\*.cs" Link="Shared\Frame\%(Filename)%(Extension)" />
+  </ItemGroup>
+
+</Project>

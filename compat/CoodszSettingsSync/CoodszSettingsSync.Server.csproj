@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- CoodszSettingsSync.Coop for the dedicated server: the Coop handler that sends the host's MCM
+       settings to players. Not a submodule. DedicatedServer.CoodszTools loads it by hand after its probe
+       finds the Coop types this is compiled against. Built against the server's own Coop and game DLLs,
+       which are not copied (Private=false). compat\CoodszServerTools\build.ps1 builds it and copies it
+       next to DedicatedServer.CoodszTools.dll. The client build is in compat\CoodszJoinPassword\build.ps1. -->
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>CoodszSettingsSync.Coop</AssemblyName>
+    <RootNamespace>CoodszSettingsSync</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <Version>1.1.0</Version>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <Deterministic>true</Deterministic>
+    <ServerRoot Condition="'$(ServerRoot)' == ''">C:\Program Files (x86)\Steam\steamapps\workshop\content\261550\3770450698\DedicatedServer</ServerRoot>
+    <ServerBin>$(ServerRoot)\engine\bin\Win64_Shipping_Server</ServerBin>
+    <CoopBin>$(ServerRoot)\engine\Modules\Coop\bin\Win64_Shipping_Server</CoopBin>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="src\Shared\*.cs" />
+    <Compile Include="src\Server\*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Common"><HintPath>$(CoopBin)\Common.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Coop.Core"><HintPath>$(CoopBin)\Coop.Core.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="LiteNetLib"><HintPath>$(CoopBin)\LiteNetLib.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="protobuf-net"><HintPath>$(CoopBin)\protobuf-net.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="protobuf-net.Core"><HintPath>$(CoopBin)\protobuf-net.Core.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="0Harmony"><HintPath>$(ServerBin)\0Harmony.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+</Project>

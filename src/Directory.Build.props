@@ -1,0 +1,28 @@
+<Project>
+
+  <!--
+    Every project under src. Windows and antivirus tools read the publisher and copyright from the exe, and
+    the product version a player sees stays the plain version, without the "+commit" the SDK adds by default.
+    Each tool csproj sets its own Description.
+  -->
+  <PropertyGroup>
+    <Company>Coodsz</Company>
+    <Copyright>Copyright (c) 2026 Coodsz</Copyright>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+  </PropertyGroup>
+
+  <!--
+    The files that are not in the public source come from one private folder (CONTRIBUTING.md, Private files):
+    private\ at the repo root, or the folder in the CoodszPrivateRoot environment variable or -p:CoodszPrivateRoot.
+    Without it everything still builds: the DedicatedServerRepair payload just lacks the three prebuilt server
+    DLLs, and the Realm reward code uses its dummy key.
+  -->
+  <PropertyGroup>
+    <CoodszPrivateRoot Condition="'$(CoodszPrivateRoot)' == ''">$(MSBuildThisFileDirectory)..\private\</CoodszPrivateRoot>
+    <CoodszPrivateFolder>$([MSBuild]::NormalizeDirectory('$(CoodszPrivateRoot)'))</CoodszPrivateFolder>
+    <!-- The same paths as under src\CoodszHost\DedicatedServerRepair, packed into that payload by each host that carries it. -->
+    <CoodszPrivateRepair>$(CoodszPrivateFolder)DedicatedServerRepair\</CoodszPrivateRepair>
+    <CoodszRealmRewardKey>$(CoodszPrivateFolder)realm-reward-key.txt</CoodszRealmRewardKey>
+  </PropertyGroup>
+
+</Project>

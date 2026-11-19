@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<strings>
+  <string id="coop_marriage_open" text="[COOP Family] Gönül meseleleri hakkında konuşalım." />
+  <string id="coop_marriage_open_spouse" text="Biraz konuşalım, sevgilim." />
+  <string id="coop_marriage_flirt" text="Flört et" />
+  <string id="coop_marriage_flirt_reply" text="Niyetiniz ciddiyse kendinizi kanıtlayın: {TOURNAMENT_WINS_REQUIRED} turnuva kazanın ve {RENOWN_REQUIRED} nam elde edin. Sonra bana dönün." />
+  <string id="coop_marriage_challenge_status" text="Kendimi kanıtlamakta ne kadar ilerledim?" />
+  <string id="coop_marriage_challenge_status_reply" text="Şimdiye dek {TOURNAMENT_WINS_CURRENT}/{TOURNAMENT_WINS_REQUIRED} turnuva kazandınız ve {RENOWN_CURRENT}/{RENOWN_REQUIRED} nam elde ettiniz." />
+  <string id="coop_marriage_propose" text="Benimle evlenir misiniz?" />
+  <string id="coop_marriage_yes" text="Evet. Hayatımı seninle paylaşmayı yürekten istiyorum." />
+  <string id="coop_marriage_no" text="Hayır. Henüz buna hazır değilim." />
+  <string id="coop_marriage_status" text="Ailemiz hakkında konuşalım." />
+  <string id="coop_marriage_feelings" text="Bizim hakkımızda ne hissediyorsun?" />
+  <string id="coop_marriage_affection" text="Yanımda olman bana güç veriyor." />
+  <string id="coop_marriage_supply" text="Ordumuzun yiyeceğe ihtiyacı var. 1.000 dinara erzak bulabilir misin?" />
+  <string id="coop_marriage_supply_reply" text="Elbette. Uygun fiyatlı tüccarları bulup iki gün içinde erzakla dönerim." />
+  <string id="coop_marriage_eligibility" text="İlişkimizin geldiği yeri konuşalım." />
+  <string id="coop_marriage_leave" text="Başka bir şeyden söz edelim." />
+  <string id="coop_marriage_greeting_courtship" text="Seni dinliyorum. Kalbinden geçeni söyle." />
+  <string id="coop_marriage_greeting_pregnant" text="Geldiğine sevindim, sevgilim. Ben ve bebeğimiz iyiyiz; seni görmek ikimize de iyi geldi." />
+  <string id="coop_marriage_greeting_together" text="Yol ne kadar çetin olursa olsun, yanındayken kendimi evimde hissediyorum, sevgilim." />
+  <string id="coop_marriage_greeting_devoted" text="Nihayet baş başayız. Seni özledim, sevgilim." />
+  <string id="coop_marriage_greeting_warm" text="Seni görmek güzel. Gel, biraz yanımda kal." />
+  <string id="coop_marriage_greeting_calm" text="Buradasın. Konuşalım; aramızdaki bağ benim için önemli." />
+  <string id="coop_marriage_greeting_strained" text="Konuşmamız iyi olur. Aramızdaki sessizlik savaş meydanından daha ağır geliyor." />
+  <string id="coop_marriage_feelings_devoted" text="Sen benim için yalnızca bir eş değilsin; hayatımı emanet ettiğim insansın. Nerede olursak olalım, benim yuvam sensin." />
+  <string id="coop_marriage_feelings_loving" text="Seni seviyorum. Seferler ve siyaset bizi yorsa da birlikte kurduğumuz hayat benim için her şeye değer." />
+  <string id="coop_marriage_feelings_steady" text="Birbirimizi hâlâ öğreniyoruz. Benden kusursuzluk bekleme; ama sadakatimden kuşku duyma." />
+  <string id="coop_marriage_feelings_hurt" text="Seni hâlâ önemsiyorum, yoksa bu kadar incinmezdim. Bana buyruğundaki biri gibi değil, hayat arkadaşın gibi davran." />
+  <string id="coop_marriage_affection_devoted" text="O halde yanında kalayım. Tacın, ordun ya da şanın değil; bana böyle baktığın anlar kalbimi kazanıyor." />
+  <string id="coop_marriage_affection_warm" text="Bunu duymaya ihtiyacım vardı. Yükünü tek başına taşımak zorunda değilsin; artık iki kişiyiz." />
+  <string id="coop_marriage_affection_cautious" text="Sözlerin güzel. Onları davranışlarınla da gösterirsen aramızdaki yarayı birlikte iyileştirebiliriz." />
+  <string id="coop_marriage_eligibility_disabled" text="Evlilik sistemi MCM ayarlarında kapalı." />
+  <string id="coop_marriage_eligibility_instant" text="Geliştirici test modu açık: doğrudan evlilik teklif edebilirsiniz." />
+  <string id="coop_marriage_eligibility_low" text="Flört için ilişkimiz henüz yeterli değil: {CURRENT}/{REQUIRED}." />
+  <string id="coop_marriage_eligibility_ready" text="Flört etmeye hazırız. İlişki: {CURRENT}." />
+  <string id="coop_marriage_family_status" text="Eşleriniz ({COUNT}/{MAXIMUM}): {NAMES}" />
+  <string id="coop_marriage_notice_loaded" text="Evlilik ve aile konuşmaları hazır." />
+  <string id="coop_marriage_notice_flirt_started" text="{LADY} ile kur yapmaya başladınız." />
+  <string id="coop_marriage_notice_married" text="{SPOUSE} artık eşiniz. Eşler: {COUNT}/{MAXIMUM}." />
+  <string id="coop_marriage_notice_failed" text="Evlilik tamamlanamadı. Hata günlüğe yazıldı ve konuşma güvenli biçimde kapatıldı." />
+  <string id="coop_marriage_notice_rejected" text="Evlilik teklifiniz reddedildi." />
+  <string id="coop_marriage_notice_challenge_progress" text="{LADY} için kur görevinin %{PERCENT} bölümünü tamamladınız." />
+  <string id="coop_marriage_notice_challenge_complete" text="{LADY} için kur görevi tamamlandı. Artık evlilik teklif edebilirsiniz." />
+  <string id="coop_marriage_reason_invalid" text="Geçersiz evlilik adayı." />
+  <string id="coop_marriage_reason_living_lady" text="Aday yaşayan bir leydi olmalı." />
+  <string id="coop_marriage_reason_underage" text="Aday yetişkin değil." />
+  <string id="coop_marriage_reason_noble" text="Aday soylu bir leydi olmalı." />
+  <string id="coop_marriage_reason_already_yours" text="Bu leydi zaten eşiniz." />
+  <string id="coop_marriage_reason_already_married" text="Bu leydi zaten evli." />
+  <string id="coop_marriage_reason_limit" text="MCM eş sınırına ulaştınız." />
+  <string id="coop_marriage_your_spouse" text="Eşiniz" />
+  <string id="coop_marriage_notice_supply_return" text="{SPOUSE} erzak görevinden {GRAIN} tahıl ve {MEAT} et ile döndü." />
+  <string id="coop_marriage_notice_pregnant" text="{MOTHER} hamile kaldı." />
+  <string id="coop_marriage_notice_birth" text="{MOTHER}, {CHILD} adlı çocuğu dünyaya getirdi." />
+  <string id="coop_marriage_notice_world_marriage" text="{PERSON1} ile {PERSON2} evlendi." />
+  <string id="coop_marriage_mcm_title" text="COOP Family" />
+  <string id="coop_marriage_mcm_group_marriage" text="Evlilik" />
+  <string id="coop_marriage_mcm_enabled" text="Kur yapma diyaloglarını etkinleştir" />
+  <string id="coop_marriage_mcm_enabled_hint" text="Coop içinde kur yapma, evlilik teklifi ve eş diyalog seçeneklerini etkinleştirir." />
+  <string id="coop_marriage_mcm_max_spouses" text="Azami eş sayısı" />
+  <string id="coop_marriage_mcm_max_spouses_hint" text="Her oyuncu kahramanı için azami eş sayısı." />
+  <string id="coop_marriage_mcm_min_flirt" text="Asgari flört ilişkisi" />
+  <string id="coop_marriage_mcm_min_flirt_hint" text="Flört seçeneğinin görünmesi için gereken asgari ilişki." />
+  <string id="coop_marriage_mcm_min_marriage" text="Asgari evlilik ilişkisi" />
+  <string id="coop_marriage_mcm_min_marriage_hint" text="Evlilik teklifi için gereken asgari ilişki." />
+  <string id="coop_marriage_mcm_flirt_gain" text="Temel iltifat ilişki kazancı" />
+  <string id="coop_marriage_mcm_flirt_gain_hint" text="Başarılı iltifatın temel ilişki kazancı; her turnuva zaferi 2 ekler ve toplam kazanç en fazla 15 olur." />
+  <string id="coop_marriage_mcm_acceptance" text="Teklif kabul ihtimali" />
+  <string id="coop_marriage_mcm_acceptance_hint" text="Uygun bir leydinin teklifi kabul etme temel yüzdesi. Asgari değerin üzerindeki ilişki ihtimali artırır." />
+  <string id="coop_marriage_mcm_require_noble" text="Yetişkin soylu leydi gerekli" />
+  <string id="coop_marriage_mcm_require_noble_hint" text="Yaşayan, yetişkin, kadın ve vanilla ya da özel eşi olmayan bir soylu gerektirir." />
+  <string id="coop_marriage_mcm_group_challenge" text="Kur yapma görevi" />
+  <string id="coop_marriage_mcm_tournaments" text="Gerekli turnuva zaferi" />
+  <string id="coop_marriage_mcm_tournaments_hint" text="Oyuncu lordun bir leydiyle flört ettikten sonra kazanması gereken turnuva sayısı. Asgari 2." />
+  <string id="coop_marriage_mcm_renown" text="Gerekli nam" />
+  <string id="coop_marriage_mcm_renown_hint" text="Oyuncu lordun bir leydiyle flört ettikten sonra kazanması gereken yeni nam." />
+  <string id="coop_marriage_mcm_group_pregnancy" text="Hamilelik ve Doğum" />
+  <string id="coop_marriage_mcm_pregnancies" text="Hamilelikleri etkinleştir" />
+  <string id="coop_marriage_mcm_pregnancies_hint" text="Bağımsız ve sunucu otoriteli hamilelik ve doğum sistemini çalıştırır." />
+  <string id="coop_marriage_mcm_daily_chance" text="Günlük hamilelik ihtimali" />
+  <string id="coop_marriage_mcm_daily_chance_hint" text="Uygun her evli çift için günlük hamile kalma ihtimali." />
+  <string id="coop_marriage_mcm_duration" text="Hamilelik süresi (gün)" />
+  <string id="coop_marriage_mcm_duration_hint" text="Hamile kalma ile doğum arasındaki sefer günü." />
+  <string id="coop_marriage_mcm_max_children" text="Anne başına azami çocuk" />
+  <string id="coop_marriage_mcm_max_children_hint" text="Sıfır, hamile kalmayı kapatır. Mevcut çocuklar bu sınıra dahildir." />
+  <string id="coop_marriage_mcm_fertility_age" text="Azami doğurganlık yaşı" />
+  <string id="coop_marriage_mcm_fertility_age_hint" text="Bu yaştan büyük kadınlar mod aracılığıyla hamile kalamaz." />
+  <string id="coop_marriage_mcm_same_location" text="Aynı konum gerekli" />
+  <string id="coop_marriage_mcm_same_location_hint" text="Hamilelik için çiftlerin aynı birlikte veya yerleşimde olması gerekir." />
+  <string id="coop_marriage_mcm_group_interface" text="Arayüz" />
+  <string id="coop_marriage_mcm_notifications" text="Bildirimleri göster" />
+  <string id="coop_marriage_mcm_notifications_hint" text="Flört, evlilik, hamilelik ve doğum bildirimlerini gösterir." />
+  <string id="coop_marriage_mcm_group_developer" text="Geliştirici - geçici" />
+  <string id="coop_marriage_mcm_instant" text="Anında evlilik test modu" />
+  <string id="coop_marriage_mcm_instant_hint" text="Geçici test anahtarı: uygun, evli olmayan yetişkin leydilere teklifleri anında açar ve kabul ettirir. Eş sınırı etkin kalır." />
+  <string id="coop_marriage_compliment_intro" text="Sizi dinliyorum. Bana ne söylemek istemiştiniz?" />
+  <string id="coop_marriage_compliment_valor" text="Cesaretiniz savaş meydanındaki her sancaktan daha parlak." />
+  <string id="coop_marriage_compliment_honor" text="Onurunuz her taçtan daha nadir ve daha kıymetli." />
+  <string id="coop_marriage_compliment_mercy" text="Başkalarına gösterdiğiniz merhamet sizi gerçekten güzel kılıyor." />
+  <string id="coop_marriage_compliment_generosity" text="Cömert ruhunuz bulunduğunuz her yere sıcaklık getiriyor." />
+  <string id="coop_marriage_compliment_success" text="Sözleriniz kalbime dokundu. Sizi daha yakından tanımak isterim." />
+  <string id="coop_marriage_compliment_failure" text="Bunu söylemeniz nazikçe, fakat sözleriniz bugün beni etkilemedi." />
+  <string id="coop_marriage_notice_compliment_success" text="İltifatınız başarılı oldu. İlişki {GAIN} arttı." />
+  <string id="coop_marriage_notice_compliment_failure" text="İltifatınız ikna edici olmadı. Yarın tekrar deneyebilirsiniz." />
+  <string id="coop_marriage_back" text="Geri dön." />
+  <string id="coop_family_co_wife" text="Kuma" />
+</strings>

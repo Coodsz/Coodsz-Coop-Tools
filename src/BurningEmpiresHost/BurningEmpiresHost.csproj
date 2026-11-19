@@ -1,0 +1,104 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>BurningEmpiresHost</RootNamespace>
+    <AssemblyName>Coodsz Burning Empires Server Tool</AssemblyName>
+    <Product>Coodsz Burning Empires Server Tool</Product>
+    <AssemblyTitle>Coodsz Burning Empires Server Tool</AssemblyTitle>
+    <Description>Coodsz Burning Empires Server Tool: hosts a Burning Empires Coop server</Description>
+    <ApplicationIcon>..\..\assets\icons\coodsz-be.ico</ApplicationIcon>
+    <Version>1.0.16</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The picture behind the pages (Keep.BackdropArt): the Coop castle until Burning Empires has its own art.
+         The Realm page pictures are still the TAOM server tool's own Coodsz art. -->
+    <Resource Include="..\CoodszHost\Assets\redesign-backdrop-castle.jpg" Link="Assets\redesign-backdrop-castle.jpg" />
+    <Resource Include="..\TaomCoopHost\Assets\realm-emblem.png" Link="Assets\realm-emblem.png" />
+    <Resource Include="..\TaomCoopHost\Assets\realm-hero.jpg" Link="Assets\realm-hero.jpg" />
+    <Resource Include="..\TaomCoopHost\Assets\realm-tile-1.jpg" Link="Assets\realm-tile-1.jpg" />
+    <Resource Include="..\TaomCoopHost\Assets\realm-tile-2.jpg" Link="Assets\realm-tile-2.jpg" />
+    <Resource Include="..\TaomCoopHost\Assets\realm-tile-3.jpg" Link="Assets\realm-tile-3.jpg" />
+    <Resource Include="..\TaomCoopHost\Assets\realm-tile-4.jpg" Link="Assets\realm-tile-4.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TaomCoop.Core\TaomCoop.Core.csproj" />
+    <ProjectReference Include="..\BannerlordCoopLauncher.Core\BannerlordCoopLauncher.Core.csproj" />
+    <ProjectReference Include="..\BurningEmpires.Core\BurningEmpires.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\BannerlordCoopLauncher\UiLanguage.cs" Link="UiLanguage.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\WindowPlacement.cs" Link="WindowPlacement.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\NewBadges.cs" Link="NewBadges.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\JoinGuideWindow.cs" Link="JoinGuideWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\AntivirusWindow.cs" Link="AntivirusWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\ModReportWindow.cs" Link="ModReportWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\CrashReportWindow.cs" Link="CrashReportWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\ReportReplyWindow.cs" Link="ReportReplyWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\CustomModWindow.cs" Link="CustomModWindow.cs" />
+    <!-- The Guides page, the same as the TAOM tools'. -->
+    <Compile Include="..\TaomCoopHost\TaomGuidesPage.cs" Link="TaomGuidesPage.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The Keep colours and styles and the Coop command list of the Console page, shared with the Coop Server Tool. -->
+    <Page Include="..\CoodszHost\Keep\KeepColors.xaml" Link="Keep\KeepColors.xaml" />
+    <Page Include="..\CoodszHost\Keep\KeepTheme.xaml" Link="Keep\KeepTheme.xaml" />
+    <Page Include="..\CoodszHost\Shared\CoopCommandBrowser.xaml" Link="Shared\CoopCommandBrowser.xaml" />
+    <Compile Include="..\CoodszHost\Shared\CoopCommandBrowser.xaml.cs" Link="Shared\CoopCommandBrowser.xaml.cs" />
+    <!-- The card for a save that needs mods the setup leaves out, the same as Coodsz Host's. -->
+    <Page Include="..\CoodszHost\Shared\SaveModsCard.xaml" Link="Shared\SaveModsCard.xaml" />
+    <Compile Include="..\CoodszHost\Shared\SaveModsCard.xaml.cs" Link="Shared\SaveModsCard.xaml.cs" />
+  </ItemGroup>
+
+  <!-- Embedded in the exe and written out on first use (CoodszPayload.targets, ToolPayload). -->
+  <ItemGroup>
+    <!-- Coodsz Host's own server files (Start-ModdedServer.ps1 with -AllowAddedModules and the any letter
+         -NewSaveName rule, and the Launcher Cheats and Battle Size submodules), laid over the server folder
+         on Prepare server and every start (BeServerPrepare.LayOverRepair). Coodsz Host's module policy is
+         left out (BE writes its own), and so is its update installer, which is not for a BE server folder. -->
+    <CoodszPayload Include="..\CoodszHost\DedicatedServerRepair\**\*" Exclude="..\CoodszHost\DedicatedServerRepair\server-module-policy.json;..\CoodszHost\DedicatedServerRepair\Install-Update.ps1;..\CoodszHost\DedicatedServerRepair\INSTALL-UPDATE.bat" Payload="DedicatedServerRepair" />
+    <!-- The Launcher Cheats and Battle Size DLLs and the runtime bootstrap, from the private folder (src\Directory.Build.props). -->
+    <CoodszPayload Include="$(CoodszPrivateRepair)**\*" Payload="DedicatedServerRepair" />
+    <!-- Coop Save Rescue, riding in DedicatedServer.Windows on every start; see compat\CoopSaveRescue. -->
+    <CoodszPayload Include="..\CoodszHost\SaveRescue\DedicatedServer.CoopSaveRescue\bin\Win64_Shipping_Server\CoopSaveRescue.dll" Payload="SaveRescue" />
+    <!-- Burning Empires Coop Compat, staged into the server's engine\Modules on every start; see compat\BurningEmpiresCoopCompat. -->
+    <CoodszPayload Include="..\..\compat\BurningEmpiresCoopCompat\module\**\*" Exclude="..\..\compat\BurningEmpiresCoopCompat\module\README.txt" Payload="ServerAddOns" PayloadFolder="BurningEmpires.CoopCompat\" />
+  </ItemGroup>
+
+  <!-- UIExtenderEx 2.13.3 from BUTR's GitHub release, copied into Burning Empires' server bin on every
+       start after a hash check; see compat\BurningEmpiresCoopCompat\server-extra\UIExtenderEx-2.13.3\README.txt.
+       A checkout without it still builds; the tool then says it is missing when the server starts. -->
+  <PropertyGroup>
+    <BeUIExtenderExDll>..\..\compat\BurningEmpiresCoopCompat\server-extra\UIExtenderEx-2.13.3\Bannerlord.UIExtenderEx.dll</BeUIExtenderExDll>
+  </PropertyGroup>
+
+  <ItemGroup Condition="Exists('$(BeUIExtenderExDll)')">
+    <CoodszPayload Include="$(BeUIExtenderExDll)" Payload="ServerAddOns" PayloadFolder="UIExtenderEx-2.13.3\" />
+  </ItemGroup>
+
+  <!-- UIExtenderEx is GPL 3.0, so its license and source texts ride next to the DLL in the same payload. -->
+  <ItemGroup>
+    <CoodszPayload Include="..\..\compat\BurningEmpiresCoopCompat\server-extra\UIExtenderEx-2.13.3\*.txt" Payload="ServerAddOns" PayloadFolder="UIExtenderEx-2.13.3\" />
+  </ItemGroup>
+
+  <Target Name="NoteMissingUIExtenderEx" BeforeTargets="Build" Condition="!Exists('$(BeUIExtenderExDll)')">
+    <Message Importance="high" Text="UIExtenderEx 2.13.3 is not in compat\BurningEmpiresCoopCompat\server-extra\UIExtenderEx-2.13.3, so ServerAddOns is built without it. See the README.txt in that folder." />
+  </Target>
+
+  <Import Project="..\CoodszPayload.targets" />
+
+  <!-- The shared window frame (sidebar, header, chips, banners): docs/design/redesign/build-plan.md 1.1. -->
+  <ItemGroup>
+    <Page Include="..\CoodszHost\Shared\Frame\*.xaml" Link="Shared\Frame\%(Filename)%(Extension)" />
+    <Compile Include="..\CoodszHost\Shared\Frame\*.cs" Link="Shared\Frame\%(Filename)%(Extension)" />
+  </ItemGroup>
+
+</Project>

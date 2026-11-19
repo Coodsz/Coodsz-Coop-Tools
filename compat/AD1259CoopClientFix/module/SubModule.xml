@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module>
+  <Name value="AD1259 - Coop Client Stability" />
+  <Id value="DedicatedServer.AD1259CoopClientFix" />
+  <Version value="v1.0.1" />
+  <DefaultModule value="false" />
+  <SingleplayerModule value="true" />
+  <MultiplayerModule value="false" />
+  <Official value="false" />
+  <DependedModules>
+    <DependedModule Id="Native" DependentVersion="v1.4.8" />
+    <DependedModule Id="Bannerlord.Harmony" />
+    <DependedModule Id="SandBoxCore" />
+    <DependedModule Id="Sandbox" />
+    <DependedModule Id="AD1259" DependentVersion="v1.4.6" />
+    <DependedModule Id="Coop" DependentVersion="v0.1.6" />
+  </DependedModules>
+  <SubModules>
+    <SubModule>
+      <Name value="AD1259 - Coop Client Stability" />
+      <DLLName value="AD1259CoopClientFix.dll" />
+      <SubModuleClassType value="AD1259CoopClientFix.ClientSubModule" />
+      <Tags />
+    </SubModule>
+  </SubModules>
+  <Xmls />
+</Module>

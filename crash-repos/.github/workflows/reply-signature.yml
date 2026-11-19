@@ -1,0 +1,53 @@
+# Turns Coodsz's /reply on a crash report into a crash signature candidate
+# (.github/scripts/reply-signature.mjs, docs/design/in-tool-replies.md Build order item 5).
+#
+# Copied to each private crash repository (Coodsz-Crash-Reports, Coodsz-TAOM-Crash-Reports,
+# Coodsz-AD1259-Crash-Reports, Coodsz-BurningEmpires-Crash-Reports, Coodsz-RealmOfThrones-Crash-Reports) with the two scripts it runs,
+# crash-repos/README.md in the launcher repository has the steps.
+#
+# It only runs for a new comment by Coodsz (the repository variable COODSZ_GITHUB_ID, his numeric
+# GitHub id) that has /reply in it; the script then reads the first line the same way the worker does
+# (any case, spaces before it). "/reply ... +nosig" skips it.
+#
+# The candidate goes into the job summary. A draft PR to compat-list/crash-signatures.json in
+# SIGNATURE_REPO (default Coodsz/Coodsz-Coop-and-Friends) needs all three: "+sig" on the reply, the
+# repository variable SIGNATURE_PRS = on and the secret SIGNATURE_PR_TOKEN. SIGNATURE_PRS stays off
+# until a security review has passed this step. This workflow's own token only reads this repository.
+
+name: Reply signature candidate
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions: {}
+
+jobs:
+  candidate:
+    # The id is compared as text, so an unset variable never matches. contains() ignores case like the script.
+    if: ${{ !github.event.issue.pull_request && vars.COODSZ_GITHUB_ID != '' && format('{0}', github.event.comment.user.id) == vars.COODSZ_GITHUB_ID && contains(github.event.comment.body, '/reply') }}
+    runs-on: ubuntu-latest
+    # When SIGNATURE_PR_TOKEN is an environment secret (with Coodsz as the required reviewer), uncomment
+    # this and use that environment's name; without it the job cannot see the secret.
+    # environment: signature-prs
+    permissions:
+      contents: read
+    concurrency:
+      group: reply-signature-${{ github.event.issue.number }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/scripts
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # The comment is read from the event file by the script, never pasted into this shell.
+      - name: Build the candidate, and open a draft PR only with +sig and SIGNATURE_PRS on
+        run: node .github/scripts/reply-signature.mjs
+        env:
+          COODSZ_GITHUB_ID: ${{ vars.COODSZ_GITHUB_ID }}
+          SIGNATURE_PRS: ${{ vars.SIGNATURE_PRS }}
+          SIGNATURE_REPO: ${{ vars.SIGNATURE_REPO }}
+          SIGNATURE_PR_TOKEN: ${{ secrets.SIGNATURE_PR_TOKEN }}

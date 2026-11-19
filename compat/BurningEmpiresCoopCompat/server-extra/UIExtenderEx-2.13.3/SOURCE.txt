@@ -1,0 +1,7 @@
+Bannerlord.UIExtenderEx 2.13.3 by BUTR, licensed under the GNU LGPL v3 (see LICENSE-UIExtenderEx.txt).
+Unchanged official build, taken from the GitHub release:
+https://github.com/BUTR/Bannerlord.UIExtenderEx/releases/tag/v2.13.3 (asset Bannerlord.UIExtenderEx.7z, file bin/Win64_Shipping_Client/Bannerlord.UIExtenderEx.dll)
+Source code: https://github.com/BUTR/Bannerlord.UIExtenderEx/tree/v2.13.3
+SHA256 4f2782840e51391d66b7d701962cb6202969d34c0949b8ec1591964f9c479f99, 269824 bytes.
+Burning Empires 2.0.2 is built against this exact version. The Coodsz Burning Empires Server Tool puts it only in
+Modules\BurningEmpires\bin\Win64_Shipping_Server on the dedicated server; the UIExtenderEx module itself stays as installed.

@@ -1,0 +1,161 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.0" />
+    <!-- protobuf-net as Coop ships it (3.2.56), for the settings sync messages' round trips. -->
+    <PackageReference Include="protobuf-net" Version="3.2.56" />
+    <!-- Harmony, to run the map check guard's finalizer bodies on patched stub methods in process. -->
+    <PackageReference Include="Lib.Harmony" Version="2.4.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="xunit" Version="2.5.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\src\CoodszHost\Services\ServerCrashExplain.cs" Link="ServerCrashExplain.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\PictureBuilder.cs" Link="PictureBuilder.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\LogLineFormatter.cs" Link="LogLineFormatter.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\HostProfile.cs" Link="HostProfile.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\ServerSession.cs" Link="ServerSession.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\SaveCatalog.cs" Link="SaveCatalog.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\DedicatedServerFinder.cs" Link="DedicatedServerFinder.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\CoopServerBin.cs" Link="CoopServerBin.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\DedicatedServerRepair.cs" Link="DedicatedServerRepair.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\JsoncEditor.cs" Link="JsoncEditor.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\CoopModuleChoice.cs" Link="CoopModuleChoice.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\ModuleCatalog.cs" Link="ModuleCatalog.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\SaveRescue.cs" Link="SaveRescue.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\ModuleDllClash.cs" Link="ModuleDllClash.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\McmCatalog.cs" Link="McmCatalog.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\ClientSync.cs" Link="ClientSync.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\ExtraModScan.cs" Link="ExtraModScan.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\HostLogZip.cs" Link="HostLogZip.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\ModuleRemoval.cs" Link="ModuleRemoval.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\ExtraBaseMap.cs" Link="ExtraBaseMap.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\MissingCampaignMap.cs" Link="MissingCampaignMap.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\MapModWarning.cs" Link="MapModWarning.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\HostStartScript.cs" Link="HostStartScript.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\ServerEula.cs" Link="ServerEula.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\RbmSwitches.cs" Link="RbmSwitches.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\RbmConfigFile.cs" Link="RbmConfigFile.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\Edition.cs" Link="Edition.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\AD1259Server.cs" Link="AD1259Server.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\ServerConfigFlags.cs" Link="ServerConfigFlags.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\CoodszServerTools.cs" Link="CoodszServerTools.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\ServerFileWatch.cs" Link="ServerFileWatch.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\ImprovedGarrisonsCompat.cs" Link="ImprovedGarrisonsCompat.cs" />
+    <Compile Include="..\..\compat\ImprovedGarrisonsCoopCompat\OwnerRules.cs" Link="IGCompatOwnerRules.cs" />
+    <!-- The Improved Garrisons party size hand back's decision, which needs no game DLL. -->
+    <Compile Include="..\..\compat\ImprovedGarrisonsCoopCompat\PartySizeHandBackRules.cs" Link="IGPartySizeHandBackRules.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\HostModTest.cs" Link="HostModTest.cs" />
+    <!-- The Coodsz Server Tools module's clan cap rule, which needs no game DLL. -->
+    <Compile Include="..\..\compat\CoodszServerTools\src\ClanCapRules.cs" Link="ClanCapRules.cs" />
+    <!-- Its server rules (coop.unstuck for players, offline XP freeze), which need no game DLL either. -->
+    <Compile Include="..\..\compat\CoodszServerTools\src\ServerRulesRules.cs" Link="ServerRulesRules.cs" />
+    <!-- And its PvP rules (block leaving, the response timer), which need no game DLL or Coop. -->
+    <Compile Include="..\..\compat\CoodszServerTools\src\PvpRulesRules.cs" Link="PvpRulesRules.cs" />
+    <!-- And which My Little Warband recruit cart entries it maps, which needs no game DLL or Coop. -->
+    <Compile Include="..\..\compat\CoodszServerTools\src\MlwRecruitRules.cs" Link="MlwRecruitRules.cs" />
+    <!-- Settings sync: the engine free rules, MCM access, probe and server files. The value lines (SettingsWire.cs) come
+         compiled in TaomCoop.Core, which the mod settings page counts with. -->
+    <Compile Include="..\..\compat\CoodszSettingsSync\src\Shared\McmSettings.cs" Link="SettingsSync\McmSettings.cs" />
+    <Compile Include="..\..\compat\CoodszSettingsSync\src\Shared\CoopProbe.cs" Link="SettingsSync\CoopProbe.cs" />
+    <Compile Include="..\..\compat\CoodszSettingsSync\src\Shared\WarOfTheRingSync.cs" Link="SettingsSync\WarOfTheRingSync.cs" />
+    <Compile Include="..\..\compat\CoodszWarSync\src\WarSyncRules.cs" Link="SettingsSync\WarSyncRules.cs" />
+    <Compile Include="..\..\compat\CoodszSettingsSync\src\Server\SettingsFiles.cs" Link="SettingsSync\SettingsFiles.cs" />
+    <Compile Include="..\..\compat\CoodszSettingsSync\src\Server\LiveChannel.cs" Link="SettingsSync\LiveChannel.cs" />
+    <Compile Include="..\..\compat\CoodszSettingsSync\src\Server\RequestGate.cs" Link="SettingsSync\RequestGate.cs" />
+    <Compile Include="..\..\compat\CoodszSettingsSync\src\Server\SentLedger.cs" Link="SettingsSync\SentLedger.cs" />
+    <!-- The PvP countdown: its message types (real protobuf round trips, with stand ins for Coop's two message
+         interfaces), its limits, and the client's text table and clock. -->
+    <Compile Include="..\..\compat\CoodszSettingsSync\src\Shared\SettingsSyncMessages.cs" Link="SettingsSync\SettingsSyncMessages.cs" />
+    <Compile Include="..\..\compat\CoodszSettingsSync\src\Shared\PvpCountdownWire.cs" Link="SettingsSync\PvpCountdownWire.cs" />
+    <Compile Include="..\..\compat\CoodszSettingsSync\src\Client\PvpCountdownRules.cs" Link="SettingsSync\PvpCountdownRules.cs" />
+    <!-- The held note: once per mod per session, in the game's language. -->
+    <Compile Include="..\..\compat\CoodszSettingsSync\src\Client\HeldNotes.cs" Link="SettingsSync\HeldNotes.cs" />
+    <Compile Include="..\..\compat\CoodszSettingsSync\src\Server\PvpCountdownRecipients.cs" Link="SettingsSync\PvpCountdownRecipients.cs" />
+    <!-- Coodsz.CoopLink: its channel registry, queue, handshake state, limits, wire id rule and probe, and its two
+         wire types over the stand ins for Coop's message interfaces. -->
+    <Compile Include="..\..\compat\CoodszCoopLink\src\LinkCore.cs" Link="CoopLink\LinkCore.cs" />
+    <Compile Include="..\..\compat\CoodszCoopLink\src\LinkProbe.cs" Link="CoopLink\LinkProbe.cs" />
+    <Compile Include="..\..\compat\CoodszCoopLink\src\LinkWire.cs" Link="CoopLink\LinkWire.cs" />
+    <!-- The Join Password module's TAOM enlist guard: its ids, hint and on/off rule. -->
+    <Compile Include="..\..\compat\CoodszJoinPassword\src\TaomEnlistGuardRules.cs" Link="TaomEnlistGuardRules.cs" />
+    <!-- Its map check guard: the on/off rule, the exception filter and the log lines. -->
+    <Compile Include="..\..\compat\CoodszJoinPassword\src\MapCheckGuardRules.cs" Link="MapCheckGuardRules.cs" />
+    <!-- BurningEmpires.CoopCompat: which save is the dedicated server's untouched template copy,
+         which settlement distance cache the server reads, the town a clan with a missing home
+         gets, which path queries skip the engine and how far the server's map borders widen. -->
+    <Compile Include="..\..\compat\BurningEmpiresCoopCompat\Server\FreshCampaignRules.cs" Link="BurningEmpires\FreshCampaignRules.cs" />
+    <Compile Include="..\..\compat\BurningEmpiresCoopCompat\Server\DistanceCacheRules.cs" Link="BurningEmpires\DistanceCacheRules.cs" />
+    <Compile Include="..\..\compat\BurningEmpiresCoopCompat\Server\ClanHomeRules.cs" Link="BurningEmpires\ClanHomeRules.cs" />
+    <Compile Include="..\..\compat\BurningEmpiresCoopCompat\Server\PathQueryRules.cs" Link="BurningEmpires\PathQueryRules.cs" />
+    <Compile Include="..\..\compat\BurningEmpiresCoopCompat\Server\MapBoundsRules.cs" Link="BurningEmpires\MapBoundsRules.cs" />
+    <Compile Include="..\..\compat\BurningEmpiresCoopCompat\Server\CrashTraceRules.cs" Link="BurningEmpires\CrashTraceRules.cs" />
+    <Compile Include="..\..\compat\BurningEmpiresCoopCompat\Recruitment\VolunteerSlotRules.cs" Link="BurningEmpires\VolunteerSlotRules.cs" />
+    <Compile Include="..\..\compat\BurningEmpiresCoopCompat\Tournaments\TournamentElephantRules.cs" Link="BurningEmpires\TournamentElephantRules.cs" />
+    <Compile Include="..\..\compat\BurningEmpiresCoopCompat\CompatLogFile.cs" Link="BurningEmpires\CompatLogFile.cs" />
+    <!-- RealmOfThrones.CoopCompat: when it runs and its start line, the map data file and staged map
+         checks, the shape based rewrite of the server's map calls and the crash trace's log rules. -->
+    <Compile Include="..\..\compat\RealmOfThronesCoopCompat\RotRules.cs" Link="RealmOfThrones\RotRules.cs" />
+    <Compile Include="..\..\compat\RealmOfThronesCoopCompat\Server\RotHostRules.cs" Link="RealmOfThrones\RotHostRules.cs" />
+    <Compile Include="..\..\compat\RealmOfThronesCoopCompat\Server\RotHostTables.cs" Link="RealmOfThrones\RotHostTables.cs" />
+    <Compile Include="..\..\compat\RealmOfThronesCoopCompat\Server\RotGuardsRules.cs" Link="RealmOfThrones\RotGuardsRules.cs" />
+    <Compile Include="..\..\compat\RealmOfThronesCoopCompat\Server\RotStoryRules.cs" Link="RealmOfThrones\RotStoryRules.cs" />
+    <Compile Include="..\..\compat\RealmOfThronesCoopCompat\Server\MapData.cs" Link="RealmOfThrones\MapData.cs" />
+    <Compile Include="..\..\compat\RealmOfThronesCoopCompat\Server\MapRedirectRules.cs" Link="RealmOfThrones\MapRedirectRules.cs" />
+    <Compile Include="..\..\compat\RealmOfThronesCoopCompat\Server\CrashTraceRules.cs" Link="RealmOfThrones\CrashTraceRules.cs" />
+    <Compile Include="..\..\compat\RealmOfThronesCoopCompat\Server\CacheIds.cs" Link="RealmOfThrones\CacheIds.cs" />
+    <Compile Include="..\..\compat\RealmOfThronesCoopCompat\HarmonyLocator.cs" Link="RealmOfThrones\HarmonyLocator.cs" />
+    <Compile Include="..\..\compat\RealmOfThronesCoopCompat\Server\FreshCampaignRules.cs" Link="RealmOfThrones\FreshCampaignRules.cs" />
+    <Compile Include="..\..\compat\RealmOfThronesCoopCompat\Server\PathQueryRules.cs" Link="RealmOfThrones\PathQueryRules.cs" />
+    <Compile Include="..\..\compat\RealmOfThronesCoopCompat\Server\NavalVillageRules.cs" Link="RealmOfThrones\NavalVillageRules.cs" />
+    <Compile Include="..\..\compat\RealmOfThronesCoopCompat\JoinRules.cs" Link="RealmOfThrones\JoinRules.cs" />
+    <Compile Include="..\..\compat\RealmOfThronesCoopCompat\Client\ClientRules.cs" Link="RealmOfThrones\ClientRules.cs" />
+    <Compile Include="..\..\compat\RealmOfThronesCoopCompat\PackageDepthRules.cs" Link="RealmOfThrones\PackageDepthRules.cs" />
+    <Compile Include="..\..\compat\RealmOfThronesCoopCompat\Settings\SettingsRules.cs" Link="RealmOfThrones\SettingsRules.cs" />
+    <!-- RealmOfThrones.CoopCompat: the server's join patch, run with Harmony on a stand in for Coop's watchdog. -->
+    <Compile Include="..\..\compat\RealmOfThronesCoopCompat\Server\JoinWaitPatch.cs" Link="RealmOfThrones\JoinWaitPatch.cs" />
+    <!-- RealmOfThrones.CoopCompat: its end of the shared Coop link (start up steps, protocol, the drift
+         digest, the world value entries with their split, the story popup rules) and the reflection calls into it. -->
+    <Compile Include="..\..\compat\RealmOfThronesCoopCompat\Link\RotLinkRules.cs" Link="RealmOfThrones\RotLinkRules.cs" />
+    <Compile Include="..\..\compat\RealmOfThronesCoopCompat\Link\RotSyncRules.cs" Link="RealmOfThrones\RotSyncRules.cs" />
+    <Compile Include="..\..\compat\RealmOfThronesCoopCompat\Link\RotPopupRules.cs" Link="RealmOfThrones\RotPopupRules.cs" />
+    <Compile Include="..\..\compat\RealmOfThronesCoopCompat\Link\RotLinkCalls.cs" Link="RealmOfThrones\RotLinkCalls.cs" />
+    <!-- BurningEmpires.CoopCompat: how the server marks its own copy of the world data in a save. -->
+    <Compile Include="..\..\compat\BurningEmpiresCoopCompat\Persistence\WorldDataRules.cs" Link="BurningEmpires\WorldDataRules.cs" />
+    <!-- BurningEmpires.CoopCompat: the line for the save list check that every server start fails. -->
+    <Compile Include="..\..\compat\BurningEmpiresCoopCompat\Persistence\SaveSafetyRules.cs" Link="BurningEmpires\SaveSafetyRules.cs" />
+    <!-- The player text the Burning Empires server tool and client share (no WPF in it). -->
+    <Compile Include="..\..\src\BurningEmpiresHost\BeUiText.cs" Link="BurningEmpires\BeUiText.cs" />
+    <!-- The player text the Realm of Thrones server tool shares with its client (no WPF in it). -->
+    <Compile Include="..\..\src\RealmOfThronesHost\RotUiText.cs" Link="RealmOfThrones\RotUiText.cs" />
+    <!-- The window frame's colour tables and banner rule, which need no WPF (docs/design/redesign/build-plan.md 1.2). -->
+    <Compile Include="..\..\src\CoodszHost\Shared\Frame\FrameRules.cs" Link="FrameRules.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\McmKeepOwn.cs" Link="McmKeepOwn.cs" />
+    <Compile Include="..\..\src\CoodszHost\Services\ModSettingsLive.cs" Link="ModSettingsLive.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\BannerlordCoopLauncher.Core\BannerlordCoopLauncher.Core.csproj" />
+    <ProjectReference Include="..\..\src\TaomCoop.Core\TaomCoop.Core.csproj" />
+    <ProjectReference Include="..\..\src\BurningEmpires.Core\BurningEmpires.Core.csproj" />
+    <ProjectReference Include="..\..\src\RealmOfThrones.Core\RealmOfThrones.Core.csproj" />
+    <!-- The reader process the crash stack tests start (DumpStackSummary.ReadInChild). -->
+    <ProjectReference Include="..\DumpSummaryHelper\DumpSummaryHelper.csproj" />
+  </ItemGroup>
+
+</Project>

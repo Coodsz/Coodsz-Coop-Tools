@@ -1,0 +1,15 @@
+# LICENSE is attached (as LICENSE.txt) to the TAOM release byte for byte, and tools/release-assets.json pins its SHA256.
+# Keep git from changing its line endings on checkout.
+LICENSE -text
+
+# The tally writes these MODS.md pages with LF and its test compares them byte for byte.
+# Keep the Windows runner from checking them out with CRLF.
+ad1259-compat/MODS.md text eol=lf
+be-compat/MODS.md text eol=lf
+rot-compat/MODS.md text eol=lf
+taom-compat/MODS.md text eol=lf
+
+# The Realm of Thrones Coop Compat DLL carries the SHA256 of each source file and a test compares them.
+# Keep git from changing their line endings on checkout.
+compat/RealmOfThronesCoopCompat/**/*.cs -text
+compat/CoodszCoopLink/src/*.cs -text

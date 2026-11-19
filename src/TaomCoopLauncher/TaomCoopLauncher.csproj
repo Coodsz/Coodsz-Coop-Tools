@@ -1,0 +1,77 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>Coodsz TAOM Client Launcher</AssemblyName>
+    <Product>Coodsz TAOM Client Launcher</Product>
+    <AssemblyTitle>Coodsz TAOM Client Launcher</AssemblyTitle>
+    <Description>Coodsz TAOM Client Launcher: sets up TAOM Coop and joins a server</Description>
+    <ApplicationIcon>..\..\assets\icons\coodsz-taom-client.ico</ApplicationIcon>
+    <Version>1.2.16</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TaomCoop.Core\TaomCoop.Core.csproj" />
+    <ProjectReference Include="..\BannerlordCoopLauncher.Core\BannerlordCoopLauncher.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Coodsz Join Password: sends the password on the first auto-connect without editing Coop.Core.dll
+         (TAOM.CoopCompat needs the released file); see compat\CoodszJoinPassword. -->
+    <!-- Embedded in the exe and written out on first use (CoodszPayload.targets, ToolPayload). -->
+    <CoodszPayload Include="..\..\compat\CoodszJoinPassword\module\**\*" Payload="ClientAddOns" PayloadFolder="DedicatedServer.CoodszJoinPassword\" />
+  </ItemGroup>
+
+  <!-- The TAOM plus mods with no Workshop item (TaomPlus.BundledIds). Make-Release.ps1 passes the folder
+       that holds exactly those; a build without it has no bundled mods. -->
+  <ItemGroup Condition="'$(CoodszBundledMods)' != ''">
+    <CoodszPayload Include="$([MSBuild]::EnsureTrailingSlash('$(CoodszBundledMods)'))**\*" Payload="BundledMods" />
+  </ItemGroup>
+
+  <!-- The TAOM-Coop CompatOnly CLIENT zip this exe carries (TaomStack.ClientKitName and ClientKitSha256). -->
+  <PropertyGroup>
+    <CoodszTaomCompatName>TAOM-Coop-v0.3.25-CompatOnly-CLIENT-PLAYTEST-1675bea7-a2ac41c2-r2.zip</CoodszTaomCompatName>
+    <CoodszTaomCompatSha256>621EC05F1439C9D236E4DC7CC2BA2712E96B810DDD15AD70E7726B8812ED42EC</CoodszTaomCompatSha256>
+  </PropertyGroup>
+
+  <Import Project="..\TaomCompatZip.targets" />
+  <Import Project="..\CoodszPayload.targets" />
+
+  <ItemGroup>
+    <!-- The dwarven gate behind the pages, the same picture as the TAOM Server Tool (Backdrop.Apply in App.xaml.cs). -->
+    <Resource Include="..\TaomCoopHost\Assets\redesign-backdrop-taom.jpg" Link="Assets\redesign-backdrop-taom.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\BannerlordCoopLauncher\UiLanguage.cs" Link="UiLanguage.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\GameAlreadyOpen.cs" Link="GameAlreadyOpen.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\WindowPlacement.cs" Link="WindowPlacement.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\NewBadges.cs" Link="NewBadges.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\JoinGuideWindow.cs" Link="JoinGuideWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\AntivirusWindow.cs" Link="AntivirusWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\JoinCheckWindow.cs" Link="JoinCheckWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\ModReportWindow.cs" Link="ModReportWindow.cs" />
+    <!-- The Connect prompt when the server needs mods this PC does not have turned on. -->
+    <Compile Include="..\BannerlordCoopLauncher\ServerModsWindow.cs" Link="ServerModsWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\CrashReportWindow.cs" Link="CrashReportWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\ReportReplyWindow.cs" Link="ReportReplyWindow.cs" />
+    <!-- Add mods uses the same picker as Coodsz Coop and Friends. -->
+    <Compile Include="..\BannerlordCoopLauncher\CustomModWindow.cs" Link="CustomModWindow.cs" />
+    <!-- The Guides page, the same one as in the TAOM server tool. -->
+    <Compile Include="..\TaomCoopHost\TaomGuidesPage.cs" Link="TaomGuidesPage.cs" />
+  </ItemGroup>
+
+  <!-- The shared window frame (sidebar, header, chips, banners) and the Keep look it uses: docs/design/redesign/build-plan.md 1.1. -->
+  <!-- App.xaml merges the two Keep files (redesign wave 7). -->
+  <ItemGroup>
+    <Page Include="..\CoodszHost\Keep\KeepColors.xaml" Link="Keep\KeepColors.xaml" />
+    <Page Include="..\CoodszHost\Keep\KeepTheme.xaml" Link="Keep\KeepTheme.xaml" />
+    <Page Include="..\CoodszHost\Shared\Frame\*.xaml" Link="Shared\Frame\%(Filename)%(Extension)" />
+    <Compile Include="..\CoodszHost\Shared\Frame\*.cs" Link="Shared\Frame\%(Filename)%(Extension)" />
+  </ItemGroup>
+
+</Project>

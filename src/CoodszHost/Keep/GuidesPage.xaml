@@ -1,0 +1,105 @@
+<UserControl x:Class="CoodszHost.Keep.GuidesPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Foreground="{StaticResource Keep.TextMain}" FontFamily="Segoe UI">
+    <!--
+        Guides: built in help for hosting with Coodsz Coop Server Tool (Core\Keep\Guides\*.json). The list of
+        guides with a search on the left, the picked guide's steps on the right.
+    -->
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="Visible"/>
+        <Style TargetType="ScrollBar" BasedOn="{StaticResource Keep.ScrollBar}"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Style="{StaticResource Keep.Panel}" Margin="0,0,0,14">
+            <TextBlock Text="Short help for hosting with Coodsz Coop Server Tool. Pick a guide." Style="{StaticResource Keep.Dim}"/>
+        </Border>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="14"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Guides -->
+            <Border Style="{StaticResource Keep.Card}" Padding="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBox x:Name="SearchBox" Style="{StaticResource Keep.Text}" TextChanged="Search_Changed" Margin="0,0,0,8"/>
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <ItemsControl x:Name="GuideList" Tag="coodsz:no-translate">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <RadioButton Style="{StaticResource Keep.Side}" GroupName="Guide" IsChecked="{Binding IsPicked, Mode=OneWay}" Checked="Guide_Checked" ToolTip="Opens this guide." Margin="0,0,0,2">
+                                            <StackPanel Margin="0,2">
+                                                <TextBlock Text="{Binding Title}" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                                                <TextBlock Text="{Binding Summary}" Foreground="{StaticResource Keep.TextDim}" FontSize="11.5" TextWrapping="Wrap" Margin="0,2,0,0"/>
+                                            </StackPanel>
+                                        </RadioButton>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <TextBlock x:Name="NothingText" Text="No guide has that word." Style="{StaticResource Keep.Dim}" Margin="10,6" Visibility="Collapsed"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <!-- The guide -->
+            <Border Grid.Column="2" Style="{StaticResource Keep.Card}" Padding="0" ClipToBounds="True">
+                <ScrollViewer x:Name="GuideScroll" VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="GuideView" Margin="26,20" Tag="coodsz:no-translate">
+                        <TextBlock Text="{Binding Title}" Style="{StaticResource Keep.H1}" TextWrapping="Wrap"/>
+                        <TextBlock Text="{Binding Summary}" Style="{StaticResource Keep.Dim}" TextWrapping="Wrap" Margin="0,4,0,8"/>
+                        <ItemsControl ItemsSource="{Binding Sections}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="0,12,0,0">
+                                        <TextBlock Text="{Binding Heading}" Style="{StaticResource Keep.H2}" FontSize="16" Margin="0,0,0,8"/>
+                                        <ItemsControl ItemsSource="{Binding Steps}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid Margin="0,0,0,8">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Border Width="22" Height="22" CornerRadius="2" Background="{StaticResource Keep.AccentSoft}" BorderBrush="{StaticResource Keep.Accent}" BorderThickness="1" Margin="0,0,10,0" VerticalAlignment="Top">
+                                                            <TextBlock Text="{Binding Number}" FontSize="11.5" FontWeight="SemiBold" Foreground="{StaticResource Keep.AccentHover}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        </Border>
+                                                        <TextBlock Grid.Column="1" Text="{Binding Text}" TextWrapping="Wrap" FontSize="13.5" LineHeight="20" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <Border Style="{StaticResource Keep.Note}" Margin="0,2,0,0" Visibility="{Binding HasTip, Converter={StaticResource Visible}}">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Path Data="{StaticResource Keep.IconInfo}" Stroke="{StaticResource Keep.Accent}" StrokeThickness="1.4" Width="16" Height="16" Margin="0,0,10,0" VerticalAlignment="Top"/>
+                                                <TextBlock Grid.Column="1" Text="{Binding Tip}" TextWrapping="Wrap"/>
+                                            </Grid>
+                                        </Border>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

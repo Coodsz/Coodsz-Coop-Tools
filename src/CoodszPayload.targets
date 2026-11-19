@@ -1,0 +1,40 @@
+<Project>
+
+  <!--
+    Folders a tool used to ship beside its exe, embedded instead: one zip resource per payload, named
+    Coodsz.Payload.<Payload>.zip. ToolPayload.Folder writes it out on first use. An item needs a
+    Payload metadata (the old folder name); its path inside the payload is
+    %(PayloadFolder)%(RecursiveDir)%(Filename)%(Extension), with PayloadFolder optional.
+    The folders are set inside the targets, because IntermediateOutputPath is only known after this file is read.
+    The zips are made again on every build: a skipped step once kept a payload from an older build.
+  -->
+  <Target Name="CoodszPayloadPaths">
+    <PropertyGroup>
+      <CoodszPayloadStage>$([System.IO.Path]::Combine($(MSBuildProjectDirectory), $(IntermediateOutputPath), 'payload\'))</CoodszPayloadStage>
+      <CoodszPayloadZips>$([System.IO.Path]::Combine($(MSBuildProjectDirectory), $(IntermediateOutputPath), 'payload-zips\'))</CoodszPayloadZips>
+    </PropertyGroup>
+  </Target>
+
+  <Target Name="CoodszZipPayloads"
+          DependsOnTargets="CoodszPayloadPaths"
+          Condition="'@(CoodszPayload)' != ''">
+    <ItemGroup>
+      <_CoodszPayloadName Include="%(CoodszPayload.Payload)" />
+    </ItemGroup>
+    <RemoveDir Directories="$(CoodszPayloadStage);$(CoodszPayloadZips)" />
+    <Copy SourceFiles="@(CoodszPayload)" DestinationFiles="@(CoodszPayload->'$(CoodszPayloadStage)%(Payload)\%(PayloadFolder)%(RecursiveDir)%(Filename)%(Extension)')" />
+    <MakeDir Directories="$(CoodszPayloadZips)" />
+    <ZipDirectory SourceDirectory="$(CoodszPayloadStage)%(_CoodszPayloadName.Identity)" DestinationFile="$(CoodszPayloadZips)%(_CoodszPayloadName.Identity).zip" Overwrite="true" />
+    <!-- Make-Release.ps1 asks for a copy of each zip to check it against the sources and the built exe. -->
+    <Copy SourceFiles="@(_CoodszPayloadName->'$(CoodszPayloadZips)%(Identity).zip')" DestinationFolder="$(CoodszPayloadCopyTo)" Condition="'$(CoodszPayloadCopyTo)' != ''" />
+  </Target>
+
+  <Target Name="CoodszEmbedPayloads" DependsOnTargets="CoodszPayloadPaths;CoodszZipPayloads" BeforeTargets="PrepareResourceNames" Condition="'@(CoodszPayload)' != ''">
+    <ItemGroup>
+      <_CoodszPayloadName Remove="@(_CoodszPayloadName)" />
+      <_CoodszPayloadName Include="%(CoodszPayload.Payload)" />
+      <EmbeddedResource Include="@(_CoodszPayloadName->'$(CoodszPayloadZips)%(Identity).zip')" LogicalName="Coodsz.Payload.%(_CoodszPayloadName.Identity).zip" WithCulture="false" Type="Non-Resx" />
+    </ItemGroup>
+  </Target>
+
+</Project>

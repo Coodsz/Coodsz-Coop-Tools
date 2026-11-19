@@ -1,0 +1,28 @@
+[h1]Realm of Thrones Coop Compat[/h1]
+
+Lets you play [b]Realm of Thrones[/b] in [b]Bannerlord Coop[/b]. Made for Realm of Thrones 8.1.2 (modules 8.1.8, ROT_Map 8.1.8.2) on Bannerlord 1.4.8 with War Sails.
+
+The server runs the Realm of Thrones campaign, its story events and its rules, and every player sees the same world. When a story event asks a question, like a siege, every player gets it with a timer and the first answer decides. Single player is not changed.
+
+[h2]Who needs it[/h2]
+The server and every player, with the same module list and versions. Load it last, after ROT-Dragon.
+You also need Realm of Thrones from Nexus Mods, Harmony, ButterLib and UIExtenderEx from the Workshop, MCM from Nexus Mods and the War Sails DLC.
+
+[h2]The Coop build[/h2]
+Realm of Thrones runs on its own build of Coop (0.1.8+01846e13), not the Coop from this Workshop. The host and every player need that exact build. The Coodsz Realm of Thrones tools carry it and put it in place for you. The host keeps the Workshop Coop subscribed, because the Server Tool builds the server from it.
+
+[h2]Easiest setup[/h2]
+Use the Coodsz Realm of Thrones tools from [url=https://github.com/Coodsz/Coodsz-RealmOfThrones/releases/latest]github.com/Coodsz/Coodsz-RealmOfThrones/releases/latest[/url]. The Client Launcher sets up your game and joins. The Server Tool makes the server map, runs the dedicated server, and has the host rules and settings sync.
+
+[h2]Known issues[/h2]
+[list]
+[*]Sieges are still being tested.
+[*]A player's first join prepares the Realm of Thrones map for several minutes. The game can look frozen. Wait for it.
+[*]In a Coop game the White Walker start is not offered in character creation.
+[*]Enlisting in a lord's party, changing the storyline wars and sending ravens are off in Coop. The game says so when you try.
+[*]A few details, like militia sizes, can show the old state on a player's PC.
+[/list]
+
+[h2]Credits[/h2]
+Bannerlord Coop is made by the Bannerlord Coop team.
+This module is made by Coodsz.

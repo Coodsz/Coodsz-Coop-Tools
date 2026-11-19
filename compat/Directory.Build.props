@@ -1,0 +1,16 @@
+<Project>
+
+  <!--
+    Every compat module built with dotnet build (the csproj ones; the build.ps1 csc builds and Build.sh write no PDB).
+    No PDB and no debug directory, so a shipped DLL never carries the path of the folder it was built in, which
+    holds the Windows user name. Deterministic, so the same source gives the same bytes.
+  -->
+  <PropertyGroup>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <Deterministic>true</Deterministic>
+    <!-- No "+commit" in the version, like src\Directory.Build.props, so a DLL does not carry the build's commit. -->
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+  </PropertyGroup>
+
+</Project>

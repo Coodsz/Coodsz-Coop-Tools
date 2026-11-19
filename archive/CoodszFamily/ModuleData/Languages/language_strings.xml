@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<strings>
+  <string id="coop_marriage_open" text="[COOP Family] Let us talk about matters of the heart." />
+  <string id="coop_marriage_open_spouse" text="Can we talk for a while, my love?" />
+  <string id="coop_marriage_flirt" text="Flirt" />
+  <string id="coop_marriage_flirt_reply" text="If your intentions are serious, prove yourself: win {TOURNAMENT_WINS_REQUIRED} tournaments and gain {RENOWN_REQUIRED} renown. Then return to me." />
+  <string id="coop_marriage_challenge_status" text="How far have I come in proving myself?" />
+  <string id="coop_marriage_challenge_status_reply" text="You have won {TOURNAMENT_WINS_CURRENT}/{TOURNAMENT_WINS_REQUIRED} tournaments and gained {RENOWN_CURRENT}/{RENOWN_REQUIRED} renown." />
+  <string id="coop_marriage_propose" text="Will you marry me?" />
+  <string id="coop_marriage_yes" text="Yes. I will gladly share my life with you." />
+  <string id="coop_marriage_no" text="No. I am not ready for that yet." />
+  <string id="coop_marriage_status" text="Let us talk about our family." />
+  <string id="coop_marriage_feelings" text="How do you feel about us?" />
+  <string id="coop_marriage_affection" text="Having you beside me gives me strength." />
+  <string id="coop_marriage_supply" text="Our army needs food. Can you obtain supplies for 1,000 denars?" />
+  <string id="coop_marriage_supply_reply" text="Of course. I will find fair merchants and return with the supplies in two days." />
+  <string id="coop_marriage_eligibility" text="Let us consider where our relationship stands." />
+  <string id="coop_marriage_leave" text="Let us speak of something else." />
+  <string id="coop_marriage_greeting_courtship" text="I am listening. Tell me what is in your heart." />
+  <string id="coop_marriage_greeting_pregnant" text="I am glad you came, my love. The baby and I are well; seeing you has done us both good." />
+  <string id="coop_marriage_greeting_together" text="However hard the road becomes, I feel at home when I am beside you, my love." />
+  <string id="coop_marriage_greeting_devoted" text="At last, a moment alone. I have missed you, my love." />
+  <string id="coop_marriage_greeting_warm" text="It is good to see you. Come, stay with me a while." />
+  <string id="coop_marriage_greeting_calm" text="You are here. Let us talk; the bond between us matters to me." />
+  <string id="coop_marriage_greeting_strained" text="We should talk. The silence between us weighs more than any battlefield." />
+  <string id="coop_marriage_feelings_devoted" text="You are more than my spouse; you are the one to whom I have entrusted my life. Wherever we may be, you are my home." />
+  <string id="coop_marriage_feelings_loving" text="I love you. Campaigns and politics may weary us, but the life we are building together is worth everything to me." />
+  <string id="coop_marriage_feelings_steady" text="We are still learning one another. Do not expect perfection from me, but never doubt my loyalty." />
+  <string id="coop_marriage_feelings_hurt" text="I still care for you, or I would not be this hurt. Treat me as your life companion, not as someone under your command." />
+  <string id="coop_marriage_affection_devoted" text="Then let me remain beside you. Not your crown, your army, or your glory, but moments like this keep my heart." />
+  <string id="coop_marriage_affection_warm" text="I needed to hear that. You need not carry every burden alone; there are two of us now." />
+  <string id="coop_marriage_affection_cautious" text="Those are fine words. Show them in your deeds, and perhaps we can heal the wound between us together." />
+  <string id="coop_marriage_eligibility_disabled" text="The marriage system is disabled in MCM." />
+  <string id="coop_marriage_eligibility_instant" text="Developer test mode is active: you may propose immediately." />
+  <string id="coop_marriage_eligibility_low" text="Our relation is not yet high enough to flirt: {CURRENT}/{REQUIRED}." />
+  <string id="coop_marriage_eligibility_ready" text="We are ready to flirt. Relation: {CURRENT}." />
+  <string id="coop_marriage_family_status" text="Your spouses ({COUNT}/{MAXIMUM}): {NAMES}" />
+  <string id="coop_marriage_notice_loaded" text="Marriage and family conversations are ready." />
+  <string id="coop_marriage_notice_flirt_started" text="You and {LADY} have begun courting." />
+  <string id="coop_marriage_notice_married" text="{SPOUSE} is now your spouse. Spouses: {COUNT}/{MAXIMUM}." />
+  <string id="coop_marriage_notice_failed" text="The marriage could not be completed. The error was logged and the conversation was closed safely." />
+  <string id="coop_marriage_notice_rejected" text="Your marriage proposal was declined." />
+  <string id="coop_marriage_notice_challenge_progress" text="You have completed {PERCENT}% of your courtship challenge for {LADY}." />
+  <string id="coop_marriage_notice_challenge_complete" text="Your courtship challenge for {LADY} is complete. You may now propose marriage." />
+  <string id="coop_marriage_reason_invalid" text="Invalid marriage candidate." />
+  <string id="coop_marriage_reason_living_lady" text="The candidate must be a living lady." />
+  <string id="coop_marriage_reason_underage" text="The candidate is not an adult." />
+  <string id="coop_marriage_reason_noble" text="The candidate must be a noble lady." />
+  <string id="coop_marriage_reason_already_yours" text="This lady is already your spouse." />
+  <string id="coop_marriage_reason_already_married" text="This lady is already married." />
+  <string id="coop_marriage_reason_limit" text="You have reached the MCM spouse limit." />
+  <string id="coop_marriage_your_spouse" text="Your spouse" />
+  <string id="coop_marriage_notice_supply_return" text="{SPOUSE} returned from the supply task with {GRAIN} grain and {MEAT} meat." />
+  <string id="coop_marriage_notice_pregnant" text="{MOTHER} is pregnant." />
+  <string id="coop_marriage_notice_birth" text="{MOTHER} has given birth to {CHILD}." />
+  <string id="coop_marriage_notice_world_marriage" text="{PERSON1} and {PERSON2} are now married." />
+  <string id="coop_marriage_mcm_title" text="COOP Family" />
+  <string id="coop_marriage_mcm_group_marriage" text="Marriage" />
+  <string id="coop_marriage_mcm_enabled" text="Enable courtship dialogue" />
+  <string id="coop_marriage_mcm_enabled_hint" text="Enables the courtship, proposal and spouse dialogue options in Coop." />
+  <string id="coop_marriage_mcm_max_spouses" text="Maximum spouses" />
+  <string id="coop_marriage_mcm_max_spouses_hint" text="Maximum number of wives for each player hero." />
+  <string id="coop_marriage_mcm_min_flirt" text="Minimum flirt relation" />
+  <string id="coop_marriage_mcm_min_flirt_hint" text="Minimum relation required before the flirt option appears." />
+  <string id="coop_marriage_mcm_min_marriage" text="Minimum marriage relation" />
+  <string id="coop_marriage_mcm_min_marriage_hint" text="Minimum relation required for a proposal." />
+  <string id="coop_marriage_mcm_flirt_gain" text="Base compliment relation gain" />
+  <string id="coop_marriage_mcm_flirt_gain_hint" text="Base relation gained after a successful compliment; tournament victories add 2 each, up to 15 total." />
+  <string id="coop_marriage_mcm_acceptance" text="Proposal acceptance chance" />
+  <string id="coop_marriage_mcm_acceptance_hint" text="Base percentage chance that an eligible lady accepts. Relation above the minimum improves it." />
+  <string id="coop_marriage_mcm_require_noble" text="Require adult noble lady" />
+  <string id="coop_marriage_mcm_require_noble_hint" text="Requires a living, adult, female noble who has no vanilla or custom spouse." />
+  <string id="coop_marriage_mcm_group_challenge" text="Courtship challenge" />
+  <string id="coop_marriage_mcm_tournaments" text="Tournament wins required" />
+  <string id="coop_marriage_mcm_tournaments_hint" text="Tournament victories the player-lord must earn after flirting with a lady. Minimum is 2." />
+  <string id="coop_marriage_mcm_renown" text="Renown required" />
+  <string id="coop_marriage_mcm_renown_hint" text="New renown the player-lord must earn after flirting with a lady." />
+  <string id="coop_marriage_mcm_group_pregnancy" text="Pregnancy &amp; Birth" />
+  <string id="coop_marriage_mcm_pregnancies" text="Enable pregnancies" />
+  <string id="coop_marriage_mcm_pregnancies_hint" text="Runs the standalone server-authoritative pregnancy and birth system." />
+  <string id="coop_marriage_mcm_daily_chance" text="Daily pregnancy chance" />
+  <string id="coop_marriage_mcm_daily_chance_hint" text="Daily conception chance for each eligible married couple." />
+  <string id="coop_marriage_mcm_duration" text="Pregnancy duration (days)" />
+  <string id="coop_marriage_mcm_duration_hint" text="Campaign days between conception and birth." />
+  <string id="coop_marriage_mcm_max_children" text="Maximum children per mother" />
+  <string id="coop_marriage_mcm_max_children_hint" text="Zero disables conception. Existing children count toward this limit." />
+  <string id="coop_marriage_mcm_fertility_age" text="Maximum fertility age" />
+  <string id="coop_marriage_mcm_fertility_age_hint" text="Women older than this cannot conceive through this mod." />
+  <string id="coop_marriage_mcm_same_location" text="Require same location" />
+  <string id="coop_marriage_mcm_same_location_hint" text="Couples must be in the same party or settlement to conceive." />
+  <string id="coop_marriage_mcm_group_interface" text="Interface" />
+  <string id="coop_marriage_mcm_notifications" text="Show notifications" />
+  <string id="coop_marriage_mcm_notifications_hint" text="Shows flirting, marriage, pregnancy and birth messages." />
+  <string id="coop_marriage_mcm_group_developer" text="Developer - temporary" />
+  <string id="coop_marriage_mcm_instant" text="Instant marriage test mode" />
+  <string id="coop_marriage_mcm_instant_hint" text="Temporary test switch: instantly enables and accepts proposals from eligible unmarried adult ladies. The spouse limit remains active." />
+  <string id="coop_marriage_compliment_intro" text="I am listening. What did you wish to tell me?" />
+  <string id="coop_marriage_compliment_valor" text="Your courage outshines every banner on the battlefield." />
+  <string id="coop_marriage_compliment_honor" text="Your honor is rarer and more precious than any crown." />
+  <string id="coop_marriage_compliment_mercy" text="The kindness you show others is what makes you truly beautiful." />
+  <string id="coop_marriage_compliment_generosity" text="Your generous spirit brings warmth wherever you go." />
+  <string id="coop_marriage_compliment_success" text="Your words have touched me. I would like to know you better." />
+  <string id="coop_marriage_compliment_failure" text="That is kind of you to say, but your words do not move me today." />
+  <string id="coop_marriage_notice_compliment_success" text="Your compliment succeeded. Relation increased by {GAIN}." />
+  <string id="coop_marriage_notice_compliment_failure" text="Your compliment was not convincing. You may try again tomorrow." />
+  <string id="coop_marriage_back" text="Go back." />
+  <string id="coop_family_co_wife" text="Co-wife" />
+</strings>

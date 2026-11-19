@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>CoopMarriage</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <TargetFramework>net472</TargetFramework>
+    <LangVersion>12.0</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <BuildFlavor Condition="'$(BuildFlavor)' == ''">Client</BuildFlavor>
+    <DedicatedServerRoot Condition="'$(DedicatedServerRoot)' == ''">$(MSBuildThisFileDirectory)..\..\..</DedicatedServerRoot>
+    <BannerlordReferenceBin Condition="'$(BuildFlavor)' == 'Client'">$(BannerlordGameRoot)\bin\Win64_Shipping_Client</BannerlordReferenceBin>
+    <BannerlordReferenceBin Condition="'$(BuildFlavor)' == 'Server'">$(DedicatedServerRoot)\bin\Win64_Shipping_Server</BannerlordReferenceBin>
+    <FrameworkReferenceBin Condition="'$(FrameworkReferenceBin)' == ''">$(DedicatedServerRoot)\bin\Win64_Shipping_Server</FrameworkReferenceBin>
+    <HarmonyReferencePath Condition="'$(HarmonyReferencePath)' == ''">$(BannerlordGameRoot)\Modules\Coop\bin\Win64_Shipping_Client\0Harmony.dll</HarmonyReferencePath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- These obsolete files were absent from the installed 1.1.1 assembly.
+         Do not reactivate old MCM/pregnancy/identity patches during a rebuild. -->
+    <!-- Hero-name normalization is now enabled after the live newborn
+         HeroChangeNameData null-name failure was confirmed. -->
+    <Compile Remove="CoopMarriage/Settings.cs;CoopMarriage/VanillaPregnancyCompatibility.cs;CoopMarriage/TournamentFamilyCompatibility.cs" />
+    <Reference Include="0Harmony" HintPath="$(HarmonyReferencePath)" Private="false" />
+    <Reference Include="TaleWorlds.CampaignSystem" HintPath="$(BannerlordReferenceBin)\TaleWorlds.CampaignSystem.dll" Private="false" />
+    <Reference Include="TaleWorlds.Core" HintPath="$(BannerlordReferenceBin)\TaleWorlds.Core.dll" Private="false" />
+    <Reference Include="TaleWorlds.Library" HintPath="$(BannerlordReferenceBin)\TaleWorlds.Library.dll" Private="false" />
+    <Reference Include="TaleWorlds.Localization" HintPath="$(BannerlordReferenceBin)\TaleWorlds.Localization.dll" Private="false" />
+    <Reference Include="TaleWorlds.MountAndBlade" HintPath="$(BannerlordReferenceBin)\TaleWorlds.MountAndBlade.dll" Private="false" />
+    <Reference Include="TaleWorlds.ObjectSystem" HintPath="$(BannerlordReferenceBin)\TaleWorlds.ObjectSystem.dll" Private="false" />
+  </ItemGroup>
+
+  <Target Name="RejectCopiedEnvironmentAssemblies" AfterTargets="Build">
+    <ItemGroup>
+      <ForbiddenOutput Include="$(TargetDir)Common.dll;$(TargetDir)GameInterface.dll;$(TargetDir)Coop.dll;$(TargetDir)Coop.Core.dll;$(TargetDir)TaleWorlds.*.dll;$(TargetDir)SandBox.dll;$(TargetDir)StoryMode.dll;$(TargetDir)Native.dll" />
+    </ItemGroup>
+    <Error Condition="Exists('%(ForbiddenOutput.Identity)')" Text="Forbidden environment-owned assembly copied to CoopMarriage output: %(ForbiddenOutput.Identity)" />
+  </Target>
+</Project>

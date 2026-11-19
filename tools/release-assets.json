@@ -1,0 +1,292 @@
+{
+  "about": "Files every GitHub release must carry. Make-Release.ps1, Make-AD1259-Release.ps1, Make-BurningEmpires-Release.ps1 and Make-RealmOfThrones-Release.ps1 refuse to finish without them, and Check-ReleaseAssets.ps1 checks a published release against this list. {version} is the release tag without the leading v. signing = the Microsoft Artifact Signing setup the release scripts use (endpoint, account, certificate profile, timestamp server, the credential types metadata.json leaves out so only az login is used, and the two pinned nuget packages with their SHA512 as nuget.org shows it); per repo signedBy = the signer name every exe in the two exe zip and the legacy zips must carry, and signedFromVersion = the first release that must be signed (empty = not enforced yet; set it to the first signed version, so older unsigned releases are not failed forever; Check-ReleaseAssets.ps1 -RequireSigned checks any release anyway). source: build = the release script makes it, repo = copied from the repository file at path, release = an exact file kept from an earlier release (local cache first, then the newest release that has it). sha256FromVersion = the first release the pinned sha256 applies to; an earlier release takes the first earlierSha256 row whose fromVersion it reached (empty fromVersion = any older release), so a published release keeps passing with the file it carries. required false = only a warning when it is missing. exactly = the zip holds these files and nothing else (the two exe zips). holds = the zip holds at least these files (the legacy zips, for the updaters already installed). legacy true = TEMPORARY: the old asset name and layout with the new builds under the old exe names, so tools installed before the two exe release can still update. Remove those entries once the old versions are gone. label = the text GitHub shows instead of the asset name; every legacy zip has one so new players know to skip it (Set-ReleaseLabels.ps1 sets it, the updaters only read the name). Per repo: product names the docs/release-notes/v{version}-<product>.md file and the download picture, downloadLine is the first line of every release body (the release scripts write release-body.md with it), and serverProject and clientProject point to the csproj whose ApplicationIcon gives the banner colours the download picture must show. unreleased true = the first release is not out yet, so Check-ReleaseAssets.ps1 without -Repo leaves the repo out (take it out after the first release). moduleDlls = the Coodsz built module DLLs the release carries inside its exes (repository paths, or {\"path\": ..., \"fromVersion\": \"v1.2.16\"} for a DLL a tool only carries from that release on, so older published releases keep passing; third party DLLs and SkyApolo's AD1259 modules are not listed): the release script signs them before it builds the exes and adds their signed hashes to src/BannerlordCoopLauncher.Core/Support/KnownModuleHashes.txt. signedDllsFromVersion = the first release whose module DLLs Check-ReleaseAssets.ps1 checks for a Valid signature from signedBy with a timestamp (empty until the first release that signs them, like signedFromVersion). moduleLicenseFromVersion = the first release where every module folder in the payloads must carry LICENSE.txt. workshopModuleDlls = the DLL names of the Workshop only modules their Build.cmd packs; tools/Sign-ModuleDlls.ps1 signs or records only names from moduleDlls and this list.",
+  "workshopModuleDlls": ["Diplomacy.CoopCompat.dll", "Limitless.CoopCompat.dll", "StuckBattleFix.dll"],
+  "signing": {
+    "endpoint": "https://eus.codesigning.azure.net/",
+    "account": "coodsz-signing",
+    "profile": "coodsz-public",
+    "signer": "CN=Youssef Osseili",
+    "issuerCommonNamePrefix": "Microsoft ID Verified",
+    "timestampUrl": "http://timestamp.acs.microsoft.com",
+    "excludeCredentials": ["EnvironmentCredential", "ManagedIdentityCredential", "WorkloadIdentityCredential", "SharedTokenCacheCredential", "VisualStudioCredential", "VisualStudioCodeCredential", "AzurePowerShellCredential", "AzureDeveloperCliCredential", "InteractiveBrowserCredential"],
+    "packages": [
+      {
+        "id": "Microsoft.Windows.SDK.BuildTools",
+        "version": "10.0.28000.2957",
+        "sha512": "PhfL6f1d9c2CXCD2fyQkwBBFR6/csgVxWDWDj/9uIY3PU5aUR3vtoAJn7HP1d/cMrHGQhuSH1FXHvaZIjOIajw==",
+        "signtool": "bin/10.0.28000.0/x64/signtool.exe"
+      },
+      {
+        "id": "Microsoft.ArtifactSigning.Client",
+        "version": "1.0.146",
+        "sha512": "/G0hG/VDIS6psW23b5t1V/ORIgn0PVAOtGj9w+hkPmAuI4pempfwlW50E2GtHscnz9+5Qz3hbC4mcb7ej2Yn1A==",
+        "dlib": "bin/x64/Azure.CodeSigning.Dlib.dll"
+      }
+    ]
+  },
+  "repos": [
+    {
+      "repo": "Coodsz/Coodsz-TAOM",
+      "title": "Coodsz TAOM tools",
+      "product": "TAOM",
+      "signedBy": "CN=Youssef Osseili",
+      "signedFromVersion": "v1.2.3",
+      "signedDllsFromVersion": "v1.2.14",
+      "moduleLicenseFromVersion": "v1.2.14",
+      "moduleDlls": ["compat/CoodszJoinPassword/module/bin/Win64_Shipping_Client/CoodszJoinPassword.dll", "compat/CoodszJoinPassword/module/bin/Win64_Shipping_Client/CoodszMenuGuard.dll", "compat/CoodszJoinPassword/module/bin/Win64_Shipping_Client/CoodszSettingsSync.Coop.dll", "src/CoodszHost/SaveRescue/DedicatedServer.CoopSaveRescue/bin/Win64_Shipping_Server/CoopSaveRescue.dll", "src/TaomCoopHost/WarSync/CoodszWarSync.dll", "src/TaomCoopHost/WarSync/CoodszSettingsSync.Coop.dll", {"path": "src/CoodszHost/ServerTools/DedicatedServer.CoodszTools/bin/Win64_Shipping_Server/DedicatedServer.CoodszTools.dll", "fromVersion": "v1.2.16"}],
+      "serverProject": "src/TaomCoopHost/TaomCoopHost.csproj",
+      "clientProject": "src/TaomCoopLauncher/TaomCoopLauncher.csproj",
+      "downloadLine": "**Download Coodsz-TAOM-Tools-v{version}.zip.** The Server Tool and Client Launcher zips are only used by older versions to update themselves. The Client Launcher has the TAOM-Coop CompatOnly CLIENT zip built in and the Server Tool has the HOST-OPERATOR zip, so you don't need to download them.",
+      "assets": [
+        {
+          "name": "Coodsz-TAOM-Tools-v{version}.zip",
+          "source": "build",
+          "required": true,
+          "exactly": ["Coodsz TAOM Tools/Coodsz TAOM Server Tool.exe", "Coodsz TAOM Tools/Coodsz TAOM Client Launcher.exe"],
+          "why": "Coodsz-TAOM-Instructions.txt PART 1 Download step 1 and PART 2: both programs in one zip. Updated tools pick the zip that starts with Coodsz-TAOM-Tools-v (ToolNames)."
+        },
+        {
+          "name": "Coodsz-Dedicated-TAOM-Server-Tool-v{version}.zip",
+          "source": "build",
+          "required": true,
+          "legacy": true,
+          "label": "Older versions update from this. You don't need it.",
+          "holds": ["Coodsz Dedicated TAOM Server Tool.exe", "Coodsz TAOM Client Launcher.exe"],
+          "why": "TEMPORARY legacy zip. A server tool from before the two exe release picks the zip with Server-Tool in its name and needs Coodsz Dedicated TAOM Server Tool.exe inside. It holds the new build under that name, which renames itself on its first start."
+        },
+        {
+          "name": "Coodsz-TAOM-Client-Launcher-v{version}.zip",
+          "source": "build",
+          "required": true,
+          "legacy": true,
+          "label": "Older versions update from this. You don't need it.",
+          "holds": ["Coodsz TAOM Client Launcher.exe", "Coodsz Dedicated TAOM Server Tool.exe"],
+          "why": "TEMPORARY legacy zip. A client launcher from before the two exe release picks the zip with Client-Launcher in its name and needs Coodsz TAOM Client Launcher.exe inside."
+        },
+        {
+          "name": "TAOM-Coop-v0.3.25-CompatOnly-CLIENT-PLAYTEST-1675bea7-a2ac41c2-r2.zip",
+          "source": "release",
+          "sha256": "621ec05f1439c9d236e4dc7cc2ba2712e96b810ddd15ad70e7726b8812ed42ec",
+          "required": true,
+          "label": "Older versions use this. You don't need it.",
+          "why": "The TAOM Client Launcher carries this exact file inside its exe (src/TaomCompatZip.targets), and Coodsz-TAOM-Instructions.txt and README.txt PART 1 Download step 2 name it as built in. It stays on every release for players who want the file itself and for tools built before it was carried."
+        },
+        {
+          "name": "TAOM-Coop-v0.3.25-CompatOnly-HOST-OPERATOR-1675bea7-a2ac41c2-r2.zip",
+          "source": "release",
+          "sha256": "ecb996f6daedd329f8423323bb302900fe1c0e2269e043e21938120be4b3d672",
+          "required": true,
+          "label": "Older versions use this. You don't need it.",
+          "why": "The TAOM Server Tool carries this exact file inside its exe (src/TaomCompatZip.targets), and Coodsz-TAOM-Instructions.txt and README.txt PART 1 Download step 2 and PART 2 name it as built in. It stays on every release for hosts who want the file itself and for tools built before it was carried."
+        },
+        {
+          "name": "LICENSE.txt",
+          "source": "repo",
+          "path": "LICENSE",
+          "sha256": "e57f1c320b8cf8798a7d2ff83a6f9e06a33a03585f6e065fea97f1d86db84052",
+          "sha256FromVersion": "v1.2.17",
+          "earlierSha256": [
+            { "fromVersion": "v1.2.16", "sha256": "5b8d80dfc23569ee37d8f7b1c37a855d1a1d29670a654919eb424df13db3f806" },
+            { "fromVersion": "v1.2.14", "sha256": "5135fe631dde0fb6e0f3a627bb3b0848611070b0a365d25c6a7a4b93a2496b42" },
+            { "fromVersion": "v1.2.2", "sha256": "582d3e0e8f16a1d1655e8801232145cc97cdfc15d528070d1e261e760c8f0e9a" },
+            { "fromVersion": "", "sha256": "253c38e2b8f495a341ea58b19ada9a72b7bd28a4fbb2044151075ec5347446dd" }
+          ],
+          "required": true,
+          "why": "The Coodsz Coop Tools License, attached to every TAOM release since v1.1.40. The guide's License part points to it. The hash is the LICENSE.txt that names the Realm of Thrones tools, published from v1.2.16 (the round of the first Realm of Thrones release), the same file as the Burning Empires and Realm of Thrones entries. Published TAOM releases keep the LICENSE.txt they carry (earlierSha256): v1.2.14 and v1.2.15 5135fe63... (paid servers and streams, point 5), v1.2.2 to v1.2.13 582d3e0e... and v1.2.1 and older 253c38e2..."
+        },
+        {
+          "name": "README.-.Instructions.txt",
+          "source": "repo",
+          "path": "Coodsz-TAOM-Instructions.txt",
+          "required": true,
+          "why": "The Coodsz-TAOM repository README says the same steps are in the README in each release."
+        },
+        {
+          "name": "SHA256SUMS.txt",
+          "source": "build",
+          "required": false,
+          "why": "Checksums of every file above, written by Make-Release.ps1."
+        }
+      ]
+    },
+    {
+      "repo": "Coodsz/Coodsz-Coop-and-Friends",
+      "title": "Coodsz Coop tools",
+      "product": "Coop",
+      "signedBy": "CN=Youssef Osseili",
+      "signedFromVersion": "v1.3.3",
+      "signedDllsFromVersion": "v1.3.15",
+      "moduleLicenseFromVersion": "v1.3.15",
+      "moduleDlls": ["compat/CoodszJoinPassword/module/bin/Win64_Shipping_Client/CoodszJoinPassword.dll", "compat/CoodszJoinPassword/module/bin/Win64_Shipping_Client/CoodszMenuGuard.dll", "compat/CoodszJoinPassword/module/bin/Win64_Shipping_Client/CoodszSettingsSync.Coop.dll", "src/CoodszHost/ServerTools/DedicatedServer.CoodszTools/bin/Win64_Shipping_Server/DedicatedServer.CoodszTools.dll", "src/CoodszHost/ServerTools/DedicatedServer.CoodszTools/bin/Win64_Shipping_Server/CoodszSettingsSync.Coop.dll", "src/CoodszHost/PatchModules/DedicatedServer.IGCoopCompat/bin/Win64_Shipping_Server/DedicatedServer.IGCoopCompat.dll", "src/CoodszHost/ImageExporter/CoodszImageExporter/bin/Win64_Shipping_Client/CoodszImageExporter.dll", "src/CoodszHost/SaveRescue/DedicatedServer.CoopSaveRescue/bin/Win64_Shipping_Server/CoopSaveRescue.dll"],
+      "serverProject": "src/CoodszHost/CoodszHost.csproj",
+      "clientProject": "src/CoodszCoopAndFriends/CoodszCoopAndFriends.csproj",
+      "downloadLine": "**Download Coodsz-Coop-Tools-v{version}.zip.** The other zip is only used by older versions to update themselves.",
+      "assets": [
+        {
+          "name": "Coodsz-Coop-Tools-v{version}.zip",
+          "source": "build",
+          "required": true,
+          "exactly": ["Coodsz Coop Tools/Coodsz Coop Server Tool.exe", "Coodsz Coop Tools/Coodsz Coop Client Launcher.exe"],
+          "why": "README.txt PART 4 Download: the server tool and the client launcher in one zip. Updated tools pick the zip that starts with Coodsz-Coop-Tools-v (ToolNames)."
+        },
+        {
+          "name": "Coodsz-Coop-and-Friends-v{version}.zip",
+          "source": "build",
+          "required": true,
+          "legacy": true,
+          "label": "Older versions update from this. You don't need it.",
+          "holds": ["Coodsz Launcher and Server/Coodsz Host/CoodszHost.exe", "Coodsz Launcher and Server/Coodsz Coop and Friends/Coodsz Coop and Friends.exe", "Coodsz Launcher and Server/Coodsz and Friends/Coodsz and Friends.exe"],
+          "why": "TEMPORARY legacy zip. CoodszHost, Coodsz Coop and Friends and Coodsz and Friends from before the two exe release pick the zip with Coop-and-Friends in its name and need their own exe name inside; the new builds rename themselves on their first start. Coodsz and Friends.exe is the client launcher build, since Coodsz and Friends became its More Nations switch. Each folder holds only its own exe. The 191be48 CoodszHost first looks for a zip with Coodsz-Host or CoodszHost in its name and only falls back to this one when none is there, so no asset name may ever contain CoodszHost or Coodsz-Host."
+        },
+        {
+          "name": "SHA256SUMS.txt",
+          "source": "build",
+          "required": false,
+          "why": "Checksums written by Make-Release.ps1, attached to every release so far."
+        }
+      ]
+    },
+    {
+      "repo": "Coodsz/Coodsz-AD1259",
+      "title": "Coodsz AD1259 tools",
+      "product": "AD1259",
+      "signedBy": "CN=Youssef Osseili",
+      "signedFromVersion": "v1.1.3",
+      "signedDllsFromVersion": "v1.1.16",
+      "moduleLicenseFromVersion": "v1.1.16",
+      "moduleDlls": ["compat/CoodszJoinPassword/module/bin/Win64_Shipping_Client/CoodszJoinPassword.dll", "compat/CoodszJoinPassword/module/bin/Win64_Shipping_Client/CoodszMenuGuard.dll", "compat/CoodszJoinPassword/module/bin/Win64_Shipping_Client/CoodszSettingsSync.Coop.dll", "src/CoodszHost/ImageExporter/CoodszImageExporter/bin/Win64_Shipping_Client/CoodszImageExporter.dll", "src/CoodszHost/SaveRescue/DedicatedServer.CoopSaveRescue/bin/Win64_Shipping_Server/CoopSaveRescue.dll", {"path": "src/CoodszHost/ServerTools/DedicatedServer.CoodszTools/bin/Win64_Shipping_Server/DedicatedServer.CoodszTools.dll", "fromVersion": "v1.1.17"}, {"path": "src/CoodszHost/ServerTools/DedicatedServer.CoodszTools/bin/Win64_Shipping_Server/CoodszSettingsSync.Coop.dll", "fromVersion": "v1.1.17"}],
+      "serverProject": "src/AD1259Host/AD1259Host.csproj",
+      "clientProject": "src/AD1259Launcher/AD1259Launcher.csproj",
+      "downloadLine": "**Download Coodsz-AD1259-Tools-v{version}.zip.** The other two zips are only used by older versions to update themselves.",
+      "assets": [
+        {
+          "name": "Coodsz-AD1259-Tools-v{version}.zip",
+          "source": "build",
+          "required": true,
+          "exactly": ["Coodsz AD1259 Tools/Coodsz AD1259 Server Tool.exe", "Coodsz AD1259 Tools/Coodsz AD1259 Client Launcher.exe"],
+          "why": "Both AD1259 programs in one zip, for the Coodsz-AD1259 repository README. Updated tools pick the zip that starts with Coodsz-AD1259-Tools-v (ToolNames)."
+        },
+        {
+          "name": "Coodsz-AD1259-Client-Launcher-v{version}.zip",
+          "source": "build",
+          "required": true,
+          "legacy": true,
+          "label": "Older versions update from this. You don't need it.",
+          "holds": ["Coodsz AD1259 Client Launcher/Coodsz AD1259 Client Launcher.exe"],
+          "why": "TEMPORARY legacy zip. A client launcher from before the two exe release picks the zip with AD1259-Client-Launcher in its name and needs Coodsz AD1259 Client Launcher.exe inside."
+        },
+        {
+          "name": "Coodsz-AD1259-Server-v{version}.zip",
+          "source": "build",
+          "required": true,
+          "legacy": true,
+          "label": "Older versions update from this. You don't need it.",
+          "holds": ["Coodsz AD1259 Server/Coodsz AD1259 Server.exe"],
+          "why": "TEMPORARY legacy zip. A server tool from before the two exe release picks the zip with AD1259-Server in its name and needs Coodsz AD1259 Server.exe inside. It holds the new build under that name, which renames itself on its first start."
+        },
+        {
+          "name": "SHA256SUMS.txt",
+          "source": "build",
+          "required": false,
+          "why": "Checksums written by Make-AD1259-Release.ps1."
+        }
+      ]
+    },
+    {
+      "repo": "Coodsz/Coodsz-BurningEmpires",
+      "title": "Coodsz Burning Empires tools",
+      "product": "BurningEmpires",
+      "signedBy": "CN=Youssef Osseili",
+      "signedFromVersion": "v1.0.3",
+      "signedDllsFromVersion": "v1.0.15",
+      "moduleLicenseFromVersion": "v1.0.15",
+      "moduleDlls": ["compat/CoodszJoinPassword/module/bin/Win64_Shipping_Client/CoodszJoinPassword.dll", "compat/CoodszJoinPassword/module/bin/Win64_Shipping_Client/CoodszMenuGuard.dll", "compat/CoodszJoinPassword/module/bin/Win64_Shipping_Client/CoodszSettingsSync.Coop.dll", "src/CoodszHost/SaveRescue/DedicatedServer.CoopSaveRescue/bin/Win64_Shipping_Server/CoopSaveRescue.dll", "compat/BurningEmpiresCoopCompat/module/bin/Win64_Shipping_Client/BurningEmpires.CoopCompat.dll", "compat/BurningEmpiresCoopCompat/module/bin/Win64_Shipping_Server/BurningEmpires.CoopCompat.dll"],
+      "serverProject": "src/BurningEmpiresHost/BurningEmpiresHost.csproj",
+      "clientProject": "src/BurningEmpiresLauncher/BurningEmpiresLauncher.csproj",
+      "downloadLine": "**Download Coodsz-Burning-Empires-Tools-v{version}.zip.** The other files are the license, the guide and the checksums, and nobody needs them to play.",
+      "assets": [
+        {
+          "name": "Coodsz-Burning-Empires-Tools-v{version}.zip",
+          "source": "build",
+          "required": true,
+          "exactly": ["Coodsz Burning Empires Tools/Coodsz Burning Empires Server Tool.exe", "Coodsz Burning Empires Tools/Coodsz Burning Empires Client Launcher.exe"],
+          "why": "Coodsz-BurningEmpires-Instructions.txt PART 1 Download step 1 and PART 2: both programs in one zip. Updated tools pick the zip that starts with Coodsz-Burning-Empires-Tools-v (ToolNames). Burning Empires was never released before, so it has no legacy zips."
+        },
+        {
+          "name": "LICENSE.txt",
+          "source": "repo",
+          "path": "LICENSE",
+          "sha256": "e57f1c320b8cf8798a7d2ff83a6f9e06a33a03585f6e065fea97f1d86db84052",
+          "sha256FromVersion": "v1.0.17",
+          "earlierSha256": [
+            { "fromVersion": "v1.0.16", "sha256": "5b8d80dfc23569ee37d8f7b1c37a855d1a1d29670a654919eb424df13db3f806" },
+            { "fromVersion": "v1.0.15", "sha256": "5135fe631dde0fb6e0f3a627bb3b0848611070b0a365d25c6a7a4b93a2496b42" },
+            { "fromVersion": "", "sha256": "582d3e0e8f16a1d1655e8801232145cc97cdfc15d528070d1e261e760c8f0e9a" }
+          ],
+          "required": true,
+          "why": "The Coodsz Coop Tools License, attached to every Burning Empires release. The hash is the LICENSE.txt that names the Realm of Thrones tools, published from v1.0.16 (the round of the first Realm of Thrones release). Published releases keep the LICENSE.txt they carry (earlierSha256): 5135fe63... in v1.0.15, 582d3e0e... in v1.0.14 and older."
+        },
+        {
+          "name": "README.-.Instructions.txt",
+          "source": "repo",
+          "path": "Coodsz-BurningEmpires-Instructions.txt",
+          "required": true,
+          "why": "The player and host steps, the same text as the Discord post."
+        },
+        {
+          "name": "SHA256SUMS.txt",
+          "source": "build",
+          "required": false,
+          "why": "Checksums of every file above, written by Make-BurningEmpires-Release.ps1."
+        }
+      ]
+    },
+    {
+      "repo": "Coodsz/Coodsz-RealmOfThrones",
+      "title": "Coodsz Realm of Thrones tools",
+      "product": "RealmOfThrones",
+      "signedBy": "CN=Youssef Osseili",
+      "signedFromVersion": "v0.1.0",
+      "signedDllsFromVersion": "v0.1.0",
+      "moduleLicenseFromVersion": "v0.1.0",
+      "moduleDlls": ["compat/CoodszJoinPassword/module/bin/Win64_Shipping_Client/CoodszJoinPassword.dll", "compat/CoodszJoinPassword/module/bin/Win64_Shipping_Client/CoodszMenuGuard.dll", "compat/CoodszJoinPassword/module/bin/Win64_Shipping_Client/CoodszSettingsSync.Coop.dll", "compat/RealmOfThronesCoopCompat/module/bin/Win64_Shipping_Client/RealmOfThrones.CoopCompat.dll", "compat/RealmOfThronesCoopCompat/module/bin/Win64_Shipping_Server/RealmOfThrones.CoopCompat.dll", "compat/RealmOfThronesCoopCompat/module/bin/Win64_Shipping_Client/Coodsz.CoopLink.dll", "compat/RealmOfThronesCoopCompat/module/bin/Win64_Shipping_Server/Coodsz.CoopLink.dll", "src/CoodszHost/ServerTools/DedicatedServer.CoodszTools/bin/Win64_Shipping_Server/DedicatedServer.CoodszTools.dll", "src/CoodszHost/ServerTools/DedicatedServer.CoodszTools/bin/Win64_Shipping_Server/CoodszSettingsSync.Coop.dll"],
+      "serverProject": "src/RealmOfThronesHost/RealmOfThronesHost.csproj",
+      "clientProject": "src/RealmOfThronesLauncher/RealmOfThronesLauncher.csproj",
+      "downloadLine": "**Download Coodsz-Realm-of-Thrones-Tools-v{version}.zip.** The other files are the license, the guide and the checksums.",
+      "assets": [
+        {
+          "name": "Coodsz-Realm-of-Thrones-Tools-v{version}.zip",
+          "source": "build",
+          "required": true,
+          "exactly": ["Coodsz Realm of Thrones Tools/Coodsz Realm of Thrones Server Tool.exe", "Coodsz Realm of Thrones Tools/Coodsz Realm of Thrones Client Launcher.exe"],
+          "why": "Both Realm of Thrones programs in one zip. Updated tools pick the zip that starts with Coodsz-Realm-of-Thrones-Tools-v (ToolNames). The repo is RotRelease.Repo (Coodsz/Coodsz-RealmOfThrones)."
+        },
+        {
+          "name": "LICENSE.txt",
+          "source": "repo",
+          "path": "LICENSE",
+          "sha256": "e57f1c320b8cf8798a7d2ff83a6f9e06a33a03585f6e065fea97f1d86db84052",
+          "sha256FromVersion": "v0.1.3",
+          "earlierSha256": [
+            { "fromVersion": "", "sha256": "5b8d80dfc23569ee37d8f7b1c37a855d1a1d29670a654919eb424df13db3f806" }
+          ],
+          "required": true,
+          "why": "The Coodsz Coop Tools License, attached to every Realm of Thrones release. Its scope line names the Realm of Thrones tools from the first release on, so every tool asks to accept it once more."
+        },
+        {
+          "name": "README.-.Instructions.txt",
+          "source": "repo",
+          "path": "Coodsz-RealmOfThrones-Instructions.txt",
+          "required": true,
+          "why": "The player and host steps, the same text as the Discord post. Make-RealmOfThrones-Release.ps1 stops while it is missing."
+        },
+        {
+          "name": "SHA256SUMS.txt",
+          "source": "build",
+          "required": false,
+          "why": "Checksums of every file above, written by Make-RealmOfThrones-Release.ps1."
+        }
+      ]
+    }
+  ]
+}

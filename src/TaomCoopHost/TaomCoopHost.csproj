@@ -1,0 +1,88 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>Coodsz TAOM Server Tool</AssemblyName>
+    <Product>Coodsz TAOM Server Tool</Product>
+    <AssemblyTitle>Coodsz TAOM Server Tool</AssemblyTitle>
+    <Description>Coodsz TAOM Server Tool: hosts a TAOM Coop server</Description>
+    <ApplicationIcon>..\..\assets\icons\coodsz-taom.ico</ApplicationIcon>
+    <Version>1.2.16</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The picture behind the pages (Keep.BackdropArt), the dwarven gate Coodsz picked for TAOM. -->
+    <Resource Include="Assets\redesign-backdrop-taom.jpg" />
+    <Resource Include="Assets\realm-emblem.png" />
+    <Resource Include="Assets\realm-hero.jpg" />
+    <Resource Include="Assets\realm-tile-1.jpg" />
+    <Resource Include="Assets\realm-tile-2.jpg" />
+    <Resource Include="Assets\realm-tile-3.jpg" />
+    <Resource Include="Assets\realm-tile-4.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TaomCoop.Core\TaomCoop.Core.csproj" />
+    <ProjectReference Include="..\BannerlordCoopLauncher.Core\BannerlordCoopLauncher.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\BannerlordCoopLauncher\UiLanguage.cs" Link="UiLanguage.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\WindowPlacement.cs" Link="WindowPlacement.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\NewBadges.cs" Link="NewBadges.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\JoinGuideWindow.cs" Link="JoinGuideWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\AntivirusWindow.cs" Link="AntivirusWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\ModReportWindow.cs" Link="ModReportWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\CrashReportWindow.cs" Link="CrashReportWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\ReportReplyWindow.cs" Link="ReportReplyWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\CustomModWindow.cs" Link="CustomModWindow.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The Keep colours and styles and the Coop command list of the Console page, shared with the Coop Server Tool. -->
+    <Page Include="..\CoodszHost\Keep\KeepColors.xaml" Link="Keep\KeepColors.xaml" />
+    <Page Include="..\CoodszHost\Keep\KeepTheme.xaml" Link="Keep\KeepTheme.xaml" />
+    <Page Include="..\CoodszHost\Shared\CoopCommandBrowser.xaml" Link="Shared\CoopCommandBrowser.xaml" />
+    <Compile Include="..\CoodszHost\Shared\CoopCommandBrowser.xaml.cs" Link="Shared\CoopCommandBrowser.xaml.cs" />
+    <!-- The card for a save that needs mods the setup leaves out, the same as Coodsz Host's. -->
+    <Page Include="..\CoodszHost\Shared\SaveModsCard.xaml" Link="Shared\SaveModsCard.xaml" />
+    <Compile Include="..\CoodszHost\Shared\SaveModsCard.xaml.cs" Link="Shared\SaveModsCard.xaml.cs" />
+  </ItemGroup>
+
+  <!-- Embedded in the exe and written out on first use (CoodszPayload.targets, ToolPayload). -->
+  <ItemGroup>
+    <!-- Coop Save Rescue, riding in DedicatedServer.Windows on every start; see compat\CoopSaveRescue. -->
+    <CoodszPayload Include="..\CoodszHost\SaveRescue\DedicatedServer.CoopSaveRescue\bin\Win64_Shipping_Server\CoopSaveRescue.dll" Payload="SaveRescue" />
+    <!-- Coodsz War Sync, riding in DedicatedServer.Windows on every start; see compat\CoodszWarSync. -->
+    <CoodszPayload Include="WarSync\**\*" Payload="WarSync" />
+    <!-- Coodsz Server Tools for the server rules and the mod settings for players, riding in DedicatedServer.Windows on every
+         Prepare and Start (TaomServerTools); its settings sync DLL is the same file as War Sync's. -->
+    <CoodszPayload Include="..\CoodszHost\ServerTools\DedicatedServer.CoodszTools\bin\Win64_Shipping_Server\*.dll" Payload="ServerTools" />
+  </ItemGroup>
+
+  <!-- The TAOM plus mods with no Workshop item (TaomPlus.BundledIds). Make-Release.ps1 passes the folder
+       that holds exactly those; a build without it has no bundled mods. -->
+  <ItemGroup Condition="'$(CoodszBundledMods)' != ''">
+    <CoodszPayload Include="$([MSBuild]::EnsureTrailingSlash('$(CoodszBundledMods)'))**\*" Payload="BundledMods" />
+  </ItemGroup>
+
+  <!-- The TAOM-Coop CompatOnly HOST-OPERATOR zip this exe carries (TaomStack.HostKitName and HostKitSha256). -->
+  <PropertyGroup>
+    <CoodszTaomCompatName>TAOM-Coop-v0.3.25-CompatOnly-HOST-OPERATOR-1675bea7-a2ac41c2-r2.zip</CoodszTaomCompatName>
+    <CoodszTaomCompatSha256>ECB996F6DAEDD329F8423323BB302900FE1C0E2269E043E21938120BE4B3D672</CoodszTaomCompatSha256>
+  </PropertyGroup>
+
+  <Import Project="..\TaomCompatZip.targets" />
+  <Import Project="..\CoodszPayload.targets" />
+
+  <!-- The shared window frame (sidebar, header, chips, banners): docs/design/redesign/build-plan.md 1.1. -->
+  <ItemGroup>
+    <Page Include="..\CoodszHost\Shared\Frame\*.xaml" Link="Shared\Frame\%(Filename)%(Extension)" />
+    <Compile Include="..\CoodszHost\Shared\Frame\*.cs" Link="Shared\Frame\%(Filename)%(Extension)" />
+  </ItemGroup>
+
+</Project>

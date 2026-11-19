@@ -1,0 +1,22 @@
+{
+  "policySchemaVersion": 3,
+  "allowUnsupportedMods": false,
+  "forceAllSelectedGameplayModulesHeadless": false,
+  "blockManagedAssemblyCollisions": false,
+  "forceHeadlessModules": [
+    "CoopModPatch",
+    "Bannerlord.MBOptionScreen",
+    "ImprovedGarrisons",
+    "SettlementCultureDrift"
+  ],
+  "rollingSaveVersionModules": [
+    "CoopModPatch"
+  ],
+  "strictDependencyValidation": false,
+  "softDependencyModules": [
+    "CustomBattle",
+    "StoryMode",
+    "BirthAndDeath"
+  ],
+  "allowedAssemblyCollisions": []
+}

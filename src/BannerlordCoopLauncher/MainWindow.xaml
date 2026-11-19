@@ -1,0 +1,1004 @@
+﻿<Window x:Class="BannerlordCoopLauncher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="clr-namespace:Coodsz.Ui"
+        Title="Coodsz Coop Client Launcher"
+        Height="900"
+        Width="1280"
+        MinHeight="480"
+        MinWidth="720"
+        Background="#FF0E1418"
+        FontFamily="Segoe UI"
+        Foreground="#FFD5DEE6"
+        UseLayoutRounding="True"
+        TextOptions.TextFormattingMode="Display"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <!-- Near solid (94%), so text on a card keeps its contrast over the castle behind the pages. -->
+        <SolidColorBrush x:Key="Card" Color="#F0151D24"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVisible"/>
+        <!-- The small label over a Join box; its hover has the longer help. -->
+        <Style x:Key="FieldLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,12,0,6"/>
+            <Setter Property="Foreground" Value="#FFD5DEE6"/>
+        </Style>
+        <!-- What the buttons do: a link with an arrow that opens the help under it. -->
+        <Style x:Key="HelpToggle" TargetType="ToggleButton">
+            <Setter Property="Foreground" Value="#FFE2C27A"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <StackPanel Orientation="Horizontal" Background="Transparent">
+                            <Path x:Name="Arrow" Data="M 0 2 L 4 6 L 8 2" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.5" Width="8" Height="8" Margin="0,0,8,0" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                <Path.RenderTransform>
+                                    <RotateTransform x:Name="Turn" Angle="-90"/>
+                                </Path.RenderTransform>
+                            </Path>
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Arrow" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="0"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Line" Color="#FF2A3844"/>
+        <SolidColorBrush x:Key="Gold" Color="#FF8EB4D4"/>
+        <SolidColorBrush x:Key="Muted" Color="#FF8EA0AE"/>
+        <SolidColorBrush x:Key="Ink" Color="#FF0E1418"/>
+        <!-- Mod reports (ModReportUi in ModReportWindow.cs): the same red, gold and green as the Broken, Save logs and Works pills. -->
+        <SolidColorBrush x:Key="ReportRed" Color="#FFE08B84"/>
+        <SolidColorBrush x:Key="ReportRedBack" Color="#FF3A2422"/>
+        <SolidColorBrush x:Key="ReportGold" Color="#FFE2C27A"/>
+        <SolidColorBrush x:Key="ReportGoldBack" Color="#FF3A3420"/>
+        <SolidColorBrush x:Key="ReportGreen" Color="#FF8FCB9B"/>
+        <SolidColorBrush x:Key="ReportGreenBack" Color="#FF1E3326"/>
+        <SolidColorBrush x:Key="ReportInk" Color="#FF0E1418"/>
+
+        <Style x:Key="ActionButton" TargetType="Button">
+            <Setter Property="Background" Value="#FF1B2833"/>
+            <Setter Property="Foreground" Value="#FFD5DEE6"/>
+            <Setter Property="BorderBrush" Value="#FF3A4C5C"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="16,9"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="3"
+                                Padding="{TemplateBinding Padding}"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="#FF8EB4D4"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.82"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="#FF7A6E62"/>
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.55"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="UpdateInstall" TargetType="Button" BasedOn="{StaticResource ActionButton}">
+            <Setter Property="Background" Value="#FF6A4A30"/>
+            <Setter Property="Foreground" Value="#FFFFE7B8"/>
+            <Setter Property="BorderBrush" Value="#FFE2C27A"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="16,0,0,0"/>
+            <!-- Steady gold, no pulse (build-plan.md 6.14). -->
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.45"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="CompactButton" TargetType="Button" BasedOn="{StaticResource ActionButton}">
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+
+        <Style x:Key="PrimaryButton" TargetType="Button" BasedOn="{StaticResource ActionButton}">
+            <Setter Property="Background" Value="#FF1F4E79"/>
+            <Setter Property="BorderBrush" Value="#FF8EB4D4"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="22,9"/>
+        </Style>
+
+        <Style x:Key="MapItem" TargetType="ComboBoxItem">
+            <Setter Property="Foreground" Value="#FFD5DEE6"/>
+            <Setter Property="Background" Value="#FF10161B"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Border x:Name="ItemBorder" Background="#FF10161B" Padding="{TemplateBinding Padding}">
+                            <TextBlock Text="{TemplateBinding Content}" TextWrapping="Wrap" Foreground="#FFD5DEE6"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="#FF1F4E79"/>
+                                <Setter Property="TextElement.Foreground" Value="#FFD5DEE6"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="#FF1B2833"/>
+                                <Setter Property="TextElement.Foreground" Value="#FFD5DEE6"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="MapBox" TargetType="ComboBox">
+            <Setter Property="Foreground" Value="#FFD5DEE6"/>
+            <Setter Property="Background" Value="#FF10161B"/>
+            <Setter Property="BorderBrush" Value="#FF2A3844"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="ItemContainerStyle" Value="{StaticResource MapItem}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton Focusable="False" ClickMode="Press" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Border Background="#FF10161B" BorderBrush="#FF2A3844" BorderThickness="1" MinHeight="36">
+                                            <DockPanel LastChildFill="True">
+                                                <Path DockPanel.Dock="Right" Data="M 0 0 L 4 4 L 8 0" Stroke="#FFD5DEE6" StrokeThickness="1.4" Margin="0,0,12,0" VerticalAlignment="Center" Width="8" Height="4"/>
+                                                <TextBlock Margin="10,6,8,6" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="#FFD5DEE6" FontSize="14" Text="{Binding SelectedItem.Content, RelativeSource={RelativeSource AncestorType=ComboBox}}"/>
+                                            </DockPanel>
+                                        </Border>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Bottom" AllowsTransparency="True" Focusable="False" PopupAnimation="None" IsOpen="{TemplateBinding IsDropDownOpen}">
+                                <Border Background="#FF10161B" BorderBrush="#FF8EB4D4" BorderThickness="1" MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <ScrollViewer MaxHeight="260" CanContentScroll="False">
+                                        <ItemsPresenter/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Foreground" Value="#FFD5DEE6"/>
+            <Setter Property="CaretBrush" Value="#FFD5DEE6"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="#FF10161B"
+                                BorderBrush="#FF2A3844"
+                                BorderThickness="1"
+                                CornerRadius="2">
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="10,7" Focusable="False"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="DarkScroll" TargetType="ScrollBar">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Width" Value="10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollBar">
+                        <Grid Background="Transparent">
+                            <Track x:Name="PART_Track" IsDirectionReversed="True">
+                                <Track.Thumb>
+                                    <Thumb>
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="Thumb">
+                                                <Border Background="#FF8EB4D4" CornerRadius="2" Margin="2,0"/>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Track.Thumb>
+                            </Track>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Orientation" Value="Horizontal">
+                                <Setter TargetName="PART_Track" Property="Orientation" Value="Horizontal"/>
+                                <Setter TargetName="PART_Track" Property="IsDirectionReversed" Value="False"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Orientation" Value="Horizontal">
+                    <Setter Property="Width" Value="Auto"/>
+                    <Setter Property="Height" Value="10"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ModuleScroller" TargetType="ScrollViewer">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollViewer">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Grid.Column="0"/>
+                            <ScrollBar x:Name="PART_VerticalScrollBar"
+                                       Grid.Column="1"
+                                       Style="{StaticResource DarkScroll}"
+                                       Maximum="{TemplateBinding ScrollableHeight}"
+                                       ViewportSize="{TemplateBinding ViewportHeight}"
+                                       Value="{TemplateBinding VerticalOffset}"
+                                       Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="LogText" TargetType="TextBox">
+            <Setter Property="Foreground" Value="#FFF2F6F8"/>
+            <Setter Property="CaretBrush" Value="#FFF2F6F8"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="Padding" Value="0,2,0,2"/>
+            <Setter Property="TextBlock.LineHeight" Value="26"/>
+            <Setter Property="TextBlock.LineStackingStrategy" Value="BlockLineHeight"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <ScrollViewer x:Name="PART_ContentHost" Focusable="False" Background="Transparent"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- Dark dropdown menu for the small arrow buttons. -->
+        <Style x:Key="DarkMenuItem" TargetType="MenuItem">
+            <Setter Property="Foreground" Value="#FFE8E6E1"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="ToolTipService.Placement" Value="Right"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="MenuItem">
+                        <Border x:Name="Row" Background="Transparent" Padding="14,8" MinWidth="200">
+                            <ContentPresenter ContentSource="Header" RecognizesAccessKey="False" TextElement.Foreground="{TemplateBinding Foreground}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="Row" Property="Background" Value="#FF22303C"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Row" Property="Opacity" Value="0.45"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="DarkMenu" TargetType="ContextMenu">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="HasDropShadow" Value="False"/>
+            <Setter Property="Placement" Value="Bottom"/>
+            <Setter Property="ItemContainerStyle" Value="{StaticResource DarkMenuItem}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ContextMenu">
+                        <Border Background="#FF12181E" BorderBrush="#FFE2C27A" BorderThickness="1" Padding="0,4">
+                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <!-- 220 wide, or 64 with icons only under 1000 px (NavRail.Fit in MainWindow.Frame.cs). -->
+            <ColumnDefinition x:Name="NavColumn" Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Border Style="{StaticResource Keep.Sidebar}">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top" Margin="12,18,12,12">
+                    <DockPanel Margin="4,0,0,0">
+                        <!-- The brand mark: the banner of the tool icon in the tool's own colour (ToolAccent.Apply in App.xaml.cs). -->
+                        <Viewbox x:Name="BrandMark" DockPanel.Dock="Left" Width="30" Height="30" VerticalAlignment="Top" Margin="0,0,10,0">
+                            <Canvas Width="128" Height="128">
+                                <Path Data="{StaticResource Keep.IconBanner}" Fill="{DynamicResource Keep.ToolAccent}" Stroke="#FFEF9F27" StrokeThickness="6"/>
+                            </Canvas>
+                        </Viewbox>
+                        <StackPanel x:Name="BrandText" VerticalAlignment="Center">
+                            <TextBlock Text="COODSZ" FontFamily="Palatino Linotype" FontSize="22" Foreground="#FFD5DEE6" Tag="coodsz:no-translate"/>
+                            <TextBlock x:Name="HeadingText" Text="COOP CLIENT LAUNCHER" FontSize="10.5" FontWeight="SemiBold" Foreground="#FF8EA0AE" Margin="1,1,0,0" TextTrimming="CharacterEllipsis" Tag="coodsz:no-translate"/>
+                        </StackPanel>
+                    </DockPanel>
+                </StackPanel>
+                <Border DockPanel.Dock="Bottom" BorderBrush="{StaticResource Keep.Line}" BorderThickness="0,1,0,0" Margin="12,0,12,12" Padding="0,10,0,0">
+                    <Grid>
+                        <!-- The 64 px sidebar shows a More button instead (CompactMore_Click opens Language, What's new and Donate). -->
+                        <Button x:Name="CompactMore" AutomationProperties.Name="More" Style="{StaticResource Keep.Nav}" ui:NavRail.Icon="{StaticResource Keep.IconMore}" Visibility="Collapsed" Click="CompactMore_Click" ToolTip="Language, What's new and Donate."/>
+                        <Viewbox x:Name="FooterFit" StretchDirection="DownOnly" HorizontalAlignment="Left">
+                            <StackPanel>
+                                <ContentControl x:Name="LanguageSlot" HorizontalAlignment="Left"/>
+                                <ContentControl x:Name="WhatsNewSlot" Margin="0,8,0,0" HorizontalAlignment="Left"/>
+                                <ContentControl x:Name="DonateSlot" Margin="0,8,0,0" HorizontalAlignment="Left"/>
+                                <TextBlock x:Name="VersionText" Foreground="#FF8EA0AE" FontSize="11" HorizontalAlignment="Left" Margin="6,8,0,0" Tag="coodsz:no-translate"/>
+                            </StackPanel>
+                        </Viewbox>
+                    </Grid>
+                </Border>
+                <ScrollViewer x:Name="NavScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,4">
+                    <ScrollViewer.Resources>
+                        <Style TargetType="ScrollBar" BasedOn="{StaticResource Keep.ScrollBar}"/>
+                    </ScrollViewer.Resources>
+                    <StackPanel x:Name="NavList" VerticalAlignment="Top" Margin="12,0">
+                        <Button x:Name="NavPlay" ToolTip="Shows the Play page: your game, the server to join and the next step." Style="{StaticResource Keep.Nav}" ui:NavRail.Icon="{StaticResource Keep.IconPlay}" Click="Nav_Click" Tag="Play">
+                            <!-- The word comes from PlayWord in MainWindow.Frame.cs: "Play" alone is the server time button of the TAOM and BE tools. -->
+                            <TextBlock x:Name="NavPlayText" Text="Play" Tag="coodsz:no-translate"/>
+                        </Button>
+                        <Button x:Name="NavMods" ToolTip="Shows the Mods page, where you turn mods on and off and set their load order." Style="{StaticResource Keep.Nav}" ui:NavRail.Icon="{StaticResource Keep.IconMods}" Content="Mods" Click="Nav_Click" Tag="Mods"/>
+                        <Button x:Name="NavLogs" ToolTip="Shows the activity log, Send my logs, My reports and Report a mod." Style="{StaticResource Keep.Nav}" ui:NavRail.Icon="{StaticResource Keep.IconLogs}" Content="Logs and help" Click="Nav_Click" Tag="Logs"/>
+                        <Button x:Name="NavSettings" ToolTip="Shows the setups, the game folder and the advanced tools." Style="{StaticResource Keep.Nav}" ui:NavRail.Icon="{StaticResource Keep.IconSettings}" Content="Settings" Click="Nav_Click" Tag="Settings"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </DockPanel>
+        </Border>
+        <DockPanel Grid.Column="1">
+            <!-- The header: page title, the setup picker, the state pill and the clock. -->
+            <Border DockPanel.Dock="Top" Style="{StaticResource Keep.HeaderBar}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="PageTitle" Grid.Column="0" Style="{StaticResource Keep.PageTitle}" Text="Play" Tag="coodsz:no-translate"/>
+                    <StackPanel Grid.Column="1" Margin="16,0,8,0" Width="260" VerticalAlignment="Center">
+                        <!-- The Locked tag sits on the label line, so it does not take width from the setup name. -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                            <TextBlock Text="Saved setup" Foreground="#FF8EA0AE" FontSize="11" VerticalAlignment="Center"/>
+                            <Border x:Name="LockedSetupTag" Visibility="Collapsed" VerticalAlignment="Center" Margin="8,0,0,0" Padding="6,0" Background="#FF1B2833" BorderBrush="#FF3A4C5C" BorderThickness="1">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="🔒" FontFamily="Segoe UI Emoji" FontSize="10" Foreground="#FFD2A36A" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                    <TextBlock Text="Locked" FontSize="11" FontWeight="SemiBold" Foreground="#FFD2A36A" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                        <ComboBox x:Name="SetupBox" ToolTip="Pick a saved setup. It loads that setup's map, join, and mod switches." Style="{StaticResource MapBox}" SelectionChanged="SetupBox_SelectionChanged"/>
+                        <TextBlock x:Name="LockedSetupText" Visibility="Collapsed" FontSize="12" FontWeight="SemiBold" Foreground="#FFD2A36A" TextWrapping="Wrap" Margin="0,4,0,0"/>
+                    </StackPanel>
+                    <ui:StatusPill x:Name="ClientPill" Grid.Column="2" Margin="8,0,0,0" Kind="NotReady" Text="Not ready" ToolTip="Whether you can join now: Not ready, Ready, Joining, In game or Refused."/>
+                    <ui:HeaderClock Grid.Column="3" Margin="16,0,0,0"/>
+                </Grid>
+            </Border>
+            <!-- The notices: one at a time, most urgent first (BannerStack.Priority), the rest behind "1 more notice". -->
+            <ui:BannerStack x:Name="Banners" DockPanel.Dock="Top" MaxShown="1">
+                <!-- Coodsz's notice from compat-list/announcement.json (AnnouncementUi.cs in Shared/Frame): after the crash, report and reply bars, before the other notices, until Dismiss. -->
+                <ui:Banner x:Name="AnnouncementBanner" Kind="Warn" CanDismiss="True" Visibility="Collapsed" Margin="18,12,18,0" ui:BannerStack.Priority="3"/>
+                <!-- Coodsz answered your report CR-XXXXX (ReplyBannerBar in ReportReplyWindow.cs): shows until every answer is read, no x. -->
+                <ContentControl x:Name="ReplyBannerHost" Visibility="Collapsed" Margin="18,12,18,0" ui:BannerStack.Priority="2"/>
+                <!-- The mod report bar: the one time card, How did your mods work? and the crash bar (ModReportBar). -->
+                <ContentControl x:Name="ReportBarHost" Visibility="Collapsed" Margin="18,12,18,0" ui:BannerStack.Priority="1"/>
+                <!-- Above the pages, so every page shows "Install update". -->
+                <Border x:Name="UpdateNoticeBar" Visibility="Collapsed" Background="#F0151D24" BorderBrush="#FF3A4C5C" BorderThickness="0,0,0,1" Padding="16,10" ui:BannerStack.Priority="4">
+                    <DockPanel LastChildFill="True">
+                        <Button x:Name="InstallUpdateButton" ToolTip="Downloads and installs the new version, then closes this window so the update can finish." DockPanel.Dock="Right" Content="Install update" Click="InstallUpdate_Click" MinWidth="160" Margin="16,0,0,0" Style="{StaticResource UpdateInstall}" VerticalAlignment="Center"/>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock x:Name="UpdateNotice" FontSize="16" FontWeight="SemiBold" Foreground="#FFD2A36A" TextWrapping="Wrap"/>
+                            <ProgressBar x:Name="UpdateProgress" Height="12" Margin="0,8,0,0" Minimum="0" Maximum="1" Visibility="Collapsed" Foreground="#FFE2C27A" Background="#FF3A3420" BorderBrush="#FFE2C27A" BorderThickness="1"/>
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+            </ui:BannerStack>
+            <Grid Margin="18">
+                <!-- The Coop castle behind the pages (Keep.BackdropArt, set by Backdrop.Apply in App.xaml.cs) under the same dark
+                     gradient as the Coop Server Tool. The cards are near solid, so their text keeps its contrast. -->
+                <Rectangle x:Name="PageBackdrop" Margin="-18" RenderOptions.BitmapScalingMode="HighQuality" IsHitTestVisible="False">
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="{DynamicResource Keep.BackdropArt}" Stretch="UniformToFill" AlignmentX="Right" AlignmentY="Center"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle x:Name="PageBackdropShade" Margin="-18" IsHitTestVisible="False">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color="{DynamicResource Keep.BackdropOverlayTop}" Offset="0"/>
+                            <GradientStop Color="{DynamicResource Keep.BackdropOverlayBottom}" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+
+                <!-- Play: the game and the server to join on the left, the next step on the right (under them on a narrow page, FitPlay). -->
+                <ScrollViewer x:Name="PageScroll" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" PanningMode="VerticalOnly" PreviewMouseWheel="PageScroll_PreviewMouseWheel">
+                    <ScrollViewer.Resources>
+                        <Style TargetType="ScrollBar" BasedOn="{StaticResource DarkScroll}"/>
+                    </ScrollViewer.Resources>
+                <Grid x:Name="PlayGrid" Width="{Binding ViewportWidth, ElementName=PageScroll}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition x:Name="PlaySideColumn" Width="380"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel x:Name="PlayMain" Grid.Column="0" Margin="0,0,16,0">
+                        <!-- The Coop the game loads and where it comes from (ShowActiveCoop), and the active Coop pack. -->
+                        <Border Background="{StaticResource Card}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="2" Padding="16,10" Margin="0,0,0,12">
+                            <DockPanel LastChildFill="True">
+                                <Border x:Name="PackBadge" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                        Background="#FF1B2833" BorderBrush="{StaticResource Line}" BorderThickness="1"
+                                        CornerRadius="2" Padding="12,7" Visibility="Collapsed">
+                                    <TextBlock x:Name="PackText" Text="" Foreground="{StaticResource Gold}" FontSize="12"/>
+                                </Border>
+                                <TextBlock x:Name="ActiveCoopText" Text="Active Coop: not checked yet." VerticalAlignment="Center" TextWrapping="Wrap" FontSize="13"
+                                           ToolTip="The Bannerlord Coop the game loads. A copy in the game's Modules folder wins over the Steam Workshop one."/>
+                            </DockPanel>
+                        </Border>
+
+                        <Border Background="{StaticResource Card}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="2" Padding="16" Margin="0,0,0,12">
+                            <StackPanel>
+                                <TextBlock Text="GAME" Foreground="{StaticResource Gold}" FontSize="11" FontWeight="SemiBold"/>
+                                <TextBlock x:Name="GameFoundText" TextWrapping="Wrap" Margin="0,6,0,0" Text="Looking in Steam."/>
+                                <Button x:Name="FindBannerlordButton" Content="Find Bannerlord" ToolTip="Pick the Mount &amp; Blade II Bannerlord folder. The tool remembers it." Style="{StaticResource CompactButton}" HorizontalAlignment="Left" Click="FindBannerlord_Click" Visibility="Collapsed" Margin="0,8,0,0"/>
+                                <TextBox x:Name="GamePathBox" Visibility="Collapsed"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                    <Ellipse x:Name="SteamDot" Width="8" Height="8" Fill="#FF7A6E62" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="SteamStatusText" Foreground="{StaticResource Muted}" TextWrapping="Wrap" Text="Steam has not been checked."/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Background="{StaticResource Card}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="2" Padding="16" Margin="0,0,0,12">
+                            <StackPanel>
+                                <TextBlock Text="JOIN" Foreground="{StaticResource Gold}" FontSize="11" FontWeight="SemiBold"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,8,0,4">
+                                    <Button x:Name="SteamModeButton" ToolTip="Join the host through a Steam lobby using their Steam profile name." Content="Steam lobby" Style="{StaticResource CompactButton}" Click="SteamMode_Click"/>
+                                    <Button x:Name="DirectModeButton" ToolTip="Join a server directly by its address and port. If a server runs on this PC, its address is filled in." Content="Direct" Style="{StaticResource CompactButton}" Click="DirectMode_Click"/>
+                                    <Button x:Name="JoinHelpButton" Content="?" Style="{StaticResource CompactButton}" Click="JoinHelp_Click" ToolTip="How to join" MinWidth="34" Margin="8,0,0,0" FontWeight="SemiBold"/>
+                                </StackPanel>
+                                <StackPanel x:Name="SteamPanel">
+                                    <TextBlock Text="Steam lobby name" Style="{StaticResource FieldLabel}" ToolTip="Use the host's Steam profile name, the name friends see in Steam (not the login name), exactly as written."/>
+                                    <TextBox x:Name="SteamNameBox" ToolTip="The host's Steam profile name: the name friends see in Steam, not the login name." TextChanged="JoinField_TextChanged"/>
+                                    <TextBlock x:Name="SteamSwitchNote" Visibility="Collapsed" TextWrapping="Wrap" Foreground="#FF8FCB9B" FontSize="13" FontWeight="SemiBold" Margin="0,6,0,0"/>
+                                </StackPanel>
+                                <StackPanel x:Name="DirectPanel" Visibility="Collapsed">
+                                    <TextBlock Text="Host address" Style="{StaticResource FieldLabel}" ToolTip="Enter the host's IP address, such as 192.168.1.10, or a custom port-forwarded address, such as host.example.com. Put the port in the UDP port box. A Steam name goes in Steam lobby. A home address like 192.168 only works on the same Wi-Fi."/>
+                                    <TextBox x:Name="DirectHostBox" ToolTip="IP address, or a custom port-forwarded address such as host.example.com" TextChanged="JoinField_TextChanged"/>
+                                    <TextBlock x:Name="OwnServerNote" Visibility="Collapsed" TextWrapping="Wrap" Foreground="#FF8FCB9B" FontSize="12" FontWeight="SemiBold" Margin="0,6,0,0"/>
+                                    <TextBlock Text="UDP port" Style="{StaticResource FieldLabel}" ToolTip="Enter the UDP port the host set. Coodsz uses 4200."/>
+                                    <TextBox x:Name="DirectPortBox" ToolTip="Enter the UDP port the host set" TextChanged="JoinField_TextChanged"/>
+                                </StackPanel>
+                                <TextBlock Text="Password" Style="{StaticResource FieldLabel}"/>
+                                <DockPanel LastChildFill="True">
+                                    <Button x:Name="ShowPasswordButton" DockPanel.Dock="Right" Content="Show" Style="{StaticResource CompactButton}" Margin="8,0,0,0" Click="ShowPassword_Click" ToolTip="Show or hide the password"/>
+                                    <Grid>
+                                        <PasswordBox x:Name="ServerPasswordBox" ToolTip="The dedicated server password" Padding="10,7" Background="#FF10161B" Foreground="#FFD5DEE6" BorderBrush="#FF2A3844" BorderThickness="1"/>
+                                        <TextBox x:Name="ServerPasswordVisibleBox" Visibility="Collapsed" ToolTip="The dedicated server password"/>
+                                    </Grid>
+                                </DockPanel>
+                                <DockPanel Margin="0,10,0,0" LastChildFill="False">
+                                    <Button x:Name="CheckServerButton" DockPanel.Dock="Right" Content="Check server" Style="{StaticResource CompactButton}" Click="CheckServer_Click"
+                                            ToolTip="Checks the host address and UDP port. This stays here for Steam lobby and Direct. A Steam name cannot be checked this way. A missing reply does not mean the server is stopped."
+                                            Background="#FF1A2A3A" Foreground="#FF8EB4D4" BorderBrush="#FF8EB4D4" BorderThickness="2" FontWeight="SemiBold"/>
+                                    <Border x:Name="ServerStatusPill" Background="#FF1B2833" CornerRadius="2" Padding="10,4" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                        <TextBlock x:Name="ServerStatusText" Text="Enter a Steam name" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource Gold}"/>
+                                    </Border>
+                                </DockPanel>
+                                <!-- Only while RBM is in this setup. See MainWindow.Rbm.cs. -->
+                                <StackPanel x:Name="RbmCoopFriendlyPanel" Visibility="Collapsed" Margin="0,12,0,0">
+                                    <CheckBox x:Name="RbmCoopFriendlyBox" Content="Keep RBM coop friendly" HorizontalAlignment="Left" Foreground="#FFD5DEE6" FontSize="14"
+                                              Checked="RbmCoopFriendly_Changed" Unchecked="RbmCoopFriendly_Changed" AutomationProperties.AutomationId="RbmCoopFriendlyBox"
+                                              ToolTip="Connect turns off RBM's Lords buy equipment in your own RBM settings, so lords do not empty the town markets in coop. Untick it to keep your own RBM settings."/>
+                                    <TextBlock Text="RBM is in this setup. RBM's campaign rules run in your own game, not on the server, so every player should use the same RBM settings." TextWrapping="Wrap" Foreground="{StaticResource Muted}" FontSize="12" Margin="0,6,0,0"/>
+                                </StackPanel>
+                                <TextBlock Text="Campaign map" Style="{StaticResource FieldLabel}" ToolTip="Pick the map the server is running. Vanilla campaign Map keeps the join fixes. More Nations Remastered Map adds that map and its coop fix."/>
+                                <ComboBox x:Name="MapBox" ToolTip="Pick the campaign map the server is running. The mod list updates to match." Style="{StaticResource MapBox}" SelectionChanged="MapBox_SelectionChanged">
+                                    <ComboBoxItem Content="Vanilla campaign Map" Tag="Vanilla"/>
+                                    <ComboBoxItem Content="More Nations Remastered Map" Tag="MoreNations"/>
+                                </ComboBox>
+                                <!-- The More Nations switch, where the Coodsz and Friends build went. See MainWindow.MoreNations.cs. -->
+                                <CheckBox x:Name="MoreNationsBox" Content="More Nations" HorizontalAlignment="Left" Foreground="#FFD5DEE6" FontSize="14" Margin="0,10,0,0"
+                                          Checked="MoreNations_Changed" Unchecked="MoreNations_Changed" AutomationProperties.AutomationId="MoreNationsBox"
+                                          ToolTip="Coodsz and Friends is now this switch. Your setups keep the map they have. On, a setup with no saved map starts on More Nations Remastered Map."/>
+                                <Border x:Name="MoreNationsSaveInfo" Margin="0,12,0,0" Padding="12,10" CornerRadius="4" Background="#FF151D24" BorderBrush="#FF8EB4D4" BorderThickness="1" Visibility="Collapsed">
+                                    <StackPanel>
+                                        <TextBlock Text="More Nations Remastered map" FontWeight="SemiBold" Foreground="#FFE2C27A" Margin="0,0,0,6"/>
+                                        <TextBlock TextWrapping="Wrap" Foreground="#FFD5DEE6" FontSize="13" Text="Make sure the host does this. If you are the one loading the save on the server, do it yourself in the server tool. Make the campaign in single player with the More Nations Remastered setup, begin a sandbox campaign, and save. In the server tool, click Load single-player save and pick that .sav. The single-player file stays where it is. Start server loads the copy. A campaign the server creates itself leaves the ground black. The save has to be one made with More Nations. A vanilla or other-mod save stays that map. A server that is already running keeps its current campaign until the host stops it and presses Start server."/>
+                                    </StackPanel>
+                                </Border>
+                                <TextBox x:Name="ProfileUrlBox" Visibility="Collapsed"/>
+                                <PasswordBox x:Name="NexusKeyBox" Visibility="Collapsed"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel x:Name="PlaySide" Grid.Column="1">
+                        <!-- One gold button for what to do now (ShowNextStep): Find Bannerlord, Check mods, Install mods or Connect. -->
+                        <Border Background="{StaticResource Card}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="2" Padding="16" Margin="0,0,0,12">
+                            <StackPanel>
+                                <TextBlock Text="NEXT STEP" Foreground="{StaticResource Gold}" FontSize="11" FontWeight="SemiBold"/>
+                                <TextBlock x:Name="NextStepText" Text="Looking for Bannerlord..." FontSize="18" TextWrapping="Wrap" Margin="0,4,0,10"/>
+                                <WrapPanel x:Name="ActionButtonRow">
+                                    <Button x:Name="NextFindButton" Content="Find Bannerlord" ToolTip="Pick the Mount &amp; Blade II Bannerlord folder. The tool remembers it." Style="{StaticResource Keep.BtnGhost}" Margin="0,0,8,8" Click="FindBannerlord_Click" Visibility="Collapsed"/>
+                                    <Button x:Name="NextModsButton" Content="Open Mods" Tag="Mods" Click="Nav_Click" Style="{StaticResource Keep.BtnGhost}" Margin="0,0,8,8" Visibility="Collapsed" ToolTip="Shows the Mods page with every mod and its status."/>
+                                    <Button x:Name="InstallButton" ToolTip="Gets the mods this setup needs that are missing or out of date. Workshop mods open in Steam so you can subscribe." Content="Install mods" Style="{StaticResource Keep.BtnGhost}" Margin="0,0,8,8" Click="Install_Click" Visibility="Collapsed"/>
+                                    <Button x:Name="ConnectButton" Content="Connect" Style="{StaticResource Keep.BtnGhost}" Click="Connect_Click" Margin="0,0,8,8" MinWidth="120"
+                                            ToolTip="Joins with Steam lobby or the address and UDP port in this box."/>
+                                    <Button x:Name="PlayCheckModsButton" Content="Check mods" Style="{StaticResource Keep.BtnGhost}" Margin="0,0,8,8" Click="CheckMods_Click"
+                                            ToolTip="Checks the enabled mods again and says if any are missing or the wrong version."/>
+                                    <Button x:Name="DiagnosticButton" Content="Test to main menu" Style="{StaticResource Keep.BtnGhost}" Click="Diagnostic_Click" Margin="0,0,8,8"
+                                            ToolTip="Starts the game at the main menu without joining the server. If the game closes while starting, the activity log says which extra mod to turn off."/>
+                                </WrapPanel>
+                                <!-- This PC's Bannerlord is newer than 1.4.8 (NewerGame): the same line as the Made for card, next to Connect. -->
+                                <TextBlock x:Name="NewerGameText" Visibility="Collapsed" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource Keep.WarningInk}" TextWrapping="Wrap" Margin="0,2,0,4"/>
+                                <TextBlock x:Name="BlockReasonText" Margin="0,2,0,0" Foreground="#FF8EB4D4" TextWrapping="Wrap"/>
+                                <WrapPanel Margin="0,4,0,0">
+                                    <ContentControl x:Name="CrashLinkSlot" Margin="0,0,16,0"/>
+                                    <!-- Send my logs sits in SendLogsSlot below, so this link stays empty and hidden here. -->
+                                    <ContentControl x:Name="SendLogsLinkSlot" Visibility="Collapsed"/>
+                                </WrapPanel>
+                                <!-- Send my logs and My reports (CrashReportUi and ReportRepliesUi.Attach), for a stuck join, a desync or lag. -->
+                                <ContentControl x:Name="SendLogsSlot" HorizontalAlignment="Left" Margin="0,10,0,0"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- The first problem mods (ShowNeedsAttention), with the way to the Mods page. -->
+                        <Border x:Name="NeedsAttentionCard" Visibility="Collapsed" Background="{StaticResource Card}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="2" Padding="16" Margin="0,0,0,12">
+                            <StackPanel>
+                                <TextBlock Text="NEEDS ATTENTION" Foreground="{StaticResource Gold}" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                                <ItemsControl x:Name="NeedsAttentionList" Focusable="False" IsTabStop="False">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <DockPanel Margin="0,3">
+                                                <ui:Chip DockPanel.Dock="Right" Text="{Binding Status}" Kind="{Binding StatusKind}" Tip="{Binding StatusTip}" MaxWidth="150" Margin="8,0,0,0"/>
+                                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}"/>
+                                            </DockPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <Button Content="Open Mods" Style="{StaticResource Keep.BtnLink}" Tag="Mods" Click="Nav_Click" HorizontalAlignment="Left" Margin="-6,6,0,0" ToolTip="Shows the Mods page with every mod and its status."/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- What the buttons do, closed until asked for. -->
+                        <Border x:Name="ButtonHelpCard" Background="{StaticResource Card}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="2" Padding="16,10" Margin="0,0,0,12">
+                        <StackPanel>
+                            <ToggleButton x:Name="ButtonHelpToggle" Style="{StaticResource HelpToggle}" Content="What the buttons do" ToolTip="Shows what Install mods, Add mods and Connect do."/>
+                            <StackPanel Margin="0,8,0,0" Visibility="{Binding IsChecked, ElementName=ButtonHelpToggle, Converter={StaticResource BoolToVisible}}">
+                                <TextBlock FontSize="12" TextWrapping="Wrap" Margin="0,0,0,8" Foreground="#FFC2CDD6">
+                                    <Run FontWeight="SemiBold" Foreground="#FFD5DEE6" Text="Install mods"/>
+                                    <LineBreak/>
+                                    <Run Text="Checks this setup's mods are in the game's Modules folder. Copies included mods. Opens Steam if a Workshop mod is missing."/>
+                                </TextBlock>
+                                <TextBlock FontSize="12" TextWrapping="Wrap" Margin="0,0,0,8" Foreground="#FFC2CDD6">
+                                    <Run FontWeight="SemiBold" Foreground="#FFD5DEE6" Text="Add mods"/>
+                                    <LineBreak/>
+                                    <Run Text="Puts extra mods on this list. It does not download them."/>
+                                </TextBlock>
+                                <TextBlock FontSize="12" TextWrapping="Wrap" Foreground="#FFC2CDD6">
+                                    <Run FontWeight="SemiBold" Foreground="#FFD5DEE6" Text="Connect"/>
+                                    <LineBreak/>
+                                    <Run Text="Joins the server you set in the Join box."/>
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- The Realm promo as the Join my server card (redesign D2): under the Next step card, or last when the page stacks (FitPlay). -->
+                    <ui:RealmCard x:Name="RealmCard" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top">
+                        <ui:RealmCard.Actions>
+                            <WrapPanel>
+                                <Button Content="Join on Discord" Style="{StaticResource Keep.BtnSolidGold}" Click="RealmJoin_Click" ToolTip="Opens the Discord invite for The Realm Bannerlord server in your browser." Margin="0,0,8,8"/>
+                                <Button Style="{StaticResource Keep.BtnLink}" Click="RealmReward_Click" ToolTip="New players get a unique starting reward" Margin="0,0,4,8" VerticalAlignment="Center"><TextBlock><Run Text="🎁 " FontFamily="Segoe UI Emoji, Segoe UI Symbol"/><Run Text="Free starter reward"/></TextBlock></Button>
+                                <Button Content="Copy invite" Style="{StaticResource Keep.BtnLink}" Click="RealmCopy_Click" ToolTip="Copies the Discord invite link for The Realm Bannerlord server." Margin="0,0,0,8" VerticalAlignment="Center"/>
+                            </WrapPanel>
+                        </ui:RealmCard.Actions>
+                        <TextBlock x:Name="RealmStatus" Text="The Realm Bannerlord · new players welcome · weekly events, races, bounties and clans" Style="{StaticResource Keep.Dim}" TextWrapping="Wrap"/>
+                    </ui:RealmCard>
+                </Grid>
+                </ScrollViewer>
+
+                <!-- Mods: the mod list as its own page. -->
+                <Border x:Name="ModsCard" Visibility="Collapsed" Background="{StaticResource Card}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="2" Padding="16,14">
+                    <DockPanel>
+                        <!-- The toolbar first: Add mods as the one accent button, Check mods, Save mods while a change waits, and More. -->
+                        <StackPanel x:Name="ModsCardHeader" DockPanel.Dock="Top" Margin="0,0,0,12">
+                            <WrapPanel x:Name="ModuleButtonRow">
+                                <Button x:Name="AddModsButton" Content="Add mods" Style="{StaticResource Keep.BtnPrimary}" Margin="0,0,8,8" Click="AddMods_Click" ToolTip="Finds Steam Workshop mods and Nexus or ModDB mods already installed in Bannerlord."/>
+                                <Button x:Name="CheckModsButton" Content="Check mods" Style="{StaticResource Keep.BtnGhost}" Margin="0,0,8,8" Click="CheckMods_Click"
+                                        ToolTip="Checks the enabled mods again and says if any are missing or the wrong version."/>
+                                <Button x:Name="SaveModsButton" Content="Save mods" Style="{StaticResource Keep.BtnGhost}" Margin="0,0,8,8" Click="SaveMods_Click" Visibility="Collapsed"
+                                        ToolTip="Keeps this setup and clears the highlight on mods you just added."/>
+                                <Button x:Name="ModsMoreButton" Content="More ▾" Style="{StaticResource Keep.BtnGhost}" Margin="0,0,8,8" Click="OpenMenu_Click"
+                                        ToolTip="Share mod list, Import mod list, Save mods, Auto dependency order and Module folder.">
+                                    <Button.ContextMenu>
+                                        <ContextMenu Style="{StaticResource Keep.Menu}">
+                                            <MenuItem Header="Share mod list" Click="ShareList_Click" ToolTip="Shows where to save the file, then saves coodsz-mod-list.json. The Desktop is fine."/>
+                                            <MenuItem Header="Import mod list" Click="OpenSharedList_Click" ToolTip="Pick a coodsz-mod-list.json file. Extra mods match on an unlocked setup. A locked setup keeps its mods, so a new setup is made for the list."/>
+                                            <MenuItem x:Name="SaveModsMenuItem" Header="Save mods" Click="SaveMods_Click" ToolTip="Keeps this setup and clears the highlight on mods you just added."/>
+                                            <MenuItem x:Name="AutoOrderButton" Header="Auto dependency order" Click="AutoOrder_Click"
+                                                      ToolTip="Sorts extra mods so each one loads after the mods it needs. Bannerlord Coop and the working list stay put. Press Save mods after it moves anything. Locked setups leave this off."/>
+                                            <MenuItem x:Name="ModuleFolderMenuItem" Header="Module folder" Click="ModuleFolder_Click" ToolTip="Opens the game Modules folder."/>
+                                        </ContextMenu>
+                                    </Button.ContextMenu>
+                                </Button>
+                                <TextBlock VerticalAlignment="Center" FontSize="13" Margin="4,0,0,8" ToolTip="Opens the Coop and Friends mod list on GitHub in your browser: every mod with its status, player reports and notes.">
+                                    <Hyperlink Click="FullModList_Click" Foreground="#FFD5DEE6" TextDecorations="Underline"><Run Text="Full mod list"/></Hyperlink>
+                                </TextBlock>
+                            </WrapPanel>
+                            <WrapPanel Margin="0,2,0,0">
+                                <ui:Chip x:Name="ModuleSummaryText" Kind="Ok" VerticalAlignment="Center" Margin="0,0,12,0"
+                                     ToolTip="Players need the same mods at the same versions to join."/>
+                                <TextBlock Text="Extra mods load below the working Coop mods." Foreground="{StaticResource Muted}" FontSize="12" VerticalAlignment="Center" TextWrapping="Wrap"
+                                           ToolTip="The working Coop mods stay in the order that runs. Extra mods can move below that list. Always on mods stay on. Bannerlord Coop can move on a normal setup, and it can be turned off. A mod can sit before it or after it. The locked setups stay as they are."/>
+                            </WrapPanel>
+                            <!-- The calm Played with mods? Tell others if they worked. Report a mod line (ModReportUi.Hint), gone for good after a report or its x. -->
+                            <ContentControl x:Name="ReportHintSlot"/>
+                            <!-- One short line, only after a change or a refused move. -->
+                            <TextBlock x:Name="ModuleSaveHint" Visibility="Collapsed" TextWrapping="Wrap" Margin="0,8,0,0" FontSize="13" FontWeight="SemiBold" Foreground="#FFE2C27A" Text="Saved for this setup. Connect uses these mods."/>
+                        </StackPanel>
+
+                        <Grid DockPanel.Dock="Top" Margin="2,0,16,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="48"/>
+                                <ColumnDefinition Width="34"/>
+                                <ColumnDefinition Width="2*" MinWidth="140"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="1.4*"/>
+                                <ColumnDefinition Width="150"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="1" Text="#" Foreground="{StaticResource Gold}" FontSize="11"/>
+                            <TextBlock Grid.Column="2" Text="MODULE" Foreground="{StaticResource Gold}" FontSize="11"/>
+                            <TextBlock Grid.Column="3" Text="STATUS" Foreground="{StaticResource Gold}" FontSize="11" Width="{x:Static ui:ModRowLayout.ChipColumn}"/>
+                            <TextBlock Grid.Column="4" Text="DETAIL" Foreground="{StaticResource Gold}" FontSize="11" Margin="8,0,0,0"/>
+                        </Grid>
+
+                        <ScrollViewer x:Name="ModsListScroll" Style="{StaticResource ModuleScroller}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <!-- Alt+Up and Alt+Down move the row that has the focus (ModuleListKeys). -->
+                        <ItemsControl x:Name="ModuleList"
+                                          PreviewKeyDown="ModuleListKeys"
+                                          PreviewMouseLeftButtonDown="ModuleDragStart"
+                                          PreviewMouseMove="ModuleDragMove"
+                                          PreviewMouseLeftButtonUp="ModuleDragUp"
+                                          LostMouseCapture="ModuleDragUp">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border x:Name="RowEdge" BorderBrush="#FF24303A" BorderThickness="0,0,0,1" Padding="2,7" Cursor="SizeNS" Background="Transparent" MinHeight="{x:Static ui:ModRowLayout.RowHeight}">
+                                            <Grid VerticalAlignment="Center">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="48"/>
+                                                    <ColumnDefinition Width="34"/>
+                                                    <ColumnDefinition Width="2*" MinWidth="140"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="1.4*"/>
+                                                    <ColumnDefinition Width="150"/>
+                                                </Grid.ColumnDefinitions>
+                                                <CheckBox Style="{StaticResource Keep.Switch}" VerticalAlignment="Center" IsChecked="{Binding IsOn, Mode=OneWay}" IsEnabled="{Binding CanToggle}"
+                                                          Tag="{Binding ModuleId}" Click="ModuleToggle_Click" ToolTip="{Binding ToggleTip}" Cursor="Hand"/>
+                                                <TextBlock x:Name="OrderLabel" Grid.Column="1" Text="{Binding Order}" VerticalAlignment="Center" Foreground="#FFE2C27A" FontFamily="Consolas" FontWeight="SemiBold" FontSize="14"/>
+                                                <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="0,0,10,0">
+                                                    <TextBlock x:Name="ModName" Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}"/>
+                                                    <TextBlock Text="{Binding DisplayId}" Foreground="{StaticResource Muted}" FontFamily="Consolas" FontSize="11.5" TextTrimming="CharacterEllipsis" ToolTip="{Binding DisplayId}" Tag="coodsz:no-translate"/>
+                                                </StackPanel>
+                                                <!-- The status chip, the community badge, the verdict, the report counts, this PC's own result and
+                                                     the Report link share one fixed column, so they line up; a chip that does not fit wraps. -->
+                                                <WrapPanel Grid.Column="3" Width="{x:Static ui:ModRowLayout.ChipColumn}" VerticalAlignment="Center" Orientation="Horizontal">
+                                                    <ui:Chip Text="{Binding Status}" Kind="{Binding StatusKind}" Tip="{Binding StatusTip}" MaxWidth="150" Margin="0,1,6,1"/>
+                                                    <Button Click="CompatBadge_Click" Cursor="Hand" Margin="0,1,6,1" VerticalAlignment="Center" ToolTip="{Binding Compat.Tip}">
+                                                        <Button.Style>
+                                                            <Style TargetType="Button">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Compat}" Value="{x:Null}">
+                                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Button.Style>
+                                                        <Button.Template>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border x:Name="CompatPill" CornerRadius="9" Padding="7,1" Background="#FF24303A">
+                                                                    <TextBlock x:Name="CompatLabel" Text="{Binding Compat.Text}" FontSize="10" FontWeight="SemiBold" Foreground="#FF8EA0AE"/>
+                                                                </Border>
+                                                                <ControlTemplate.Triggers>
+                                                                    <DataTrigger Binding="{Binding Compat.Kind}" Value="Works">
+                                                                        <Setter TargetName="CompatPill" Property="Background" Value="#FF1E3326"/>
+                                                                        <Setter TargetName="CompatLabel" Property="Foreground" Value="#FF8FCB9B"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Compat.Kind}" Value="ClientOnly">
+                                                                        <Setter TargetName="CompatPill" Property="Background" Value="#FF1C2A3A"/>
+                                                                        <Setter TargetName="CompatLabel" Property="Foreground" Value="#FF8EB4D4"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Compat.Kind}" Value="Broken">
+                                                                        <Setter TargetName="CompatPill" Property="Background" Value="#FF3A2422"/>
+                                                                        <Setter TargetName="CompatLabel" Property="Foreground" Value="#FFE08B84"/>
+                                                                    </DataTrigger>
+                                                                </ControlTemplate.Triggers>
+                                                            </ControlTemplate>
+                                                        </Button.Template>
+                                                    </Button>
+                                                    <!-- ModderLords' verdict for the mod (CompatRecords.Chip): Tested: works, Works with settings or Tested: broken. -->
+                                                    <Border CornerRadius="9" Padding="7,1" Margin="0,1,6,1" MaxWidth="170" VerticalAlignment="Center" BorderThickness="1"
+                                                            ToolTip="{Binding Compat.Tested.Tip}">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="Background" Value="#FF1E3326"/>
+                                                                <Setter Property="BorderBrush" Value="#FF8FCB9B"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Compat.Tested, FallbackValue={x:Null}}" Value="{x:Null}">
+                                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Compat.Tested.Kind}" Value="NeedsRecipe">
+                                                                        <Setter Property="Background" Value="#FF33301E"/>
+                                                                        <Setter Property="BorderBrush" Value="#FFD2B36A"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Compat.Tested.Kind}" Value="Broken">
+                                                                        <Setter Property="Background" Value="#FF3A2422"/>
+                                                                        <Setter Property="BorderBrush" Value="#FFE08B84"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Compat.Tested.OlderVersion}" Value="True">
+                                                                        <Setter Property="Opacity" Value="0.6"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                        <TextBlock Text="{Binding Compat.Tested.Text}" FontSize="10" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"
+                                                                   Foreground="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=Border}}"/>
+                                                    </Border>
+                                                    <!-- The community counts as chips: green for works, red for broken (ModReports.WorksChip and BrokenChip). -->
+                                                    <Border CornerRadius="9" Padding="7,1" Margin="0,1,6,1" VerticalAlignment="Center" BorderThickness="1"
+                                                            Background="{StaticResource ReportGreenBack}" BorderBrush="{StaticResource ReportGreen}"
+                                                            ToolTip="What players using Coodsz tools reported for this mod. Add yours with Report a mod.">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Compat.WorksChip, FallbackValue={x:Null}}" Value="{x:Null}">
+                                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                        <TextBlock Text="{Binding Compat.WorksChip}" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource ReportGreen}"/>
+                                                    </Border>
+                                                    <Border CornerRadius="9" Padding="7,1" Margin="0,1,6,1" VerticalAlignment="Center" BorderThickness="1"
+                                                            Background="{StaticResource ReportRedBack}" BorderBrush="{StaticResource ReportRed}"
+                                                            ToolTip="What players using Coodsz tools reported for this mod. Add yours with Report a mod.">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Compat.BrokenChip, FallbackValue={x:Null}}" Value="{x:Null}">
+                                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                        <TextBlock Text="{Binding Compat.BrokenChip}" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource ReportRed}"/>
+                                                    </Border>
+                                                    <Border CornerRadius="9" Padding="7,1" Margin="0,1,6,1" MaxWidth="156" VerticalAlignment="Center" ToolTip="{Binding Mine.Hover}">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="Background" Value="#FF1E3326"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Mine}" Value="{x:Null}">
+                                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Mine.Good}" Value="False">
+                                                                        <Setter Property="Background" Value="#FF3A2422"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Mine.Older}" Value="True">
+                                                                        <Setter Property="Opacity" Value="0.5"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                        <TextBlock Text="{Binding Mine.Text}" FontSize="10" FontWeight="SemiBold" TextTrimming="CharacterEllipsis">
+                                                            <TextBlock.Style>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Setter Property="Foreground" Value="#FF8FCB9B"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Mine.Good}" Value="False">
+                                                                            <Setter Property="Foreground" Value="#FFE08B84"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Style>
+                                                        </TextBlock>
+                                                    </Border>
+                                                    <!-- The small Report link on each mod row (ModReportUi.RowLinkText): opens the report for this mod, like a click on the badge. -->
+                                                    <Button Click="CompatBadge_Click" Cursor="Hand" Margin="0,1,0,1" VerticalAlignment="Center" AutomationProperties.AutomationId="RowReportLink"
+                                                            ToolTip="{Binding Compat.Tip}">
+                                                        <Button.Style>
+                                                            <Style TargetType="Button">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Compat}" Value="{x:Null}">
+                                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Button.Style>
+                                                        <Button.Template>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border Background="Transparent">
+                                                                    <ContentPresenter/>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Button.Template>
+                                                        <TextBlock Text="Report" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource ReportGold}" TextDecorations="Underline"/>
+                                                    </Button>
+                                                </WrapPanel>
+                                                <TextBlock Grid.Column="4" Text="{Binding Detail}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="#FFD5DEE6" FontSize="12" Margin="8,0,8,0"/>
+                                                <StackPanel Grid.Column="5" Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <ui:MoveButtons VerticalAlignment="Center" ItemName="{Binding Name}" CanMoveUp="{Binding CanMoveUp}" CanMoveDown="{Binding CanMoveDown}" MoveUp="ModuleMoveUp" MoveDown="ModuleMoveDown"/>
+                                                    <Button x:Name="RemoveButton" Content="Remove" Visibility="Hidden" Margin="8,0,0,0" VerticalAlignment="Center" Padding="8,2" FontSize="11" FontWeight="SemiBold" Cursor="Hand" Tag="{Binding ModuleId}" Click="RemoveMod_Click" ToolTip="Takes this mod off this setup's list." Background="#FF3A2422" Foreground="#FFE08B84" BorderBrush="#FFE08B84" BorderThickness="1">
+                                                        <Button.Template>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="9" Padding="{TemplateBinding Padding}">
+                                                                    <TextBlock x:Name="Label" Text="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Button.Template>
+                                                    </Button>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding CanMove}" Value="False">
+                                                <Setter TargetName="RowEdge" Property="Cursor" Value="Arrow"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsPending}" Value="True">
+                                                <Setter TargetName="RowEdge" Property="Background" Value="#FF3A3420"/>
+                                                <Setter TargetName="RowEdge" Property="BorderBrush" Value="#FFE2C27A"/>
+                                                <Setter TargetName="RowEdge" Property="BorderThickness" Value="2"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding CanRemove}" Value="True">
+                                                <Setter TargetName="RemoveButton" Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsDragging}" Value="True">
+                                                <Setter TargetName="RowEdge" Property="Background" Value="#FFE2C27A"/>
+                                                <Setter TargetName="RowEdge" Property="BorderBrush" Value="#FFE2C27A"/>
+                                                <Setter TargetName="RowEdge" Property="BorderThickness" Value="2"/>
+                                                <Setter TargetName="OrderLabel" Property="Foreground" Value="#FF1A160C"/>
+                                                <Setter TargetName="ModName" Property="Foreground" Value="#FF1A160C"/>
+                                                <Setter TargetName="ModName" Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        </ScrollViewer>
+                    </DockPanel>
+                </Border>
+
+                <!-- Logs and help: Send my logs and the report tools above, the Test to main menu help, the activity log below. -->
+                <Grid x:Name="LogsPage" Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0" Background="{StaticResource Card}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="2" Padding="16,12" Margin="0,0,0,12">
+                        <StackPanel>
+                            <!-- My reports shows beside Send my logs once a report was sent (ReportRepliesUi.AddMyReports). -->
+                            <WrapPanel>
+                                <Button x:Name="SendLogsButton" Content="Send my logs" Click="SendLogs_Click" Style="{StaticResource Keep.BtnGold}" Margin="0,0,2,8"
+                                        ToolTip="Sends your cleaned logs to Coodsz, with Coop_client.log, client-action.log, crash reports and engine logs. You see every file first, then you get a short code to post in Discord. Save a copy instead is in that window. The small arrow next to it has Open client logs."/>
+                                <Button x:Name="LogsMenuButton" Content="▾" Click="OpenMenu_Click" Style="{StaticResource Keep.BtnGold}" Padding="10,0" Margin="0,0,8,8"
+                                        ToolTip="More log tools: Open client logs and Fix antivirus.">
+                                    <Button.ContextMenu>
+                                        <ContextMenu Style="{StaticResource Keep.Menu}">
+                                            <MenuItem Header="Open client logs" Click="CrashLogs_Click"
+                                                      ToolTip="Opens the game log folder and selects Coop_client.log and a dated client-action copy, or Coop Crash Reports if the game folder is missing. Send my logs also packs crash reports and hard crashes."/>
+                                            <MenuItem Header="Fix antivirus" Click="FixAntivirus_Click" ToolTip="Shows the folders your antivirus should skip on this PC and opens Windows Security. It changes no setting itself."/>
+                                        </ContextMenu>
+                                    </Button.ContextMenu>
+                                </Button>
+                                <ContentControl x:Name="LogsMyReportsSlot" Focusable="False" VerticalAlignment="Center" Margin="0,0,12,8"/>
+                                <ContentControl x:Name="ReportModSlot" VerticalAlignment="Center" Margin="0,0,0,8"/>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Row="1" Background="{StaticResource Card}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="2" Padding="16,12" Margin="0,0,0,12">
+                        <StackPanel>
+                            <TextBlock Text="TEST TO MAIN MENU" Foreground="{StaticResource Gold}" FontSize="11" FontWeight="SemiBold"/>
+                            <TextBlock Text="Test to main menu starts the game at the main menu and does not join the server. If the game closes while starting, the activity log names the extra mod to turn off, or tells you to turn the extra mods off and test again. Auto dependency order sorts extra mods so each one loads after the mods it needs. Bannerlord Coop stays put. Press Save mods after it moves anything." Foreground="#FFD5DEE6" FontSize="13" TextWrapping="Wrap" Margin="0,6,0,0"/>
+                        </StackPanel>
+                    </Border>
+                    <!-- The activity log in the dark frame of the log card (LogCard). -->
+                    <Border Grid.Row="2" CornerRadius="8" BorderThickness="1" Padding="14,10" Background="#FF0A1015" BorderBrush="#FF2A3844">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Top" Text="ACTIVITY" Foreground="#FF8EA0AE" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                            <TextBox x:Name="LogBox" Style="{StaticResource LogText}" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True"
+                                     VerticalScrollBarVisibility="Auto" MinHeight="160"/>
+                        </DockPanel>
+                    </Border>
+                </Grid>
+
+                <!-- Settings: the setup tools, the game folder and the advanced tools, in one button style. -->
+                <ScrollViewer x:Name="SettingsPage" Visibility="Collapsed" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer.Resources>
+                        <Style TargetType="ScrollBar" BasedOn="{StaticResource DarkScroll}"/>
+                    </ScrollViewer.Resources>
+                    <StackPanel MaxWidth="760" HorizontalAlignment="Left">
+                        <Border Background="{StaticResource Card}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="2" Padding="16" Margin="0,0,0,12">
+                            <StackPanel>
+                                <TextBlock Text="SETUP" Foreground="{StaticResource Gold}" FontSize="11" FontWeight="SemiBold"/>
+                                <TextBlock Text="Name" Foreground="{StaticResource Muted}" FontSize="12" Margin="0,8,0,4"/>
+                                <TextBox x:Name="SetupNameBox" TextWrapping="Wrap" MinHeight="40" ScrollViewer.HorizontalScrollBarVisibility="Disabled" TextChanged="SetupNameBox_TextChanged" ToolTip="The name saves as you type and shows in the list above."/>
+                                <WrapPanel Margin="0,8,0,0">
+                                    <Button x:Name="NewSetupButton" Content="New setup" Style="{StaticResource Keep.BtnGhost}" Margin="0,0,8,8" Click="NewSetup_Click" ToolTip="Starts a setup on the default mod order, with a fresh map and join."/>
+                                    <Button x:Name="CopySetupButton" Content="Copy setup" Style="{StaticResource Keep.BtnGhost}" Margin="0,0,8,8" Click="CopySetup_Click" ToolTip="Copies this map, join, and mod switches into a new setup."/>
+                                    <Button x:Name="RenameSetupButton" ToolTip="Renames this setup to the name typed in the Name box." Content="Rename" Style="{StaticResource Keep.BtnGhost}" Margin="0,0,8,8" Click="RenameSetup_Click"/>
+                                    <Button x:Name="DeleteSetupButton" ToolTip="Deletes this setup after you confirm. You always keep at least one setup." Content="Delete" Style="{StaticResource Keep.BtnDanger}" Margin="0,0,0,8" Click="DeleteSetup_Click"/>
+                                </WrapPanel>
+                                <TextBlock TextWrapping="Wrap" Foreground="{StaticResource Muted}" FontSize="12" Margin="0,4,0,0"
+                                           Text="A setup keeps the map, the server you join, and which mods are on."/>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{StaticResource Card}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="2" Padding="16" Margin="0,0,0,12">
+                            <StackPanel>
+                                <TextBlock Text="GAME FOLDER" Foreground="{StaticResource Gold}" FontSize="11" FontWeight="SemiBold"/>
+                                <TextBlock Text="{Binding Text, ElementName=GameFoundText}" TextWrapping="Wrap" Margin="0,6,0,0"/>
+                                <TextBlock Text="{Binding Text, ElementName=GamePathBox}" TextWrapping="Wrap" Margin="0,4,0,8" Foreground="{StaticResource Muted}" FontFamily="Consolas" FontSize="12" Tag="coodsz:no-translate"/>
+                                <Button Content="Find Bannerlord" ToolTip="Pick the Mount &amp; Blade II Bannerlord folder. The tool remembers it." Style="{StaticResource Keep.BtnGhost}" HorizontalAlignment="Left" Click="FindBannerlord_Click"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{StaticResource Card}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="2" Padding="16" Margin="0,0,0,12">
+                            <StackPanel>
+                                <TextBlock Text="ADVANCED" Foreground="{StaticResource Gold}" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                                <WrapPanel>
+                                    <Button x:Name="UnblockButton" Content="Unblock DLLs" Style="{StaticResource Keep.BtnGhost}" Margin="0,0,8,8" Click="Unblock_Click"
+                                            ToolTip="Clears the Windows download block on files in the Modules folder. Use this when the game says it cannot load a DLL."/>
+                                    <Button Content="Clear shader cache" Style="{StaticResource Keep.BtnGhost}" Margin="0,0,8,8" Click="ClearShaders_Click"
+                                            ToolTip="Deletes the shader cache in ProgramData. Close Bannerlord first. The game builds the shaders again on the next launch. Saves are not touched."/>
+                                    <Button Content="Clear unused MCM" Style="{StaticResource Keep.BtnGhost}" Margin="0,0,8,8" Click="ClearUnusedMcm_Click"
+                                            ToolTip="Deletes leftover optional MCM config folders for mods that are off in this setup. Keeps configs for mods that are on. Close Bannerlord first."/>
+                                </WrapPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>

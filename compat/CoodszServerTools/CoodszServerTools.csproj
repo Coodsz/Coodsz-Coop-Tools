@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Coodsz Server Tools: the coodsz.* console commands Coodsz Host's Cheats page and player
+       profile use. A server only module (DedicatedServer.CoodszTools), so Coop leaves it out of the
+       client module check. Built against the dedicated server's own game DLLs, which are not
+       copied (Private=false). net6.0 like the server, so it can use the server's own 0Harmony.
+       Build with build.ps1; it copies the DLL into Coodsz Host's payload. -->
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>DedicatedServer.CoodszTools</AssemblyName>
+    <RootNamespace>CoodszServerTools</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <Version>1.8.1</Version>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <ServerRoot Condition="'$(ServerRoot)' == ''">C:\Program Files (x86)\Steam\steamapps\workshop\content\261550\3770450698\DedicatedServer</ServerRoot>
+    <ServerBin>$(ServerRoot)\engine\bin\Win64_Shipping_Server</ServerBin>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="build.ps1;README.md;SubModule.xml" />
+    <Reference Include="TaleWorlds.Library"><HintPath>$(ServerBin)\TaleWorlds.Library.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.Core"><HintPath>$(ServerBin)\TaleWorlds.Core.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.ObjectSystem"><HintPath>$(ServerBin)\TaleWorlds.ObjectSystem.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.CampaignSystem"><HintPath>$(ServerBin)\TaleWorlds.CampaignSystem.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.MountAndBlade"><HintPath>$(ServerBin)\TaleWorlds.MountAndBlade.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.Localization"><HintPath>$(ServerBin)\TaleWorlds.Localization.dll</HintPath><Private>false</Private></Reference>
+    <!-- Harmony for Max clans per kingdom: the server's own 0Harmony, the one Coop loads. -->
+    <Reference Include="0Harmony"><HintPath>$(ServerBin)\0Harmony.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Settings sync: the probe and loader for CoodszSettingsSync.Coop.dll, which build.ps1 builds from
+         ..\CoodszSettingsSync and copies next to this DLL. -->
+    <Compile Include="..\CoodszSettingsSync\src\Shared\CoopProbe.cs" Link="src\CoopProbe.cs" />
+  </ItemGroup>
+</Project>

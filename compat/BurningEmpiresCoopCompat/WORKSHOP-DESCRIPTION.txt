@@ -1,0 +1,23 @@
+Burning Empires Coop Compat v1.0.0 (by Coodsz)
+
+Makes the Burning Empires overhaul work in Bannerlord Coop. Made for Burning Empires 2.0.2.
+
+Burning Empires was built for one player. In Coop the server runs the campaign, so this module makes the server the boss for populations, religions, wanderers, bandits, champions and recruits. Things that only changed your own PC are greyed out, and features that cannot work yet are switched off. Single player is not changed.
+
+Who needs it
+The server and every player, with the same module list and versions. Load it after Coop and right before Burning Empires.
+Required modules in order are Harmony, ButterLib, UIExtenderEx, MCM, Bannerlord Coop, this module, Burning Empires, then Burning Empires Elephants.
+
+Easiest setup
+Use the Coodsz Burning Empires tools from github.com/Coodsz/Coodsz-BurningEmpires/releases/latest. The Client Launcher sets up your game and joins. The Server Tool runs the dedicated server for you.
+
+Known issues
+On Coop 0.1.6, a hideout fight where your hero is knocked down never ends, and accepting some quests can freeze the dialog. Both are Coop bugs. A Coop fix for the hideout one is on the way, and Coop's development version replaced the quest system.
+The campaign map ground can look black on some PCs. Burning Empires is missing a terrain shader cache file, and it happens in single player without Coop too. The Burning Empires author is looking into it.
+The Burning Empires population on your PC is a snapshot from when you join. Rejoin to update it.
+Linux hosted servers cannot run Burning Empires. The War Sails variant and the Historical campaign start are not supported.
+
+Credits
+Burning Empires is made by mumahutuo and the Burning Empires team, with project lead Levente (Nexus Mods 7750, "Burning Empires"). Thank you for giving permission for this Coop compat and the tools, and for adding Coodsz to the team.
+Bannerlord Coop is made by the Bannerlord Coop team.
+This module is made by Coodsz.

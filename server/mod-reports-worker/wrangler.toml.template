@@ -1,0 +1,101 @@
+# Copy this file to wrangler.toml (that copy is not committed) and fill in the KV namespace id.
+# README.md has every step.
+
+name = "coodsz-mod-reports"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+# Votes (one per install per mod version) and the day counters. Make it with
+#   npx wrangler kv namespace create VOTES
+# and paste the id it prints here.
+[[kv_namespaces]]
+binding = "VOTES"
+id = "PASTE_THE_KV_NAMESPACE_ID_HERE"
+
+# At most 10 reports a minute from one address. The counters live in Cloudflare's memory
+# for the period only; the address is not stored. namespace_id is any number you pick that
+# is unique in your Cloudflare account.
+[[ratelimits]]
+name = "REPORT_LIMITER"
+namespace_id = "1001"
+simple = { limit = 10, period = 60 }
+
+# In tool replies: at most 30 GitHub page reads a minute for the whole worker, so a reply key holder
+# cannot use up the crash token's hourly budget that filing reports needs. Without it each running copy
+# of the worker counts on its own.
+[[ratelimits]]
+name = "REPLY_READ_LIMITER"
+namespace_id = "1002"
+simple = { limit = 30, period = 60 }
+
+# Reply push: at most 60 GitHub webhook deliveries a minute from one address, checked before the body is
+# read, so a stranger cannot make the worker read 1 MB and run an HMAC as often as they like. GitHub sends
+# a few a minute. Without it the worker uses REPORT_LIMITER (10 a minute) under a webhook: key.
+[[ratelimits]]
+name = "WEBHOOK_LIMITER"
+namespace_id = "1003"
+simple = { limit = 60, period = 60 }
+
+[vars]
+GITHUB_REPO = "Coodsz/Coodsz-Coop-and-Friends"
+# TAOM mod reports go to the TAOM repository; its tally counts them. GITHUB_TOKEN needs Issues read and write there too.
+TAOM_GITHUB_REPO = "Coodsz/Coodsz-TAOM"
+# AD1259 mod reports go to the AD1259 repository; its tally counts them. GITHUB_TOKEN needs Issues read and write there too.
+AD1259_GITHUB_REPO = "Coodsz/Coodsz-AD1259"
+# Burning Empires mod reports go to the BE repository; its tally counts them. GITHUB_TOKEN needs Issues read and write there too.
+BE_GITHUB_REPO = "Coodsz/Coodsz-BurningEmpires"
+# Realm of Thrones mod reports go to the RoT repository. GITHUB_TOKEN needs Issues read and write there too.
+ROT_GITHUB_REPO = "Coodsz/Coodsz-RealmOfThrones"
+# Reports (mods rated) one install may send per day.
+MAX_PER_INSTALL_DAY = "60"
+# KV writes a day for mod reports, for everyone together (2 per new or changed vote, 2 more per request). Over it the
+# worker files nothing and answers "try again tomorrow". The free plan has 1,000 for everything, and Send my logs
+# needs up to 600 of them (MAX_CRASH_REPORTS_DAY below), so keep this at 150 or less (Reply push budget in README.md) and at 53 or more (one full 25 mod report). It replaces MAX_NEW_ISSUES_DAY.
+MAX_REPORT_WRITES_DAY = "150"
+
+# When a report is held for Coodsz (label suspicious) instead of being approved on its own after a day.
+# Rated mods from one install in one day; from the next one on they are held.
+SUSPICIOUS_PER_INSTALL_DAY = "30"
+# More than this many Broken reports for one mod in 3 hours is a burst...
+BURST_BROKEN = "5"
+# ...but only for a mod with at least this many Works.
+BURST_MIN_WORKS = "10"
+# A Broken report that takes a mod from more Works than Broken to this many more Broken within 3 hours.
+FLIP_THRESHOLD = "3"
+# A Broken report from an install first seen today is held for a mod with fewer Works than this.
+NEW_INSTALL_MIN_WORKS = "10"
+
+# Crash reports (POST /crash): the private repository the crash issues go to, and the day caps.
+CRASH_REPO = "OWNER/private-crash-reports"
+# TAOM, AD1259, Burning Empires and Realm of Thrones reports go to their own private repositories (the defaults below), so each can be shared separately.
+TAOM_CRASH_REPO = "OWNER/private-taom-crash-reports"
+AD1259_CRASH_REPO = "OWNER/private-ad1259-crash-reports"
+BE_CRASH_REPO = "OWNER/private-burningempires-crash-reports"
+ROT_CRASH_REPO = "OWNER/private-realmofthrones-crash-reports"
+# Crash reports one install may send per day.
+MAX_CRASH_PER_INSTALL_DAY = "10"
+# Crash reports per day for everyone together. 100 keeps a busy day under the free plan's 1,000 KV writes
+# with reply push on (README.md, Reply push budget).
+MAX_CRASH_REPORTS_DAY = "100"
+
+# In tool replies (POST /replies): Coodsz's numeric GitHub user id, from https://api.github.com/users/Coodsz ("id").
+# Only his comments reach the players' tools. Empty means replies are off and the tools get "replies": false.
+COODSZ_GITHUB_ID = ""
+
+# Yes, it's fixed in the tools (POST /replies/solved): what a player's click does on the report's issue.
+# close = add the player-solved label and close the issue as completed. label = only add the label.
+# A report on a shared tracking issue only gets a comment either way.
+SOLVED_ACTION = "close"
+
+# Only when the crash token belongs to a bot account: its numeric GitHub id, so its No, still broken comments count.
+# Empty means the token is Coodsz's own (COODSZ_GITHUB_ID).
+WORKER_GITHUB_ID = ""
+
+# Secrets, never in this file:
+#   npx wrangler secret put GITHUB_TOKEN
+#   npx wrangler secret put VOTER_SALT
+#   npx wrangler secret put ADMIN_KEY            (the key for GET /crash/<code>)
+#   npx wrangler secret put CRASH_GITHUB_TOKEN   (optional, a token for CRASH_REPO; GITHUB_TOKEN is used when it is not set)
+#   npx wrangler secret put REPLY_SALT           (optional, the reply key secret; "reply:" + VOTER_SALT is used when it is not set)
+#   npx wrangler secret put CRASH_PING_WEBHOOK   (optional, a Discord webhook; no ping when it is not set)
+#   npx wrangler secret put GITHUB_WEBHOOK_SECRET  (optional, reply push: the secret of the crash repositories' issue comment webhooks; README.md, Turn on reply push)

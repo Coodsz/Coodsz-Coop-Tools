@@ -1,0 +1,38 @@
+{
+  "SchemaVersion": 2,
+  "Name": "My Server",
+  "PackVersion": "0.1.0",
+  "Host": "127.0.0.1",
+  "Port": 4200,
+  "MissionPort": 4201,
+  "Protocol": "",
+  "StartSteamAutomatically": true,
+  "SteamStartupTimeoutSeconds": 120,
+  "CheckModVersions": false,
+  "BaseModules": [
+    "Native",
+    "SandBoxCore",
+    "CustomBattle",
+    "SandBox",
+    "StoryMode"
+  ],
+  "Mods": [
+    {
+      "Name": "Bannerlord Coop",
+      "WorkshopId": "3770450698",
+      "ModuleId": "CoopNightly",
+      "Enabled": true,
+      "RequiredVersion": "",
+      "Pinned": false
+    }
+  ],
+  "AutoConnect": true,
+  "ModuleLoadOrder": [
+    "Native",
+    "SandBoxCore",
+    "SandBox",
+    "CustomBattle",
+    "StoryMode",
+    "CoopNightly"
+  ]
+}

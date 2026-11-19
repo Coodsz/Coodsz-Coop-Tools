@@ -1,0 +1,104 @@
+Paste each part as its own Discord message. A line that starts with # is a big heading.
+
+# I made these tools with the help of the community and other sources for ease of access. The Burning Empires team gave permission for the Coop compat and the tools, and added me to the team. They are here so hosting and playing with friends is easier.
+
+PART 1, players
+
+# Coodsz Burning Empires
+
+Tools version **v1.0.16** (Client Launcher and Server Tool) for **Burning Empires 2.0.2** with **Burning Empires Coop Compat 1.0.0**.
+
+Thank you to the Burning Empires team, author mumahutuo and project lead Levente, for giving permission for the Coop compat and these tools. Burning Empires is on Nexus Mods (mods/7750).
+
+You need Bannerlord **1.4.8** on Steam for Windows. If Steam updated it to a newer version, right click Bannerlord in Steam, then Properties, Betas, and pick v1.4.8.
+
+Everyone needs the same set. That is Burning Empires **2.0.2** (the main file plus the hotfix), Burning Empires Coop Compat **1.0.0** (it comes with the tools), and Bannerlord Coop, Harmony, ButterLib and UIExtenderEx from the Steam Workshop, and MCM v5.12.3 or newer from Nexus Mods in the game's Modules folder.
+
+The tools carry their own .NET, so you do not need to install anything else for them.
+
+# Download
+https://github.com/Coodsz/Coodsz-BurningEmpires/releases/latest
+
+1. Download **Coodsz-Burning-Empires-Tools**. It holds both programs, the client launcher and the server tool. Unzip it before you open anything, and give each Coodsz zip its own folder.
+2. Subscribe to **Bannerlord Coop** on the Steam Workshop and stay subscribed.
+3. Download Burning Empires **2.0.2** from Nexus Mods. Get the main file and the hotfix and leave both downloads as they are. **Install or repair Burning Empires** finds them in Downloads, on the Desktop or in the folder you picked last time. If they are somewhere else, it asks you to pick the main file.
+https://www.nexusmods.com/mountandblade2bannerlord/mods/7750
+
+# If Windows warns you
+
+If SmartScreen says "Unknown publisher", choose **More info**, then **Run anyway**. If Windows Defender flags a file from the zip, delete it and message me (Coodsz) on Discord.
+
+# Do this
+1. Close Bannerlord.
+2. Open `Coodsz Burning Empires Client Launcher.exe` in the Coodsz Burning Empires Tools folder.
+3. On **Play**, click **Check mods**. Then on **Settings**, click **Install or repair Burning Empires** (Play shows it too when the core needs it). It puts in the main file, then the hotfix, then Burning Empires Coop Compat. It asks before it unpacks a download it found. It also subscribes you to Harmony, ButterLib and UIExtenderEx on the Steam Workshop when one is missing. It never downloads MCM, so you get that from Nexus Mods yourself. It never deletes Burning Empires or your Burning Empires save data.
+4. Pick the same setup as the host in the setup box at the top of the window. **Burning Empires** is the locked setup with Burning Empires and Elephants. **Install or repair Burning Empires** puts both in.
+5. **Direct** (recommended) is the host's IP and UDP port `4200`. **Steam lobby** only works if the host turned on Steam. Use the host's Steam profile name (the name friends see in Steam, not the login name), with Steam running on both PCs. Put a password only if the host has set one.
+6. Click **Connect**. Before the game starts, the client checks that your helper mods, Coop and Burning Empires Coop Compat match the mod list the host shared. An orange line in the Join box says when they differ.
+
+# If something goes wrong
+- Click **Send my logs** on **Play** or on **Logs and help**. You see every file first, then you get a short code like CR-7KQ2M. Post only that code on Discord. Saves are left out, and passwords, addresses and Steam IDs are taken out.
+- If the game crashes on start, try **Safe mode** on **Logs and help**. It joins once with the Burning Empires core only. If that works, **Find the crashing mod** finds the extra mod that crashes it.
+- A yellow line by **Check server** warns when the PC is low on memory, or when a dedicated server runs on the same PC with less than 24 GB. Close heavy apps, and run the server on another PC if you can.
+- The campaign map ground can look black on some PCs. Burning Empires is missing a terrain shader cache file. It happens in single player without Coop too, and the Burning Empires author is looking into it.
+- The Burning Empires population on your PC is a snapshot from when you join. Rejoin to update it.
+- On Coop 0.1.6, a hideout fight where your hero is knocked down never ends, and accepting some quests can freeze the dialog. Both are Coop bugs, not Burning Empires and not the compat. A Coop fix for the hideout bug is on the way, and Coop's development version replaced the quest system.
+- Graphics look wrong? Close Bannerlord, open **Settings** and click **Clear shader cache**. It does not touch mods or saves.
+
+# Do not
+- Do not use the War Sails variant or the Historical campaign start. They do not work in Coop.
+- Do not put extra mods between Burning Empires Coop Compat and Burning Empires. The client keeps extra mods before Coop or after Burning Empires.
+- Do not turn on a mod that brings its own Harmony, ButterLib or UIExtenderEx. The client marks it as a clash.
+- Do not click **Install or repair Burning Empires** while Bannerlord is open.
+
+
+PART 2, host
+
+# Coodsz Burning Empires Server Tool
+
+Do the player steps first, so Bannerlord has Burning Empires 2.0.2 and its Coop compat. The server copies the Burning Empires files it needs from your own game, so keep the game installed on this PC. The server tool is in the same Coodsz-Burning-Empires-Tools zip as the client launcher.
+
+A Burning Empires server only runs on Windows. Linux hosted servers cannot run it, because it needs UIExtenderEx and MCM.
+
+# Do this
+1. Open `Coodsz Burning Empires Server Tool.exe` in the Coodsz Burning Empires Tools folder.
+2. The **Saves** page has numbered steps. The first time, start with step **3, Set up the host once**, and click **Prepare server**. It finds the dedicated server inside the Workshop Coop folder and copies it, with the files Burning Empires needs on it. If it says Burning Empires is missing, click **Install or repair Burning Empires** next to it.
+3. In step **1**, type a name and click **New campaign**. The server makes a fresh Burning Empires world under that name, so you don't need a single player save. The save box in step **2** stays empty until then, which is fine. To host a Burning Empires save you already have, pick it in step **2** instead. If it says Single player copy, click **Name server copy** first. A save without Burning Empires does not load.
+4. On the **Dashboard**, click **Start server**. The first time, it shows the Coop server terms. Read them and click **I accept**, or the server will not start.
+5. Wait until the status says **Server online**. The first start of a new campaign builds the world and can take a long time. Do not stop the server then.
+6. Give players your IP address with the port forwarded and UDP `4200`. That is the recommended way. **Open the port on my router automatically** and **Allow through firewall** help when friends cannot reach you.
+7. Steam lobby is optional. Tick **Advertise through Steam** on **Settings**, under **Join**, before you click **Start server**, keep Steam running, and give friends your Steam profile name.
+
+# While the server runs
+- On the **Dashboard**, **Start server** turns into **Stop server** while the server runs. **Save game** keeps the server up and players connected. **Stop server** and **Restart** save first.
+- Burning Empires keeps populations, religions and more in its own data folder inside the Burning Empires module. On a Coop server that folder only matters until the first server save, because the compat then stores the full Burning Empires data inside the save. The tool keeps the folder when it updates the server, and moves it along when you rename, back up or restore a save.
+- If the server says it saved to a new name to keep your data safe, click **Save to a new name** and use that save from then on.
+- **Last good save** puts back the newest save from before your hero lost their party and starts again.
+- Online players, **Kick player**, **Ban player** and **Unban player** are on the **Dashboard**.
+- The Game speed card on the **Dashboard** turns on 2x speed and the battle speed limit. Burning Empires' own time multiplier and Ctrl+Space are turned off in Coop.
+- Battle size is on the Settings page.
+- **Send my logs** packs the server logs without the password and gives you a short code. Saves are left out.
+
+# Password
+
+Type a password in the server tool if you want one, and give players that same password. An empty password is fine. The client passes it when they click **Connect**.
+
+# Do not
+- Do not start the dedicated server yourself while also using this tool.
+- Do not delete the Burning Empires data folder inside the Burning Empires module before the first server save of a campaign. After that the data is inside the save itself.
+- Do not share `be-server.json` from %LOCALAPPDATA%\Coodsz\BurningEmpires\Server. It holds your password.
+- Do not give friends port `7210`. Players use `4200`.
+
+I will try my best to keep these updated and working with the latest release. Any bugs, challenges, feature ideas, or if you need help in any way, please message me (Coodsz) on Discord.
+
+
+PART 3, already have the tools
+
+# Update the tools
+
+When a newer release is out, the tool shows a line and an **Install update** button. Click it. When it is done, the tool closes and opens again on the new copy. Your saved paths, password and settings stay. They live in %LOCALAPPDATA%\Coodsz\BurningEmpires. A dedicated server that is already running stays up.
+
+If you tested an earlier build, the programs have new names. `Coodsz Burning Empires Server.exe` is now `Coodsz Burning Empires Server Tool.exe`, and `Coodsz Burning Empires Client.exe` is now `Coodsz Burning Empires Client Launcher.exe`. Close the old tools, copy each new program into the folder where you had the old one, and open it. On its first start it copies your settings over, moves your shortcuts to itself and removes the old exe.
+
+# License
+The tools are free software under the GNU General Public License version 3 (LICENSE.txt). You may use, change and share them, as long as every copy you share keeps the same license and comes with its source code. Bundled mods and code from other people keep their own licenses (THIRD-PARTY-NOTICES.md). Each tool shows the full text once at the first start, and you press **I agree** to use the tools.

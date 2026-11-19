@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Bannerlord mod: built for .NET Framework 4.7.2 like the game client.
+       The same DLL is shipped for the dedicated server. Build with Build.cmd. -->
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <AssemblyName>RealmOfThrones.CoopCompat</AssemblyName>
+    <RootNamespace>RealmOfThronesCoopCompat</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <Version>0.1.0</Version>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <GameFolder Condition="'$(GameFolder)' == ''">C:\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord</GameFolder>
+    <HarmonyFolder Condition="'$(HarmonyFolder)' == ''">C:\Program Files (x86)\Steam\steamapps\workshop\content\261550\2859188632</HarmonyFolder>
+    <GameBin>$(GameFolder)\bin\Win64_Shipping_Client</GameBin>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Build.cmd;README.txt;Stage-RotServerMap.ps1;ModuleData\**" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net472" Version="1.0.3" PrivateAssets="all" />
+    <Reference Include="0Harmony"><HintPath>$(HarmonyFolder)\bin\Win64_Shipping_Client\0Harmony.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.Library"><HintPath>$(GameBin)\TaleWorlds.Library.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.Core"><HintPath>$(GameBin)\TaleWorlds.Core.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.Localization"><HintPath>$(GameBin)\TaleWorlds.Localization.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.CampaignSystem"><HintPath>$(GameBin)\TaleWorlds.CampaignSystem.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.MountAndBlade"><HintPath>$(GameBin)\TaleWorlds.MountAndBlade.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.ModuleManager"><HintPath>$(GameBin)\TaleWorlds.ModuleManager.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.ObjectSystem"><HintPath>$(GameBin)\TaleWorlds.ObjectSystem.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.SaveSystem"><HintPath>$(GameBin)\TaleWorlds.SaveSystem.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="SandBox"><HintPath>$(GameFolder)\Modules\SandBox\bin\Win64_Shipping_Client\SandBox.dll</HintPath><Private>false</Private></Reference>
+    <!-- The shared Coop link: no reference to Coodsz.CoopLink.dll (the engine would log a "Cannot load"
+         ERROR at server boot); Link\RotLinkCalls.cs reaches it by reflection once its probe, compiled in
+         here as source, passed. Build.cmd builds the link and puts its DLL next to ours. -->
+    <Compile Include="..\CoodszCoopLink\src\LinkProbe.cs" Link="Link\LinkProbe.cs" />
+  </ItemGroup>
+  <!-- module\ is committed, so the DLL carries the SHA256 of each source file it was built from (ours and the
+       link's, since Build.cmd builds both). The tools' tests compare them with the source to catch a stale module. -->
+  <Target Name="StampSourceHashes" BeforeTargets="GetAssemblyAttributes">
+    <ItemGroup>
+      <_StampSource Include="@(Compile)" Exclude="obj\**;..\CoodszCoopLink\**" />
+      <_StampSource Include="..\CoodszCoopLink\src\*.cs" />
+    </ItemGroup>
+    <GetFileHash Files="@(_StampSource)">
+      <Output TaskParameter="Items" ItemName="_StampHash" />
+    </GetFileHash>
+    <ItemGroup>
+      <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+        <_Parameter1>Source %(_StampHash.Identity)</_Parameter1>
+        <_Parameter2>%(_StampHash.FileHash)</_Parameter2>
+      </AssemblyAttribute>
+    </ItemGroup>
+  </Target>
+</Project>

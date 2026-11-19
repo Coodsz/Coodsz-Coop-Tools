@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module>
+  <Name value="Coodsz Menu Guard" />
+  <Id value="DedicatedServer.CoodszMenuGuard" />
+  <Version value="v1.0.0" />
+  <DefaultModule value="false" />
+  <SingleplayerModule value="true" />
+  <MultiplayerModule value="false" />
+  <Official value="false" />
+  <DependedModules>
+    <DependedModule Id="Native" DependentVersion="v1.4.8" />
+    <DependedModule Id="Coop" DependentVersion="v0.1.6" />
+  </DependedModules>
+  <SubModules>
+    <SubModule>
+      <Name value="Coodsz Menu Guard" />
+      <DLLName value="CoodszMenuGuard.dll" />
+      <SubModuleClassType value="CoodszMenuGuard.MenuGuardSubModule" />
+      <Tags />
+    </SubModule>
+  </SubModules>
+  <Xmls />
+</Module>

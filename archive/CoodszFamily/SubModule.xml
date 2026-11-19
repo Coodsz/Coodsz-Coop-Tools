@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module>
+  <Name value="COOP Family"/>
+  <Id value="CoopMarriage"/>
+  <Version value="v1.6.0" />
+  <DefaultModule value="false"/>
+  <ModuleCategory value="Singleplayer"/>
+  <ModuleType value="Community"/>
+  <SingleplayerModule value="true"/>
+  <MultiplayerModule value="false"/>
+  <DependedModules>
+    <DependedModule Id="Bannerlord.Harmony"/>
+    <DependedModule Id="Native"/>
+    <DependedModule Id="SandBoxCore"/>
+    <DependedModule Id="Sandbox"/>
+  </DependedModules>
+  <DependedModuleMetadatas>
+    <DependedModuleMetadata id="CoopNightly" order="LoadBeforeThis" optional="true"/>
+    <DependedModuleMetadata id="Coop" order="LoadBeforeThis" optional="true"/>
+    <DependedModuleMetadata id="Bannerlord.Harmony" order="LoadBeforeThis"/>
+    <DependedModuleMetadata id="Native" order="LoadBeforeThis"/>
+    <DependedModuleMetadata id="SandBoxCore" order="LoadBeforeThis"/>
+    <DependedModuleMetadata id="Sandbox" order="LoadBeforeThis"/>
+  </DependedModuleMetadatas>
+  <SubModules>
+    <SubModule>
+      <Name value="COOP Family (Client)"/>
+      <DLLName value="CoopMarriage.dll"/>
+      <SubModuleClassType value="CoopMarriage.SubModule"/>
+      <Tags>
+        <Tag key="DedicatedServerType" value="none"/>
+        <Tag key="IsNoRenderModeElement" value="false"/>
+      </Tags>
+    </SubModule>
+    <SubModule>
+      <Name value="COOP Family (Dedicated Server)"/>
+      <DLLName value="CoopMarriage.dll"/>
+      <SubModuleClassType value="CoopMarriage.DedicatedServerSubModule"/>
+      <Tags>
+        <Tag key="DedicatedServerType" value="custom"/>
+        <Tag key="IsNoRenderModeElement" value="true"/>
+      </Tags>
+    </SubModule>
+  </SubModules>
+  <Xmls/>
+</Module>

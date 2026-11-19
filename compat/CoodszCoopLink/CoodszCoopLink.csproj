@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Coodsz.CoopLink: the one link DLL our compat modules ship to send their own data through Coop. Not a
+       submodule; a mod loads it by hand after LinkProbe passes. One netstandard2.0 build for both sides (the
+       players' .NET Framework 4.7.2 and the server's .NET 6). Compiled against Coop's Common, LiteNetLib and
+       protobuf-net.Core only, none of them copied (Private=false): the server exits on a second copy of a
+       pinned Coop assembly. Build.cmd builds it into artifacts\compat\Coodsz.CoopLink. -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Coodsz.CoopLink</AssemblyName>
+    <RootNamespace>Coodsz.CoopLink</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <!-- The assembly version stays 1.0.0.0 so every mod binds to whichever copy loaded first; Link.Version is the API level. -->
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Version>1.0.0</Version>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <Deterministic>true</Deterministic>
+    <CoopBin Condition="'$(CoopBin)' == ''">C:\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\Coop\bin\Win64_Shipping_Client</CoopBin>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common"><HintPath>$(CoopBin)\Common.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="LiteNetLib"><HintPath>$(CoopBin)\LiteNetLib.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="protobuf-net.Core"><HintPath>$(CoopBin)\protobuf-net.Core.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+</Project>

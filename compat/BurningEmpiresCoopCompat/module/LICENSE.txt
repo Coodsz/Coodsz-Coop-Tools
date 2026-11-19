@@ -1,0 +1,8 @@
+Coodsz Compat Module License
+Copyright (c) 2026 Coodsz.
+
+This module is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation.
+
+It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. The full text is in the LICENSE file of the Coodsz tools source and at https://www.gnu.org/licenses/gpl-3.0.txt.
+
+Parts of this module that come from other people keep their own licenses, listed below when there are any. This license does not change them.

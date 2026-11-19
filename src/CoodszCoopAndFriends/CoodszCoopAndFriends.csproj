@@ -1,0 +1,81 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <AssemblyName>Coodsz Coop Client Launcher</AssemblyName>
+    <Product>Coodsz Coop Client Launcher</Product>
+    <AssemblyTitle>Coodsz Coop Client Launcher</AssemblyTitle>
+    <Description>Coodsz Coop Client Launcher: sets up Bannerlord Coop and joins a server</Description>
+    <ApplicationIcon>..\..\assets\icons\coodsz-coop.ico</ApplicationIcon>
+    <Version>1.3.15</Version>
+    <RootNamespace>BannerlordCoopLauncher</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BannerlordCoopLauncher.Core\BannerlordCoopLauncher.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ApplicationDefinition Include="..\BannerlordCoopLauncher\App.xaml" Link="App.xaml" />
+    <Page Include="..\BannerlordCoopLauncher\MainWindow.xaml" Link="MainWindow.xaml" />
+    <Compile Include="..\BannerlordCoopLauncher\App.xaml.cs" Link="App.xaml.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\MainWindow.xaml.cs" Link="MainWindow.xaml.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\MainWindow.*.cs" Exclude="..\BannerlordCoopLauncher\MainWindow.xaml.cs" Link="%(Filename)%(Extension)" />
+    <Compile Include="..\BannerlordCoopLauncher\LauncherBrand.cs" Link="LauncherBrand.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\CustomModWindow.cs" Link="CustomModWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\ShareModListWindow.cs" Link="ShareModListWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\AssemblyInfo.cs" Link="AssemblyInfo.cs" />
+    <!-- The build marks (docs\design\copy-marks.md). EnableDefaultItems is off, so the file is named here. -->
+    <Compile Include="CopyMark.cs" />
+    <!-- The Coop Server Tool's castle behind the pages (Backdrop.Apply in App.xaml.cs). -->
+    <Resource Include="..\CoodszHost\Assets\redesign-backdrop-castle.jpg" Link="Assets\redesign-backdrop-castle.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\BannerlordCoopLauncher\UiLanguage.cs" Link="UiLanguage.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\GameAlreadyOpen.cs" Link="GameAlreadyOpen.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\WindowPlacement.cs" Link="WindowPlacement.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\NewBadges.cs" Link="NewBadges.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\JoinGuideWindow.cs" Link="JoinGuideWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\AntivirusWindow.cs" Link="AntivirusWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\JoinCheckWindow.cs" Link="JoinCheckWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\ModReportWindow.cs" Link="ModReportWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\CrashReportWindow.cs" Link="CrashReportWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\ReportReplyWindow.cs" Link="ReportReplyWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\ServerModsWindow.cs" Link="ServerModsWindow.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- RBM's config.xml edit, shared with Coodsz Host and the AD1259 client launcher (Keep RBM coop friendly on Connect). -->
+    <Compile Include="..\CoodszHost\Services\RbmSwitches.cs" Link="RbmSwitches.cs" />
+    <Compile Include="..\CoodszHost\Services\RbmConfigFile.cs" Link="RbmConfigFile.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Coodsz Join Password module (also carries Coodsz Menu Guard); see compat\CoodszJoinPassword and compat\CoodszMenuGuard. -->
+    <!-- Embedded in the exe and written out on first use (CoodszPayload.targets, ToolPayload). -->
+    <CoodszPayload Include="..\..\compat\CoodszJoinPassword\module\**\*" Payload="ClientAddOns" PayloadFolder="DedicatedServer.CoodszJoinPassword\" />
+  </ItemGroup>
+
+  <!-- The non Workshop game mods Connect copies into Modules (BundledModules.ModuleIds). Make-Release.ps1
+       passes the folder that holds exactly those; a build without it has no bundled mods. -->
+  <ItemGroup Condition="'$(CoodszBundledMods)' != ''">
+    <CoodszPayload Include="$([MSBuild]::EnsureTrailingSlash('$(CoodszBundledMods)'))**\*" Payload="BundledMods" />
+  </ItemGroup>
+
+  <Import Project="..\CoodszPayload.targets" />
+
+  <!-- The shared window frame (sidebar, header, chips, banners) and the Keep look it uses: docs/design/redesign/build-plan.md 1.1. -->
+  <ItemGroup>
+    <Page Include="..\CoodszHost\Keep\KeepColors.xaml" Link="Keep\KeepColors.xaml" />
+    <Page Include="..\CoodszHost\Keep\KeepTheme.xaml" Link="Keep\KeepTheme.xaml" />
+    <Page Include="..\CoodszHost\Shared\Frame\*.xaml" Link="Shared\Frame\%(Filename)%(Extension)" />
+    <Compile Include="..\CoodszHost\Shared\Frame\*.cs" Link="Shared\Frame\%(Filename)%(Extension)" />
+  </ItemGroup>
+
+</Project>

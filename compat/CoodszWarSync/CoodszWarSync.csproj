@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Coodsz War Sync: the TAOM server tool's War of the Ring sender. An extra SubModule inside
+       DedicatedServer.Windows (the TAOM server's module list is sealed), which loads the server build of
+       CoodszSettingsSync.Coop.dll in War of the Ring only mode. Built against the dedicated server's own game
+       DLLs, which are not copied (Private=false). Build with build.ps1; it copies both DLLs into the TAOM
+       server tool's payload (src\TaomCoopHost\WarSync). -->
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>CoodszWarSync</AssemblyName>
+    <RootNamespace>CoodszWarSync</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <Version>1.0.0</Version>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <Deterministic>true</Deterministic>
+    <ServerRoot Condition="'$(ServerRoot)' == ''">C:\Program Files (x86)\Steam\steamapps\workshop\content\261550\3770450698\DedicatedServer</ServerRoot>
+    <ServerBin>$(ServerRoot)\engine\bin\Win64_Shipping_Server</ServerBin>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="src\*.cs" />
+    <!-- The probe and loader for CoodszSettingsSync.Coop.dll, shared with Coodsz Server Tools and the client add on. -->
+    <Compile Include="..\CoodszSettingsSync\src\Shared\CoopProbe.cs" Link="src\CoopProbe.cs" />
+    <!-- The Improved Garrisons party size hand back, shared with the client add on and Improved Garrisons Coop Compat. -->
+    <Compile Include="..\ImprovedGarrisonsCoopCompat\PartySizeHandBack.cs" Link="src\PartySizeHandBack.cs" />
+    <Compile Include="..\ImprovedGarrisonsCoopCompat\PartySizeHandBackRules.cs" Link="src\PartySizeHandBackRules.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="TaleWorlds.Library"><HintPath>$(ServerBin)\TaleWorlds.Library.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.Core"><HintPath>$(ServerBin)\TaleWorlds.Core.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.MountAndBlade"><HintPath>$(ServerBin)\TaleWorlds.MountAndBlade.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.ObjectSystem"><HintPath>$(ServerBin)\TaleWorlds.ObjectSystem.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.CampaignSystem"><HintPath>$(ServerBin)\TaleWorlds.CampaignSystem.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.Localization"><HintPath>$(ServerBin)\TaleWorlds.Localization.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="0Harmony"><HintPath>$(ServerBin)\0Harmony.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+</Project>

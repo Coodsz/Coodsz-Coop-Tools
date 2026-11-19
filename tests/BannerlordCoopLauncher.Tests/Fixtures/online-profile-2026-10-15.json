@@ -1,0 +1,198 @@
+{
+  "SchemaVersion": 3,
+  "Name": "CALRADIA",
+  "PackVersion": "0.13.0",
+  "Host": "server.bannerlord.eu",
+  "Port": 4200,
+  "MissionPort": 4201,
+  "Protocol": "",
+  "StartSteamAutomatically": true,
+  "SteamStartupTimeoutSeconds": 120,
+  "CheckModVersions": true,
+  "BaseModules": [
+    "Native",
+    "SandBoxCore",
+    "CustomBattle",
+    "SandBox",
+    "StoryMode"
+  ],
+  "Mods": [
+    {
+      "Name": "Harmony",
+      "WorkshopId": "2859188632",
+      "ModuleId": "Bannerlord.Harmony",
+      "Enabled": true,
+      "RequiredVersion": "",
+      "Source": "Workshop"
+    },
+    {
+      "Name": "ButterLib",
+      "WorkshopId": "2859232415",
+      "ModuleId": "Bannerlord.ButterLib",
+      "Enabled": true,
+      "RequiredVersion": "",
+      "Source": "Workshop"
+    },
+    {
+      "Name": "UIExtenderEx",
+      "WorkshopId": "2859222409",
+      "ModuleId": "Bannerlord.UIExtenderEx",
+      "Enabled": true,
+      "RequiredVersion": "",
+      "Source": "Workshop"
+    },
+    {
+      "Name": "Mod Configuration Menu v5",
+      "WorkshopId": "2859238197",
+      "ModuleId": "Bannerlord.MBOptionScreen",
+      "Enabled": true,
+      "RequiredVersion": "",
+      "Source": "Workshop"
+    },
+   
+
+
+    {
+      "Name": "Xorberax's Legacy",
+      "WorkshopId": "2875138158",
+      "ModuleId": "XorberaxLegacy",
+      "Enabled": true,
+      "RequiredVersion": "",
+      "Source": "Workshop"
+    },
+    {
+      "Name": "Bannerlord Coop",
+      "WorkshopId": "3770450698",
+      "ModuleId": "Coop",
+      "Enabled": true,
+      "RequiredVersion": "",
+      "Source": "Workshop"
+    },
+    
+     {
+    "Name": "Server Settings Lock",
+      "Source": "Local",
+      "ModuleId": "ServerSettingsLock",
+      "WorkshopId": "",
+      "Enabled": true,
+      "RequiredVersion": "v1.0.3",
+      "DownloadUrl": "https://bannerlord.eu/download/mods/ServerSettingsLock.zip",
+      "Sha256": "83C8E58CB6F2F604511D153140563A92BE571EEB0F723CD422709746B7DAFF65"
+    },
+    
+        {
+      "Name": "More Nations Remastered",
+      "Source": "Local",
+      "ModuleId": "MoreNationsRemastered",
+      "WorkshopId": "",
+      "Enabled": true,
+      "RequiredVersion": "v1.0.3",
+      "DownloadUrl": "https://bannerlord.eu/download/mods/MoreNationsRemastered.zip",
+      "Sha256": "B2C3F09DC5F198B7F7C0137FF84D7AF85906B00B0DB11FBBBF7C3C9CE008EC4A"
+    },
+    {
+      "Name": "More Nations Remastered - Coop Fix",
+      "Source": "Local",
+      "ModuleId": "MoreNationsRemasteredFix",
+      "WorkshopId": "",
+      "Enabled": true,
+      "RequiredVersion": "v1.0.4",
+      "DownloadUrl": "https://bannerlord.eu/download/mods/MoreNationsRemasteredFix.zip",
+      "Sha256": "8065BE687B3E38858AF74E14B02EF2E336A6CEE89C5C81AE96CC6515E70FDFC9"
+    },
+     {
+      "Name": "Family Appearance Editor",
+      "Source": "Local",
+      "ModuleId": "FamilyAppearanceEditor",
+      "WorkshopId": "",
+      "Enabled": true,
+      "RequiredVersion": "v1.0.3",
+      "DownloadUrl": "https://bannerlord.eu/download/mods/FamilyAppearanceEditor.zip",
+      "Sha256": "594E6D5A136331D4178C96D855F9A73CB589A1EB929B3FD4AF5C5B3EFA4DFCBE"
+    },
+    {
+      "Name": "CoopSycn",
+      "Source": "Local",
+      "ModuleId": "CoopSycn",
+      "WorkshopId": "",
+      "Enabled": true,
+      "RequiredVersion": "v0.2.20",
+      "DownloadUrl": "https://bannerlord.eu/download/mods/CoopSycn.zip",
+      "Sha256": "23A165D15F41E14B8278E222B1E95E194CD8961EBC3E3CB5743BB48B6D050E2C"
+    },
+    {
+      "Name": "MASH Diplo",
+      "Source": "Local",
+      "ModuleId": "MashDiplo",
+      "WorkshopId": "",
+      "Enabled": true,
+      "RequiredVersion": "v0.1.8",
+      "DownloadUrl": "https://bannerlord.eu/download/mods/MashDiplo.zip",
+      "Sha256": "5BFC2D27CBD5538E2ACED748D4096AAD9C7BCC92769CD4FAD77E2D8FD1493A8E"
+    },
+    {
+      "Name": "MashHost",
+      "Source": "Local",
+      "ModuleId": "MashHost",
+      "WorkshopId": "",
+      "Enabled": true,
+      "RequiredVersion": "v1.8.0",
+      "DownloadUrl": "https://bannerlord.eu/download/mods/MashHost.zip",
+      "Sha256": "9A1177D4AB3490F6A2522622176B41B5624F5EAA7DB078664D0BC85E58EC1D7A"
+    },
+    {
+      "Name": "ManAtArms",
+      "Source": "Local",
+      "ModuleId": "ManAtArms",
+      "WorkshopId": "",
+      "Enabled": true,
+      "RequiredVersion": "v1.0.3",
+      "DownloadUrl": "https://bannerlord.eu/download/mods/ManAtArms.zip",
+      "Sha256": "DAC820F03CF579F0BB7A9170DA7B9C67CA1D7E5B80C43A60544A636A28F3C6B8"
+    },
+    {
+      "Name": "Knight Duel",
+      "Source": "Local",
+      "ModuleId": "CoopFortuna",
+      "WorkshopId": "",
+      "Enabled": true,
+      "RequiredVersion": "v0.1.1",
+      "DownloadUrl": "https://bannerlord.eu/download/mods/CoopFortuna.zip",
+      "Sha256": "A3F003036A8BF2A082DF39398312761CBBB0CA396C7F2103B58B8159A84A4790"
+    },
+    {
+      "Name": "Economist",
+      "Source": "Local",
+      "ModuleId": "Economist",
+      "WorkshopId": "",
+      "Enabled": true,
+      "RequiredVersion": "v1.1.8",
+      "DownloadUrl": "https://bannerlord.eu/download/mods/Economist.zip",
+      "Sha256": "F9EE11D83DE36CD2316833130362C0B9187B3501A4F00903EA8F4138DA19CFFE"
+    }
+  ],
+  "AutoConnect": true,
+  "ModuleLoadOrder": [
+    "Bannerlord.Harmony",
+    "Bannerlord.ButterLib",
+    "Bannerlord.UIExtenderEx",
+    "Bannerlord.MBOptionScreen",
+    "Native",
+    "SandBoxCore",
+    "SandBox",
+    "CustomBattle",
+    "StoryMode",
+    "Coop",
+    "FamilyAppearanceEditor",
+    "MoreNationsRemastered",
+    "MoreNationsRemasteredFix",
+    "ServerSettingsLock",
+    "XorberaxLegacy",
+    "CoopSycn",
+    "MashDiplo",
+    "MashHost",
+    "ManAtArms",
+    "CoopFortuna",
+    "Economist"
+  ]
+}

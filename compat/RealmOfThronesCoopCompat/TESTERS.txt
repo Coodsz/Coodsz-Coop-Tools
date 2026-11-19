@@ -1,0 +1,195 @@
+Realm of Thrones Coop Compat, notes for testers (by Coodsz)
+
+This file stays in the source folder and never ships. Players and hosts read
+README.txt, which goes in the module folder.
+
+Lets you play Realm of Thrones in Bannerlord Coop. It needs Realm of Thrones
+8.1.2 (modules 8.1.8) from Nexus Mods (mods/2907), the War Sails DLC (NavalDLC),
+Bannerlord 1.4.8 and the Realm of Thrones build of Coop that comes with the
+Coodsz Realm of Thrones Client Launcher and Server Tool. The host and every
+player must use the same Coop build, and the tools check it.
+
+Not finished yet. Sieges are still being tested. The parts further down about setting up a server by hand and
+the COODSZ_ROT_ settings are for testers.
+
+What it does
+- Writes its own log, on the game and on the server.
+- On the server, logs every .NET error with its full stack, so a crash at start
+  shows what went wrong.
+- On the server, loads Realm of Thrones' campaign map instead of War Sails' map.
+- On the server, starts a new Realm of Thrones campaign when the server would
+  load its blank vanilla save for a new save name. A save made without Realm
+  of Thrones is refused and the server stops; pick a new save name. A save
+  whose header cannot be read loads with a warning in the log.
+- On the server, runs Realm of Thrones' own rules. The server never loads
+  Realm of Thrones' DLL by itself, so this module loads it and applies the
+  patches, models and behaviors that are safe for a server. The rest waits
+  for a server version and the log names each one ("Host: not hosted yet").
+- On the server, puts a guard in front of every Realm of Thrones rule that was
+  written for the one player of single player (storyline wars, NPC marriages,
+  gold for poor clans, house troops, the White Walkers, prisoners and peace),
+  so it treats every player the way it treats that player. The log has one
+  "Guards: in" line for each and says loudly when one fails.
+- Raises Coop's limit for the joining hero's data, which Realm of Thrones'
+  many kingdoms go over.
+- In a Coop session, gives Realm of Thrones' settings the same answers on the
+  server and on every player's PC (duels and ravens off). Music and markers
+  keep each player's own choice, and nobody's MCM settings are changed.
+- Logs whether the server ever loads Realm of Thrones' own DLL.
+- Talks between the server and the players' PCs through Coodsz.CoopLink.dll,
+  which ships in both bin folders. Culture changes of settlements, heroes and
+  notables, the notables' volunteers and White Walker looks that Realm of
+  Thrones makes on the server reach every player, also one who joins later,
+  and so do King's Landing's Blackwater scenes and Renly's and Stannis' clans
+  leaving the clan list. Story popups reach the players too (see below).
+  Once a game day the
+  server sends a short summary of its world (wars, owners, story events) and
+  each player's PC logs whether its world matches ("drift probe day N").
+  Without the link DLL, or with a server or player that has no link, the log
+  says so once and everything else works as before. Set COODSZ_ROT_LINK=off
+  on the server and the players' PCs to turn the link off for a test.
+It does nothing without Realm of Thrones, and nothing in single player.
+
+Setting up the server
+1. Copy this module folder into the server's engine\Modules folder and add
+   RealmOfThrones.CoopCompat to the server's module list.
+2. The server cannot read Realm of Thrones' full map. On any PC with Realm of
+   Thrones, run Stage-RotServerMap.ps1 from this module folder with -RotMap set
+   to Modules\ROT_Map and -OutDir set to a new folder.
+3. Copy the new ROT_Map\SceneObj\Main_map folder over the server's
+   engine\Modules\ROT_Map\SceneObj\Main_map.
+4. Copy the new RealmOfThrones.CoopCompat\ModuleData\rot_map.txt over the one
+   in the server's copy of this module. It holds the map's borders and size.
+   The one that comes with the module is for ROT_Map v8.1.8.2, so only skip
+   this step on that version.
+5. Keep Realm of Thrones' own ModuleData\DistanceCaches in the server's ROT_Map.
+You do not copy Harmony anywhere. On the server the module uses the Harmony in
+the Coop module's bin\Win64_Shipping_Server folder. It hands Realm of Thrones'
+DLL the MCM and UIExtenderEx libraries from those modules' own folders when
+they are in the server's module list.
+
+How much of Realm of Thrones the server runs (testers only)
+The environment variable COODSZ_ROT_HOST for the server picks it. Each level
+adds one step to the one before.
+- off      nothing of Realm of Thrones' DLL
+- probe    only loads the DLL once the game starts and logs which of its
+           parts miss a library
+- patches  loads the DLL when the modules load and applies its patches
+- models   also registers its game models (the calendar, food, militia...)
+- full     also registers its behaviors and gives the bandit clans a leader
+Not set means full. Any other value means off, and the log says so.
+Only full is for a world you keep. Below models a new world starts in the
+year 1084 and not in 299, and below full the server's saves hold none of
+Realm of Thrones' own data (hero races, story state). The log says so with
+"!!!", and such a save must not be kept.
+At models and full the server makes no new world and loads no saved one when
+Realm of Thrones' DLL or its calendar could not be set up, so a world you keep
+never loses Realm of Thrones' data to one bad start; the log says why with
+"!!!" and the server stops. Below full a saved Realm of Thrones world loads
+with a "!!!" line: do not let such a server save over a world you keep. After a new world is made one line says "World check passed"
+or "!!! World check FAILED" with the numbers. At full a failed world is held
+back, so the server never serves or saves it; set COODSZ_ROT_WORLDCHECK=warn
+to go on anyway for a test.
+Do not put MCMv5.dll or Bannerlord.UIExtenderEx.dll next to ROT.dll in
+ROT-Core's bin folder: the module then runs nothing of Realm of Thrones.
+Set COODSZ_ROT_HOST_JIT=1 as well and the log lists every method of the
+parts that run which cannot compile on the server.
+Only ROT-Core v8.1.8 is hosted. Another version runs nothing of Realm of
+Thrones and the server makes or loads no world at models and full; set
+COODSZ_ROT_ANYVERSION=1 to host it anyway for a test.
+At full the server also runs Realm of Thrones' story events (Ned's death, the
+sieges of Harrenhal, King's Landing, Winterfell and the Wall, the Red Wedding
+and the rest). Nobody can click a popup on the server. When players with
+the link are in the campaign, a popup whose answer changes the world (the
+four sieges, the Blackwater and Bastards outcomes) is shown to all of them in
+the game's own question window, in each player's language. The first player
+to click decides, within 60 seconds, and every player sees one line saying
+who chose what. Meanwhile the world waits: the module holds the campaign
+paused through Coop's own pause lease and an unpause rule of its own, which
+lets go when the question ends and in any case 75 seconds after it began, so
+it can never leave the world paused. Without an answer in time, or when the
+last such player leaves, the server takes the popup's own answer, Continue,
+as without players. A popup that only informs is shown with an OK button and
+the server does not wait for it. A player who joins while a question is open
+gets it with the time left. The log says "Story popups: question N sent",
+"answer applied", "timed out with the default", "late joiner got the open
+question", and why when a popup gets its default answer on the server.
+With no player in the campaign, each popup gets the answer of its only
+button, Continue, and the log says "Story: event ... started" with what that
+did. The story's music is skipped there, and the story never moves a
+player's party: Coop brings players into a siege. Set COODSZ_ROT_STORY=off
+for a test with the story standing still, or COODSZ_ROT_POPUPS=off to keep
+the story but answer every popup on the server as before (only the value off
+turns it off).
+A player's first join compiles Realm of Thrones' map shaders for minutes, so
+the server waits 15 minutes instead of Coop's 5 for a joining player to make
+progress ("Coop patience (server)" in the log). COODSZ_ROT_PATIENCE=off on
+the server keeps Coop's 5 minutes for a test.
+Experiment: COODSZ_ROT_NOREPORTS=1 on the server sends the engine's console
+command donot_create_dumps_for_warnings at start, against the report folders
+each start writes into ProgramData\Mount and Blade II Bannerlord\crashes; the
+log says what the engine answered.
+For our own live tests only: COODSZ_TEST_LOOPBACK_BIND=1 on the server makes
+Coop's game port listen on 127.0.0.1 only, so Windows asks no firewall
+question for a new server folder, and players on other PCs cannot join. Only
+the value 1 turns it on, and the tools never set it.
+The Realm of Thrones Server Tool does not pass COODSZ_ROT_HOST, COODSZ_ROT_HOST_JIT,
+COODSZ_ROT_ANYVERSION, COODSZ_ROT_WORLDCHECK or COODSZ_ROT_STORY_TEST to the
+server, so a leftover one cannot reach a world you keep. To use them, start
+BannerlordCoopServer.exe yourself.
+Once ROT.dll is loaded, Realm of Thrones' console commands (rot.*) exist on
+the server too.
+
+If the server finds no staged map, or something it needs has changed in a new
+Coop nightly, it logs why and keeps its own map.
+
+On players' PCs
+- Realm of Thrones' map takes minutes to prepare when joining, so the module
+  gives Coop's game thread 10 minutes instead of 30 seconds before it gives
+  up on a step. A real hang in Coop is then reported after 10 minutes. Set
+  COODSZ_ROT_PATIENCE=off on a player's PC to keep Coop's own wait for a test;
+  the log then says "Coop patience: off" with that wait. While a join catches
+  up, Coop's wait there is 15 minutes too. Only the value off turns this or
+  COODSZ_ROT_SHIPS off; any other value keeps it on and the log says so.
+- Realm of Thrones' story popups come from the server as the game's own
+  question window with a timer; clicking sends the choice to the server, and
+  when another player chose first or the time ran out the window closes with
+  one line saying what was chosen. The log says "Story popups: question N
+  shown" and "closed here".
+- In a Coop game the White Walker start is not offered in character creation.
+- In the server's world, Realm of Thrones' code that changes the world (story
+  events, storyline wars, the White Walkers, troop swaps, NPC marriages, the
+  daily gold, named wanderers) does not run on a player's PC. The server runs
+  it and Coop sends the result. The log says "Client gates: N on".
+- Some features are off in Coop, and the game says so when a player tries
+  them: enlisting in a lord's party, changing the storyline wars (the popup's
+  Done button and rot.edit_storyline_wars) and sending ravens.
+- Ships at sea are drawn only for parties the player can see, at most 4 new
+  ones a frame, so the first map frame of a join does not build hundreds of
+  ships at once. About 10 seconds after the map opens one "Ship visuals" line
+  says how many were built and held back, then at most one a minute while
+  ships come and go. COODSZ_ROT_SHIPS=off on a player's PC removes this limit
+  for a test; a join can then crash again building hundreds of ships at once.
+
+Known limits
+The server runs these Realm of Thrones changes, but Coop does not send them to
+players yet, so a player's PC can show the old state:
+- without the link: culture changes of settlements, heroes and notables (the
+  White Walkers' conversions), the notables' volunteers, King's Landing's
+  Blackwater scenes and Renly's and Stannis' clans taken off the clan list;
+- the horse slot of a captured hero who turns White Walker (the link sends
+  his culture);
+- Realm of Thrones' own story state that its menus read on a player's PC
+  (which event is running, the scripted sieges, the storyline war triggers);
+- parties the White Walker leash and the siege musters move straight to a
+  new place;
+- militia sizes.
+
+Log files
+- Game: Documents\Mount and Blade II Bannerlord\Logs\RealmOfThrones.CoopCompat\coopcompat.log
+- Server: <BANNERLORD_USER_DIR>\logs\RealmOfThrones.CoopCompat\coopcompat.log, or the
+  game path above when that folder is not set. Every line also goes to the
+  server console, starting with [RealmOfThrones.CoopCompat].
+
+Made for Realm of Thrones 8.1.8 (ROT_Map v8.1.8.2) on Bannerlord 1.4.8 and the
+Coop nightly of 2026-11-09.

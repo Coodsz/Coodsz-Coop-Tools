@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>Coodsz Coop Server Tool</AssemblyName>
+    <Product>Coodsz Coop Server Tool</Product>
+    <AssemblyTitle>Coodsz Coop Server Tool</AssemblyTitle>
+    <Description>Coodsz Coop Server Tool: hosts a Bannerlord Coop server</Description>
+    <ApplicationIcon>..\..\assets\icons\coodsz-coop-server.ico</ApplicationIcon>
+    <Version>1.3.15</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BannerlordCoopLauncher.Core\BannerlordCoopLauncher.Core.csproj" />
+    <ProjectReference Include="..\TaomCoop.Core\TaomCoop.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\realm-emblem.png" />
+    <!-- The picture behind the pages (Keep.BackdropArt); AD1259Host.csproj takes it with the other Assets until AD1259 has its own. -->
+    <Resource Include="Assets\redesign-backdrop-castle.jpg" />
+    <Resource Include="Assets\realm-hero.jpg" />
+    <Resource Include="Assets\realm-tile-1.jpg" />
+    <Resource Include="Assets\realm-tile-2.jpg" />
+    <Resource Include="Assets\realm-tile-3.jpg" />
+    <Resource Include="Assets\realm-tile-4.jpg" />
+  </ItemGroup>
+
+  <!-- Embedded in the exe and written out on first use (CoodszPayload.targets, ToolPayload). -->
+  <ItemGroup>
+    <CoodszPayload Include="DedicatedServerRepair\**\*" Payload="DedicatedServerRepair" />
+    <!-- The prebuilt server DLLs from the private folder (src\Directory.Build.props). -->
+    <CoodszPayload Include="$(CoodszPrivateRepair)**\*" Payload="DedicatedServerRepair" />
+    <CoodszPayload Include="SaveRescue\**\*" Payload="SaveRescue" />
+    <!-- Coodsz Server Tools (compat\CoodszServerTools), the server only module the Cheats page, the server rules and the settings sync use. The AD1259 build ships it too. -->
+    <CoodszPayload Include="ServerTools\**\*" Payload="ServerTools" />
+    <!-- Server only patch modules a start adds when their mod is on (compat\ImprovedGarrisonsCoopCompat). Not in the AD1259 build. -->
+    <CoodszPayload Include="PatchModules\**\*" Payload="PatchModules" />
+    <!-- Coodsz Image Exporter (compat\CoodszImageExporter), the game module behind Build pictures. -->
+    <CoodszPayload Include="ImageExporter\**\*" Payload="ImageExporter" />
+  </ItemGroup>
+
+  <Import Project="..\CoodszPayload.targets" />
+
+  <ItemGroup>
+    <Compile Include="..\BannerlordCoopLauncher\UiLanguage.cs" Link="UiLanguage.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\WindowPlacement.cs" Link="WindowPlacement.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\NewBadges.cs" Link="NewBadges.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\JoinGuideWindow.cs" Link="JoinGuideWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\AntivirusWindow.cs" Link="AntivirusWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\ModReportWindow.cs" Link="ModReportWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\CrashReportWindow.cs" Link="CrashReportWindow.cs" />
+    <Compile Include="..\BannerlordCoopLauncher\ReportReplyWindow.cs" Link="ReportReplyWindow.cs" />
+  </ItemGroup>
+
+</Project>

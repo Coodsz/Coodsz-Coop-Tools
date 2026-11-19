@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module>
+  <Name value="Vanilla Join Guard"/>
+  <Id value="VanillaJoinGuard"/>
+  <Version value="v1.0.0"/>
+  <SingleplayerModule value="true"/>
+  <MultiplayerModule value="false"/>
+  <DependedModules>
+    <DependedModule Id="Native"/>
+    <DependedModule Id="SandBoxCore"/>
+    <DependedModule Id="SandBox"/>
+    <DependedModule Id="Bannerlord.Harmony"/>
+  </DependedModules>
+  <SubModules>
+    <SubModule>
+      <Name value="Vanilla Join Guard"/>
+      <DLLName value="VanillaJoinGuard.dll"/>
+      <SubModuleClassType value="VanillaJoinGuard.SubModule"/>
+      <Tags>
+        <Tag key="DedicatedServerType" value="none"/>
+      </Tags>
+    </SubModule>
+  </SubModules>
+</Module>

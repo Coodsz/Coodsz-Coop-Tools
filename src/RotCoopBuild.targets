@@ -1,0 +1,37 @@
+<Project>
+
+  <!-- The RoT build of Coop a Realm of Thrones tool carries inside its exe (RotStack.CoopBuild): the client zip in both
+       tools, the server zip in the Server Tool too. The project sets CoodszRotCoopClientName and CoodszRotCoopClientSha256,
+       and the Server Tool also CoodszRotCoopServerName and CoodszRotCoopServerSha256 (RotSharedListTests checks them
+       against RotStack). A single file publish takes the kept files from artifacts\release-assets-cache unless
+       CoodszRotCoopClientZip or CoodszRotCoopServerZip names them, and stops when one is missing or has another SHA256,
+       so no release exe ships without its zips. A plain build carries no copy. The zips stay out of git (artifacts\). -->
+  <PropertyGroup Condition="'$(PublishSingleFile)' == 'true'">
+    <CoodszRotCoopClientZip Condition="'$(CoodszRotCoopClientZip)' == ''">$(MSBuildThisFileDirectory)..\artifacts\release-assets-cache\$(CoodszRotCoopClientName)</CoodszRotCoopClientZip>
+    <CoodszRotCoopServerZip Condition="'$(CoodszRotCoopServerZip)' == '' and '$(CoodszRotCoopServerName)' != ''">$(MSBuildThisFileDirectory)..\artifacts\release-assets-cache\$(CoodszRotCoopServerName)</CoodszRotCoopServerZip>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="$(CoodszRotCoopClientZip)" Condition="'$(CoodszRotCoopClientZip)' != ''" LogicalName="Coodsz.RotCoop.$(CoodszRotCoopClientName)" WithCulture="false" Type="Non-Resx" />
+    <EmbeddedResource Include="$(CoodszRotCoopServerZip)" Condition="'$(CoodszRotCoopServerZip)' != ''" LogicalName="Coodsz.RotCoop.$(CoodszRotCoopServerName)" WithCulture="false" Type="Non-Resx" />
+  </ItemGroup>
+
+  <Target Name="CoodszCheckRotCoopClientZip" BeforeTargets="PrepareForBuild" Condition="'$(CoodszRotCoopClientZip)' != ''">
+    <Error Condition="!Exists('$(CoodszRotCoopClientZip)')" Text="$(CoodszRotCoopClientZip) does not exist, and $(AssemblyName) must carry it. Put $(CoodszRotCoopClientName) in artifacts\release-assets-cache and run again." />
+    <Error Condition="'$([System.IO.Path]::GetFileName($(CoodszRotCoopClientZip)))' != '$(CoodszRotCoopClientName)'" Text="$(AssemblyName) must carry $(CoodszRotCoopClientName), not $(CoodszRotCoopClientZip)." />
+    <GetFileHash Files="$(CoodszRotCoopClientZip)" Algorithm="SHA256">
+      <Output TaskParameter="Hash" PropertyName="_CoodszRotCoopClientHash" />
+    </GetFileHash>
+    <Error Condition="'$(_CoodszRotCoopClientHash)' != '$(CoodszRotCoopClientSha256)'" Text="$(CoodszRotCoopClientZip) has SHA256 $(_CoodszRotCoopClientHash), but $(AssemblyName) must carry the file with $(CoodszRotCoopClientSha256). Put the right file in artifacts\release-assets-cache and run again." />
+  </Target>
+
+  <Target Name="CoodszCheckRotCoopServerZip" BeforeTargets="PrepareForBuild" Condition="'$(CoodszRotCoopServerName)' != '' and ('$(CoodszRotCoopServerZip)' != '' or '$(PublishSingleFile)' == 'true')">
+    <Error Condition="!Exists('$(CoodszRotCoopServerZip)')" Text="$(CoodszRotCoopServerZip) does not exist, and $(AssemblyName) must carry it. Put $(CoodszRotCoopServerName) in artifacts\release-assets-cache and run again. Never build it again for this: the server zip changes on every build." />
+    <Error Condition="'$([System.IO.Path]::GetFileName($(CoodszRotCoopServerZip)))' != '$(CoodszRotCoopServerName)'" Text="$(AssemblyName) must carry $(CoodszRotCoopServerName), not $(CoodszRotCoopServerZip)." />
+    <GetFileHash Files="$(CoodszRotCoopServerZip)" Algorithm="SHA256">
+      <Output TaskParameter="Hash" PropertyName="_CoodszRotCoopServerHash" />
+    </GetFileHash>
+    <Error Condition="'$(_CoodszRotCoopServerHash)' != '$(CoodszRotCoopServerSha256)'" Text="$(CoodszRotCoopServerZip) has SHA256 $(_CoodszRotCoopServerHash), but $(AssemblyName) must carry the file with $(CoodszRotCoopServerSha256). Put the right file in artifacts\release-assets-cache and run again." />
+  </Target>
+
+</Project>

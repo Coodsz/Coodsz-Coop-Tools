@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Improved Garrisons Coop Compat: a server only module (DedicatedServer.IGCoopCompat), so Coop
+       leaves it out of the client module check and players do not need it. Built against the
+       dedicated server's own game DLLs and 0Harmony, which are not copied (Private=false).
+       Improved Garrisons and CoopModPatch are found by name at run time, never referenced.
+       Build with build.ps1; it copies the module into Coodsz Host's payload. -->
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>DedicatedServer.IGCoopCompat</AssemblyName>
+    <RootNamespace>ImprovedGarrisonsCoopCompat</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <Version>1.0.0</Version>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <ServerRoot Condition="'$(ServerRoot)' == ''">C:\Program Files (x86)\Steam\steamapps\workshop\content\261550\3770450698\DedicatedServer</ServerRoot>
+    <ServerBin>$(ServerRoot)\engine\bin\Win64_Shipping_Server</ServerBin>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="build.ps1;README.txt;SubModule.xml" />
+    <Reference Include="TaleWorlds.Library"><HintPath>$(ServerBin)\TaleWorlds.Library.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.Core"><HintPath>$(ServerBin)\TaleWorlds.Core.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.ObjectSystem"><HintPath>$(ServerBin)\TaleWorlds.ObjectSystem.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.CampaignSystem"><HintPath>$(ServerBin)\TaleWorlds.CampaignSystem.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.MountAndBlade"><HintPath>$(ServerBin)\TaleWorlds.MountAndBlade.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="TaleWorlds.Localization"><HintPath>$(ServerBin)\TaleWorlds.Localization.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="0Harmony"><HintPath>$(ServerBin)\0Harmony.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+</Project>

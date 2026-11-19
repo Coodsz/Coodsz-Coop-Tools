@@ -1,0 +1,51 @@
+bin/
+obj/
+.vs/
+artifacts/
+*.user
+launcher.json
+profile-cache.json
+launcher-error.txt
+taom-launcher.json
+taom-server.json
+taom-cheats.json
+# The Burning Empires tools. be-server.json holds the join password.
+be-launcher.json
+be-server.json
+be-cheats.json
+be-bans.json
+be-host-mod-list.json
+# The Realm of Thrones tools. rot-server.json holds the join password.
+rot-launcher.json
+rot-server.json
+rot-host-mod-list.json
+_build/
+# Settings and runtime files the tools write next to themselves
+host.json
+steam-bans.json
+taom-bans.json
+taom-coop-settings.json
+live-players.json
+coodsz-mod-list.json
+cheats.json
+!tools/release-files/**
+*.log
+*.pdb
+# Server files Coodsz Host ships (their folder is called bin)
+!src/CoodszHost/DedicatedServerRepair/**/bin/
+!src/CoodszHost/SaveRescue/**/bin/
+!src/CoodszHost/ServerTools/**/bin/
+!src/CoodszHost/PatchModules/**/bin/
+!src/CoodszHost/ImageExporter/**/bin/
+!compat/AD1259CoopCompat/module/bin/
+!compat/BurningEmpiresCoopCompat/module/bin/
+!compat/AD1259CoopClientFix/module/bin/
+!compat/CoodszJoinPassword/module/bin/
+!compat/RealmOfThronesCoopCompat/module/bin/
+# Wrangler account cache from deploying the mod reports worker.
+.wrangler/
+
+.claude/settings.local.json
+tools/.signing/
+# Files that are not in the public source (CONTRIBUTING.md, Private files).
+/private/
