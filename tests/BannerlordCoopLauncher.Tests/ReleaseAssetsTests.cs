@@ -182,7 +182,7 @@ public class ReleaseAssetsTests
         {
             var notes = "docs/release-notes/v" + RealmOfThrones.Core.RotRelease.Version.TrimStart('v') + "-realmofthrones.md";
             foreach (var file in new[] { "tools/Make-RealmOfThrones-Release.ps1", "tools/ReleaseAssets.ps1", "tools/PayloadCheck.ps1", "tools/release-assets.json",
-                "src/BannerlordCoopLauncher.Core/Updates/ReleaseNotice.cs", "src/RealmOfThronesHost/RealmOfThronesHost.csproj",
+                "src/BannerlordCoopLauncher.Core/Updates/ReleaseNotice.cs", "src/BannerlordCoopLauncher.Core/Realm/RealmRewardCode.cs", "src/RealmOfThronesHost/RealmOfThronesHost.csproj",
                 "src/RealmOfThronesLauncher/RealmOfThronesLauncher.csproj" })
             {
                 var to = Path.Combine(root, file);
@@ -199,6 +199,7 @@ public class ReleaseAssetsTests
             Assert.Contains("The Realm reward key is missing", RunRotRelease(root));
             Directory.CreateDirectory(Path.Combine(root, "private"));
             File.WriteAllText(Path.Combine(root, "private", "realm-reward-key.txt"), new string('0', 64));
+            File.WriteAllText(Path.Combine(root, "private", "realm-reward-old-key.txt"), new string('1', 64));
 
             Assert.Contains("Coodsz-RealmOfThrones-Instructions.txt still has a <RELEASE-...> placeholder", RunRotRelease(root));
 

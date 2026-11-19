@@ -51,6 +51,9 @@
     <EmbeddedResource Include="$(CoodszRealmRewardKey)" LogicalName="Coodsz.RealmRewardKey.txt" Condition="Exists('$(CoodszRealmRewardKey)')" />
     <!-- Compile again when the key file comes, goes or changes, since a key file older than the dll would not. -->
     <CoreCompileCache Include="RealmRewardKey $([System.IO.File]::GetLastWriteTime('$(CoodszRealmRewardKey)').Ticks)" />
+    <!-- The key before the key change, so codes from older tools still check for a while (Realm\RealmRewardCode). -->
+    <EmbeddedResource Include="$(CoodszRealmRewardOldKey)" LogicalName="Coodsz.RealmRewardOldKey.txt" Condition="Exists('$(CoodszRealmRewardOldKey)')" />
+    <CoreCompileCache Include="RealmRewardOldKey $([System.IO.File]::GetLastWriteTime('$(CoodszRealmRewardOldKey)').Ticks)" />
   </ItemGroup>
 
   <!--

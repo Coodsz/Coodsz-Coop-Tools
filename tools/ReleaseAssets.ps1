@@ -37,12 +37,29 @@ $PrivateRepairDlls = [ordered]@{
 # A release needs the private files: every tool signs Realm reward codes with the real key, and the tools that
 # carry DedicatedServerRepair (-RepairDlls) need its three DLLs, else a player's server misses them.
 # Throws on the first missing or wrong file; returns the private folder.
+# The last day old Realm reward key codes still check, read from RealmRewardCode.OldCodesAcceptedUntilText.
+function Get-OldRealmCodesUntil {
+    $source = Join-Path (Split-Path -Parent $PSScriptRoot) 'src\BannerlordCoopLauncher.Core\Realm\RealmRewardCode.cs'
+    $match = [regex]::Match([IO.File]::ReadAllText($source), 'OldCodesAcceptedUntilText = "(\d{4}-\d{2}-\d{2})"')
+    if (-not $match.Success) { throw "OldCodesAcceptedUntilText is missing from $source." }
+    return [datetime]::ParseExact($match.Groups[1].Value, 'yyyy-MM-dd', [Globalization.CultureInfo]::InvariantCulture)
+}
+
 function Assert-PrivateFiles([switch] $RepairDlls) {
     $folder = Get-PrivateRoot
     $help = ' A release build needs the private files (CONTRIBUTING.md, Private files).'
     $key = Join-Path $folder 'realm-reward-key.txt'
     if (-not (Test-Path -LiteralPath $key -PathType Leaf)) { throw "The Realm reward key is missing: $key.$help" }
     if ((Get-Content -Raw -LiteralPath $key).Trim() -notmatch '^[0-9A-Fa-f]{64}$') { throw "$key must hold the key as 64 hex digits.$help" }
+    # Until the day in RealmRewardCode.OldCodesAcceptedUntilText, codes from the key before the key change still
+    # check, so a release needs that old key too, and it must not be the same as the new one.
+    $oldKey = Join-Path $folder 'realm-reward-old-key.txt'
+    if ((Get-Date).ToUniversalTime().Date -le (Get-OldRealmCodesUntil)) {
+        if (-not (Test-Path -LiteralPath $oldKey -PathType Leaf)) { throw "The old Realm reward key is missing: $oldKey. Codes from older tools must still check until $((Get-OldRealmCodesUntil).ToString('yyyy-MM-dd')).$help" }
+        $oldText = (Get-Content -Raw -LiteralPath $oldKey).Trim()
+        if ($oldText -notmatch '^[0-9A-Fa-f]{64}$') { throw "$oldKey must hold the key as 64 hex digits.$help" }
+        if ($oldText -eq (Get-Content -Raw -LiteralPath $key).Trim()) { throw "$oldKey is the same as $key. The new key must be a new one.$help" }
+    }
     if ($RepairDlls) {
         foreach ($relative in $PrivateRepairDlls.Keys) {
             $dll = Join-Path (Join-Path $folder 'DedicatedServerRepair') $relative

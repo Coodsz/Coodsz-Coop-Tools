@@ -359,6 +359,7 @@ public class ReleasePageTests
         try
         {
             var key = Path.Combine(scratch, "realm-reward-key.txt");
+            var oldKey = Path.Combine(scratch, "realm-reward-old-key.txt");
             var run = ". '" + Path.Combine(SourceFiles.Root(), "tools", "ReleaseAssets.ps1") + "'\r\n" +
                       "$env:CoodszPrivateRoot = '" + scratch + "'\r\n" +
                       "$lines = @()\r\n" +
@@ -367,6 +368,10 @@ public class ReleasePageTests
                       "[System.IO.File]::WriteAllText('" + key + "', 'not hex')\r\n" +
                       "$lines += 'badkey=' + (Try-Private)\r\n" +
                       "[System.IO.File]::WriteAllText('" + key + "', '" + new string('a', 64) + "' + [Environment]::NewLine)\r\n" +
+                      "$lines += 'nooldkey=' + (Try-Private)\r\n" +
+                      "[System.IO.File]::WriteAllText('" + oldKey + "', '" + new string('a', 64) + "')\r\n" +
+                      "$lines += 'sameoldkey=' + (Try-Private)\r\n" +
+                      "[System.IO.File]::WriteAllText('" + oldKey + "', '" + new string('b', 64) + "')\r\n" +
                       "$lines += 'key=' + (Try-Private)\r\n" +
                       "$lines += 'nodlls=' + (Try-Private -RepairDlls)\r\n" +
                       "[System.IO.File]::WriteAllText('" + bootstrap + "', 'stand in')\r\n" +
@@ -377,6 +382,15 @@ public class ReleasePageTests
             const string help = " A release build needs the private files (CONTRIBUTING.md, Private files).";
             Assert.Contains("nokey=The Realm reward key is missing: " + key + "." + help, lines);
             Assert.Contains("badkey=" + key + " must hold the key as 64 hex digits." + help, lines);
+            // Until the last day old key codes check, a release needs the old key too, and not the same as the new one.
+            var until = BannerlordCoopLauncher.Core.Realm.RealmRewardCode.OldCodesAcceptedUntilText;
+            if (DateTime.UtcNow.Date <= DateTime.ParseExact(until, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture))
+            {
+                Assert.Contains("nooldkey=The old Realm reward key is missing: " + oldKey + ". Codes from older tools must still check until " + until + "." + help, lines);
+                Assert.Contains("sameoldkey=" + oldKey + " is the same as " + key + ". The new key must be a new one." + help, lines);
+            }
+            else
+                Assert.Contains("nooldkey=ok " + scratch, lines);
             Assert.Contains("key=ok " + scratch, lines);
             Assert.Contains("nodlls=A prebuilt server DLL is missing: " + bootstrap + "." + help, lines);
             Assert.Contains(lines, line => line.StartsWith("wrongdll=" + bootstrap + " is not the recorded build (SHA-256 ", StringComparison.Ordinal)
