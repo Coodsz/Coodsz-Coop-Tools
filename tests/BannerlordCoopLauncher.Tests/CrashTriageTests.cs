@@ -162,6 +162,21 @@ public sealed class CrashTriageTests : IDisposable
     }
 
     [Fact]
+    public void The_texts_the_Coop_server_shows_stay_short()
+    {
+        // The Server Tool's crash card: a short title, a short What happened (a path may follow on its own line) and a short What not to do.
+        static int Words(string? text) => (text ?? "").Split(' ', StringSplitOptions.RemoveEmptyEntries).Length;
+        var server = Signatures.Signatures.Where(s => CrashSignatureMatcher.SideFits(s.Side, "server") && CrashSignatureMatcher.ToolFits(s.Tools, "coop")).ToList();
+        Assert.NotEmpty(server);
+        foreach (var signature in server)
+        {
+            Assert.True(Words(signature.Title) <= 9, signature.Id + " title");
+            Assert.True(Words(signature.WhatHappened.Split('\n')[0]) <= 22, signature.Id + " what happened");
+            Assert.True(Words(signature.WhatNotToDo) <= 16, signature.Id + " what not to do");
+        }
+    }
+
+    [Fact]
     public void The_screen_text_follows_the_language_and_falls_back_to_English()
     {
         var match = CrashSignatureMatcher.Match(Signatures, Server(ServerCrashExplain.AccessViolationCode, rgl: AssetsRgl))!;
@@ -1074,7 +1089,7 @@ public sealed class ServerCrashExplainLanguageTests
             BannerlordCoopLauncher.Core.Localization.Translator.Use("de");
             var lines = ServerCrashExplain.Known(1, "Server process exited with code 1.", CrashTriageTests.ModPatchWindow, null);
             Assert.NotNull(lines);
-            Assert.Contains(lines!, line => line.StartsWith("What happened:") && line.Contains("Das ist kein Absturz."));
+            Assert.Contains(lines!, line => line.StartsWith("What happened:") && line.Contains("kein Absturz"));
             Assert.Contains(lines!, line => line.StartsWith("What to do:") && line.Contains("Einrichtung fertig. Drück noch einmal auf Server starten."));
             Assert.Contains(lines!, line => line.StartsWith("What not to do:") && line.Contains("schalte CoopModPatch dafür nicht aus"));
 

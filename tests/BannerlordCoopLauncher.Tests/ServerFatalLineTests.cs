@@ -94,7 +94,7 @@ public sealed class ServerFatalLineTests : IDisposable
         // The Server Tool's exit text, with the event only kept by the run and the stack in this run's Coop server log.
         var lines = ServerCrashExplain.Explain("Server process exited with code 1.", false, QuietWindow() + "\n" + CoopDriverStack, null, [], ["Coop"],
             apart: new ServerCrashExplain.Apart(QuietWindow(), CoopDriverStack), fatalLine: FatalEvent);
-        Assert.Contains(lines, line => line.StartsWith("What happened: The server stopped itself while it loaded Coop", StringComparison.Ordinal));
+        Assert.Contains(lines, line => line.StartsWith("What happened: A game (client) Coop was copied into this server folder", StringComparison.Ordinal));
         Assert.DoesNotContain(lines, line => line.Contains("closed from outside", StringComparison.Ordinal));
 
         // Another FileLoadException is not this.

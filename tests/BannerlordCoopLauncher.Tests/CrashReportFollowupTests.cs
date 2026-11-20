@@ -104,7 +104,7 @@ public sealed class CrashReportFollowupTests : IDisposable
         Assert.Null(ServerCrashExplain.FindAssetsCrash(ServerCrashExplain.AccessViolationCode, null));
 
         var lines = ServerCrashExplain.Explain("Server process exited with code -1073741819.", false, "", AssetsCrashLog, [], ["Coop"]);
-        Assert.Contains(lines, line => line.StartsWith("What happened:") && line.Contains("The Assets folder of RaiseYourBanner crashed the server while it was loading packages"));
+        Assert.Contains(lines, line => line.StartsWith("What happened:") && line.Contains("The Assets folder of RaiseYourBanner crashed the server before the save loaded"));
         Assert.Contains(lines, line => line.StartsWith("What to do:") && line.Contains("Press Start server again") && line.Contains("Assets.off"));
         Assert.DoesNotContain(lines, line => line.Contains("could not load the campaign save"));
     }
@@ -136,8 +136,8 @@ public sealed class CrashReportFollowupTests : IDisposable
     public void Exit_code_1_with_no_error_points_outside_the_server()
     {
         var lines = ServerCrashExplain.Explain("Server process exited with code 1.", true, "DedicatedServer   pulse: players=1 parties=1517", "[03:12:00.000] Saving...", [], ["Coop"]);
-        Assert.Contains(lines, line => line.StartsWith("What happened:") && line.Contains("exit code 1 and no error") && line.Contains("closed from outside") && line.Contains("Windows Insider"));
-        Assert.Contains(lines, line => line.StartsWith("What to do:") && line.Contains("antivirus"));
+        Assert.Contains(lines, line => line.StartsWith("What happened:") && line.Contains("exit code 1 and no error") && line.Contains("closed from outside"));
+        Assert.Contains(lines, line => line.StartsWith("What to do:") && line.Contains("antivirus") && line.Contains("Windows Insider"));
         Assert.DoesNotContain(lines, line => line.Contains("Nothing in the log says a mod broke"));
         Assert.Contains(ServerCrashExplain.SilentExitLines(false), line => line.Contains("before it was ready for players"));
 
