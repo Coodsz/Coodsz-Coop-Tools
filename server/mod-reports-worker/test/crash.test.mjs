@@ -166,6 +166,18 @@ test('Realm of Thrones crash reports and logs are accepted and filed in the RoT 
   assert.match(logs.calls[0].body.title, /^Realm of Thrones game logs, stuck joining \[CR-[A-Z2-9]{5}\]$/);
 });
 
+test('Coop DS manager crash reports are accepted and filed in the Coop and Friends crash repository with the dsmanager label', async () => {
+  assert.equal(validateSummary(summary({ tool: 'dsmanager' })).tool, 'dsmanager');
+  const server = github();
+  const res = await handle(post(summary({ tool: 'dsmanager', side: 'server', reason: 'server-crash', crashLine: '' })), env(), server.fetcher);
+  assert.equal(res.status, 200);
+  assert.equal(server.calls[0].url, 'https://api.github.com/repos/Coodsz/Coodsz-Crash-Reports/issues');
+  assert.deepEqual(server.calls[0].body.labels, ['crash-report', 'server', 'dsmanager', 'new']);
+  assert.match(server.calls[0].body.title, /^Coop DS Manager server crash, no error line in the logs \[CR-[A-Z2-9]{5}\]$/);
+  assert.ok(server.calls[0].body.body.includes('- Tool: Coop DS Manager server'));
+  assert.equal(crashRepo({ CRASH_REPO: 'a/b' }, 'dsmanager'), 'a/b', 'it follows the Coop and Friends crash repository');
+});
+
 test('the issue never holds raw log text beyond the one cleaned crash line', async () => {
   const gh = github();
   const line = 'Crash at C:\\Users\\Pat\\Documents from 192.168.1.20 steam 76561198000000001 password=hunter2 `code`';
