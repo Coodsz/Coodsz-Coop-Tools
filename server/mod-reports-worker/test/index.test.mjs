@@ -360,6 +360,28 @@ test('Realm of Thrones reports are filed in Coodsz/Coodsz-RealmOfThrones with th
   assert.ok(!isKnownToolVersion('rot', '1.2.0'), 'too far ahead');
 });
 
+test('Coop DS manager reports go to the Coop and Friends repository with the dsmanager label, and 1.x is a known version', async () => {
+  const dsReport = (over = {}) => report({ tool: 'dsmanager', toolVersion: '1.0.0', ...over });
+  assert.equal(validate(dsReport()).tool, 'dsmanager');
+
+  const ds = github();
+  assert.equal((await handle(post(dsReport()), env(), ds.fetcher)).status, 200);
+  assert.equal(ds.calls[0].url, 'https://api.github.com/repos/Coodsz/Coodsz-Coop-and-Friends/issues');
+  assert.deepEqual(ds.calls[0].body.labels, ['mod-compat', 'mod-report', 'pending', 'dsmanager']);
+  assert.ok(!ds.calls[0].body.body.includes('is not a known dsmanager version'), 'a release version is not held for its version');
+
+  const dev = github();
+  await handle(post(dsReport({ toolVersion: '0.0.0' })), env(), dev.fetcher);
+  assert.ok(dev.calls[0].body.labels.includes('suspicious'), 'a 0.0.0 development build is held for review');
+  assert.ok(dev.calls[0].body.body.includes('tool version 0.0.0 is not a known dsmanager version'));
+
+  assert.ok(isKnownToolVersion('dsmanager', '1.0.0'));
+  assert.ok(isKnownToolVersion('dsmanager', '2.9.9'));
+  assert.ok(!isKnownToolVersion('dsmanager', '0.0.0'));
+  assert.ok(!isKnownToolVersion('dsmanager', '3.0.0'), 'too far ahead');
+  assert.ok(!isKnownToolVersion('coop', '1.0.0'), 'the manager range never widens the Coop and Friends range');
+});
+
 test('one PC rating the same mod in all four tools keeps one issue per repository, and the BE tally counts the BE one', async () => {
   const versions = { coop: '1.2.61', taom: '1.1.42', ad1259: '1.0.21', be: '1.0.0' };
   const send = tool => report({ tool, toolVersion: versions[tool], reports: [{ id: 'Bannerlord.Diplomacy', version: 'v1.2.3', result: 'works' }] });
@@ -805,6 +827,31 @@ test('a burst of TAOM Broken for a mod well rated before stats were per tool is 
   for (const n of [1, 2, 3])
     await handle(post(report({ tool: 'taom', toolVersion: '1.1.41', install: installOf(n), reports: [{ id: 'Popular', result: 'broken' }] })), e, gh.fetcher);
   assert.deepEqual(gh.calls.map(held), [false, false, true]);
+});
+
+test('Coop DS manager reports share the Coop and Friends stats, so a Broken burst split across both ids is held the same', async () => {
+  assert.equal(await modKey('Mod', 'dsmanager'), await modKey('Mod'), 'the manager feeds the Coop and Friends tally');
+  const installOf = n => String(n).repeat(32).slice(0, 32);
+  const old = Object.fromEntries(await Promise.all([1, 2, 3].map(n => seenBefore(installOf(n)))));
+  const e = env({ BURST_BROKEN: '2', BURST_MIN_WORKS: '10' }, { ...old, [await modKey('Popular')]: JSON.stringify({ works: 15 }) });
+  const gh = github();
+  const tools = [['coop', '1.3.15'], ['dsmanager', '1.0.0'], ['dsmanager', '1.0.0']];
+  for (const [i, [tool, toolVersion]] of tools.entries())
+    await handle(post(report({ tool, toolVersion, install: installOf(i + 1), reports: [{ id: 'Popular', result: 'broken' }] })), e, gh.fetcher);
+  assert.deepEqual(gh.calls.map(held), [false, false, true], 'the third Broken in the hour is held whichever tool sent it');
+});
+
+test('a Coop DS manager vote keeps its own key and never edits the Coop and Friends issue of the same install', async () => {
+  const coop = report({ reports: [{ id: 'Bannerlord.Diplomacy', version: 'v1.2.3', result: 'works' }] });
+  const ds = report({ tool: 'dsmanager', toolVersion: '1.0.0', reports: [{ id: 'Bannerlord.Diplomacy', version: 'v1.2.3', result: 'broken' }] });
+  const e = env();
+  await handle(post(coop), e, github().fetcher);
+  const reporter = await reporterOf(INSTALL, e.VOTER_SALT);
+  assert.notEqual(await voteKey(reporter, 'Bannerlord.Diplomacy', 'v1.2.3', 'dsmanager'), await voteKey(reporter, 'Bannerlord.Diplomacy', 'v1.2.3'));
+  const gh = github();
+  const res = await (await handle(post(ds), e, gh.fetcher)).json();
+  assert.equal(res.filed, 1, 'filed as its own issue, not an edit of the Coop and Friends one');
+  assert.ok(gh.calls.every(c => c.method === 'POST' && c.url === 'https://api.github.com/repos/Coodsz/Coodsz-Coop-and-Friends/issues'));
 });
 
 test('the hourly Broken counts live in the stats record, old b: keys still count, and old hours drop out', async () => {

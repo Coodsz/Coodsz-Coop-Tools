@@ -48,8 +48,9 @@ export const PROBLEMS = ['join', 'desync', 'lag', 'other'];
 // No 0, O, 1, I or L, so a code read aloud or typed from a screenshot is never ambiguous.
 export const CODE_ALPHABET = '23456789ABCDEFGHJKMNPQRSTUVWXYZ';
 export const CODE = /^CR-[23456789ABCDEFGHJKMNPQRSTUVWXYZ]{5}$/;
-// The tools that send crash reports, each with its own private repository (crashRepo).
-export const CRASH_TOOLS = ['coop', 'taom', 'ad1259', 'be', 'rot'];
+// The tools that send crash reports, each with its own private repository (crashRepo). The Coop dedicated server
+// manager (dsmanager) runs plain Coop, so its reports share the Coop and Friends repository with their own label.
+export const CRASH_TOOLS = ['coop', 'taom', 'ad1259', 'be', 'rot', 'dsmanager'];
 
 const ID = /^[\p{L}\p{N}_.\-' ()+&!]{1,100}$/u;
 const VERSION = /^[\p{L}\p{N}_.\-+ ]{0,40}$/u;
@@ -232,7 +233,7 @@ export async function sameSecret(given, expected) {
   return diff === 0;
 }
 
-const TOOL_NAME = { coop: 'Coop and Friends', taom: 'TAOM', ad1259: 'AD1259', be: 'Burning Empires', rot: 'Realm of Thrones' };
+const TOOL_NAME = { coop: 'Coop and Friends', taom: 'TAOM', ad1259: 'AD1259', be: 'Burning Empires', rot: 'Realm of Thrones', dsmanager: 'Coop DS Manager' };
 
 /** Each tool family files into its own private repository, so a repo can be shared with that game's people only. */
 export function crashRepo(env, tool) {
@@ -875,7 +876,7 @@ export async function handleCrashPost(request, env, fetcher, reporterOf, ctx = n
 export const PING_BURST = 10;
 export const PING_WINDOW = 10 * 60;
 export const PING_LINE = 150;
-const PING_PRODUCT = { coop: 'Coop', taom: 'TAOM', ad1259: 'AD1259', be: 'Burning Empires', rot: 'Realm of Thrones' };
+const PING_PRODUCT = { coop: 'Coop', taom: 'TAOM', ad1259: 'AD1259', be: 'Burning Empires', rot: 'Realm of Thrones', dsmanager: 'Coop DS Manager' };
 const WEBHOOK = /^https:\/\/(?:discord|discordapp)\.com\/api\/webhooks\/\d+\/[\w-]+$/;
 
 /**

@@ -63,8 +63,10 @@ export const MAX_REPORTS = 25;
 export const MAX_MODS = 250;
 export const RESULTS = ['works', 'broken', 'works-with'];
 // The tools that send reports: Coop and Friends (coop), the TAOM client (taom), the AD1259 client (ad1259)
-// and the Burning Empires client and server (be).
-export const TOOLS = ['coop', 'taom', 'ad1259', 'be', 'rot'];
+// the Burning Empires client and server (be), Realm of Thrones (rot) and the Coop dedicated server manager (dsmanager).
+// The manager's reports are plain Coop, so they go to GITHUB_REPO and count in the Coop and Friends tally
+// (its "dsmanager" label is not one the tally leaves out); the manager keeps its own install id and votes.
+export const TOOLS = ['coop', 'taom', 'ad1259', 'be', 'rot', 'dsmanager'];
 
 // A report gets this label (and stays pending until Coodsz looks) when flagsFor finds a reason.
 export const SUSPICIOUS_LABEL = 'suspicious';
@@ -76,6 +78,8 @@ export const TOOL_VERSIONS = {
   ad1259: { min: '1.0.20', below: '1.2.0' },
   be: { min: '1.0.0', below: '1.2.0' },
   rot: { min: '0.1.0', below: '1.2.0' },
+  // The manager's first release is 1.0.0; a 0.0.0 development build is held for review, never refused.
+  dsmanager: { min: '1.0.0', below: '3.0.0' },
 };
 // Broken reports for one mod are counted per hour; a burst is more than BURST_BROKEN in this many hours.
 export const BURST_HOURS = 3;
@@ -160,10 +164,14 @@ export async function voteKey(reporter, modId, version, tool = 'coop') {
 /**
  * The KV key of a mod's report stats per tool: { works, broken, h: { <hour>: Broken that hour } }, and by
  * being there, "someone reported it before in this tool". Like voteKey, Coop and Friends keeps the key it
- * had, so its stats carry on; the other tools get the tool in the key and start their own stats.
+ * had, so its stats carry on; the other tools get the tool in the key and start their own stats. The Coop DS
+ * manager feeds the Coop and Friends tally, so it shares the Coop and Friends stats: a Broken wave split across
+ * the two ids meets the same burst and flip holds as one sent from Coop and Friends alone.
  */
+export const sharesCoopStats = tool => tool === 'coop' || tool === 'dsmanager';
+
 export async function modKey(modId, tool = 'coop') {
-  const scope = tool === 'coop' ? '' : tool + ':';
+  const scope = sharesCoopStats(tool) ? '' : tool + ':';
   return 'm:' + scope + (await sha256Hex(modId.toLowerCase())).slice(0, 32);
 }
 
@@ -244,7 +252,7 @@ export const DEFAULT_ROT_REPO = 'Coodsz/Coodsz-RealmOfThrones';
  * reports to the AD1259 repository, Burning Empires reports to the BE repository and Realm of Thrones
  * reports to the RoT repository. Each repository's own tally counts them (compat/taom-mod-compat.json,
  * compat/ad1259-mod-compat.json, compat/be-mod-compat.json and compat/rot-mod-compat.json). Coop and
- * Friends reports go to GITHUB_REPO.
+ * Friends and Coop dedicated server manager reports go to GITHUB_REPO.
  */
 export function repoFor(env, tool) {
   if (tool === 'taom') return env.TAOM_GITHUB_REPO || DEFAULT_TAOM_REPO;
@@ -371,7 +379,7 @@ async function statsOf(kv, modId, tool) {
   try {
     const own = await kv.get(await modKey(modId, tool));
     if (own !== null && own !== undefined) return { stats: JSON.parse(own), read: true };
-    if (tool === 'coop') return { stats: null, read: true };
+    if (sharesCoopStats(tool)) return { stats: null, read: true };
     const shared = JSON.parse((await kv.get(await modKey(modId))) ?? 'null');
     return { stats: shared ? { works: whole(shared.works), broken: whole(shared.broken) } : null, read: true };
   } catch {
@@ -472,8 +480,9 @@ export async function handle(request, env, fetcher = fetch, ctx = null) {
       const key = await voteKey(reporter, item.id, item.version, report.tool);
       // A TAOM or AD1259 vote saved before the key had the tool sits under the Coop and Friends key.
       // It is read from there once; the sameRepo check below decides whether its issue is still the one.
+      // The Coop DS manager came after that move and never had votes there, so it never reads them.
       const old = JSON.parse((await env.VOTES.get(key))
-        ?? (report.tool === 'coop' ? null : await env.VOTES.get(await voteKey(reporter, item.id, item.version)))
+        ?? (sharesCoopStats(report.tool) ? null : await env.VOTES.get(await voteKey(reporter, item.id, item.version)))
         ?? 'null');
       const vote = { result: item.result, with: item.with, list: listHash };
       // Votes saved before TAOM reports moved to their own repository have no repo; they were all
