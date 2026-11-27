@@ -24,9 +24,9 @@ If you use an AI agent, have it read [AGENTS.md](AGENTS.md) and this guide befor
 3. Build and run the tests before you open the PR: `dotnet build BannerlordCoopLauncher.sln` and
    `dotnet test BannerlordCoopLauncher.sln` on Windows with the .NET 8 SDK. If you changed the worker, also
    run `npm test` in `server/mod-reports-worker`. A red build or test is never pushed.
-4. Open a draft PR into `master`. It leaves draft only after the change was tested in game (or in the
-   tool, when it doesn't touch the game), and the PR says what you tested. Coodsz reviews it and merges it
-   after his approval. A new push after an approval needs a fresh approval.
+4. Open a draft PR into `master`. A change to a tool leaves draft after it was tested in the tool, and
+   also in game when it changes gameplay. Docs, guide or worker only changes need no game test. Coodsz
+   reviews it and merges it after his approval. A new push after an approval needs a fresh approval.
 5. Releases, signing and publishing are Coodsz's job. Don't make releases or tags, don't edit release
    assets, and don't change version numbers unless he asks.
 
