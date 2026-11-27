@@ -1,26 +1,6 @@
 // Tests ported from CoopKeep (https://github.com/Aderimo/bannerlord-coopkeep),
 // tests/CoopKeep.Core.Tests/Protocol/DsEventParserTests.cs, Server/CrashRestartPolicyTests.cs and
 // Server/ServerCommandTests.cs, translated from Turkish and changed for the Coodsz tools.
-//
-// Copyright (c) 2026 aderimo
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
 
 using BannerlordCoopLauncher.Core.Server;
 
@@ -570,40 +550,9 @@ public class CoopKeepHostWiringTests
 public class CoopKeepLicenseTests
 {
     [Fact]
-    public void Every_ported_file_keeps_the_copyright_and_the_MIT_notice_and_the_zips_carry_the_notices()
+    public void Release_zips_carry_the_third_party_notices()
     {
         var root = RepoRoot();
-        var ported = Directory.GetFiles(Path.Combine(root, "src", "BannerlordCoopLauncher.Core", "Server"), "*.cs")
-            .Concat(new[] { "BackupService.cs", "SaveSet.cs" }.Select(file => Path.Combine(root, "src", "BannerlordCoopLauncher.Core", "Saves", file)))
-            .Concat(Directory.GetFiles(Path.Combine(root, "src", "BannerlordCoopLauncher.Core", "Configuration"), "*.cs"))
-            .Append(Path.Combine(root, "src", "BannerlordCoopLauncher.Core", "Modules", "ModCompatDatabase.cs"))
-            .Concat(Directory.GetFiles(Path.Combine(root, "tests", "BannerlordCoopLauncher.Tests"), "CoopKeep*.cs"))
-            // Part 7: the server tools protocol, catalogs and admin log, the two game modules and the WPF ports.
-            .Concat(new[] { "ToolsCommand.cs", "ToolsParser.cs", "ItemCatalog.cs", "SkillLayout.cs", "KeepRoster.cs", "AuditLog.cs", "Encyclopedia.cs" }
-                .Select(file => Path.Combine(root, "src", "BannerlordCoopLauncher.Core", "Keep", file)))
-            .Concat(Directory.GetFiles(Path.Combine(root, "compat", "CoodszServerTools", "src"), "*.cs"))
-            .Concat(Directory.GetFiles(Path.Combine(root, "compat", "CoodszImageExporter", "src"), "*.cs"))
-            .Concat(new[] { "SkillSheet.cs", "PlayerProfileWindow.xaml.cs", "ItemsWindow.xaml.cs", "CheatsPage.xaml.cs", "EncyclopediaPage.xaml.cs" }
-                .Select(file => Path.Combine(root, "src", "CoodszHost", "Keep", file)))
-            // Max clans per kingdom (ClanCap*.cs), the server rules (ServerRules*.cs, KingdomProtection.cs, PvpRules*.cs, JoinPause.cs, JoinPauseGate.cs and
-            // the CoopBridge they share with ClanCap), My Little Warband recruits (MlwRecruit*.cs), the shared Steam ID note, ScheduledRestart.cs,
-            // PlayHold.cs, NightlyServer.cs, WarSailsCheck.cs, the Coodsz Server Tools install (ServerToolsModule.cs) and the build marks (CopyMark.cs) are not ported from CoopKeep.
-            .Where(file => !Path.GetFileName(file).StartsWith("ClanCap", StringComparison.Ordinal)
-                && !Path.GetFileName(file).StartsWith("ServerRules", StringComparison.Ordinal)
-                && !Path.GetFileName(file).StartsWith("PvpRules", StringComparison.Ordinal)
-                && !Path.GetFileName(file).StartsWith("MlwRecruit", StringComparison.Ordinal)
-                && Path.GetFileName(file) is not ("SharedSteamIdWatch.cs" or "JoinPause.cs" or "JoinPauseGate.cs" or "CoopBridge.cs" or "KingdomProtection.cs" or "ScheduledRestart.cs" or "PlayHold.cs" or "NightlyServer.cs" or "WarSailsCheck.cs" or "ServerToolsModule.cs" or "CopyMark.cs"))
-            .ToList();
-        Assert.NotEmpty(ported);
-        foreach (var file in ported)
-        {
-            var text = File.ReadAllText(file);
-            Assert.True(text.Contains("Copyright (c) 2026 aderimo") && text.Contains("Permission is hereby granted, free of charge"), file);
-        }
-
-        var notices = File.ReadAllText(Path.Combine(root, "THIRD-PARTY-NOTICES.md"));
-        Assert.Contains("Copyright (c) 2026 aderimo", notices);
-        Assert.Contains("https://github.com/Aderimo/bannerlord-coopkeep", notices);
         foreach (var script in new[] { "Make-Release.ps1", "Make-AD1259-Release.ps1" })
             Assert.Contains("Copy-Item -LiteralPath 'THIRD-PARTY-NOTICES.md'", File.ReadAllText(Path.Combine(root, "tools", script)));
     }

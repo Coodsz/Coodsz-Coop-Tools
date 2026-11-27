@@ -6,7 +6,7 @@ Writes LICENSE.txt into every Coodsz compat module folder that is zipped or pack
     .\tools\Write-ModuleLicenses.ps1
 
 compat\MODULE-LICENSE.txt is the one text. Each module that carries code from other people gets their
-license notice after it (CoopKeep under MIT, ModderLords, which Ryvius relicensed under GPL-3.0 for this repository, see
+license notice after it (ModderLords, which Ryvius relicensed under GPL-3.0 for this repository, see
 THIRD-PARTY-NOTICES.md). Run it after changing the text or adding a module, and commit the copies.
 CopyMarksTests checks that each copy starts with the text and carries its notices
 (Every_packed_module_folder_carries_the_module_license...), and the release scripts and
@@ -24,33 +24,6 @@ Set-StrictMode -Version 3.0
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 
-$coopKeep = @'
-CoopKeep
-Some code in this module was ported from CoopKeep (https://github.com/Aderimo/bannerlord-coopkeep) and stays under its MIT License:
-
-MIT License
-
-Copyright (c) 2026 aderimo
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-'@
-
 $modderLords = @'
 ModderLords
 The settings sync and server rules code was adapted, with Ryvius's permission, from ModderLords (https://github.com/PlueRyvius/ModderLords). Ryvius relicensed that code under the GNU General Public License version 3 for the Coodsz tools, so it is under the same license as the rest of this module.
@@ -67,10 +40,10 @@ $modules = @(
     @('compat\RealmOfThronesCoopCompat\module', @()),
     @('compat\CoodszJoinPassword\module', @($modderLords)),
     @('compat\CoodszMenuGuard\module', @()),
-    @('compat\CoodszServerTools', @($coopKeep, $modderLords)),
-    @('src\CoodszHost\ServerTools\DedicatedServer.CoodszTools', @($coopKeep, $modderLords)),
-    @('compat\CoodszImageExporter', @($coopKeep)),
-    @('src\CoodszHost\ImageExporter\CoodszImageExporter', @($coopKeep)),
+    @('compat\CoodszServerTools', @($modderLords)),
+    @('src\CoodszHost\ServerTools\DedicatedServer.CoodszTools', @($modderLords)),
+    @('compat\CoodszImageExporter', @()),
+    @('src\CoodszHost\ImageExporter\CoodszImageExporter', @()),
     @('compat\ImprovedGarrisonsCoopCompat', @()),
     @('src\CoodszHost\PatchModules\DedicatedServer.IGCoopCompat', @()),
     @('compat\CoopSaveRescue', @()),

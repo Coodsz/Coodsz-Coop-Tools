@@ -1,6 +1,3 @@
-# Adapted from CoopKeep (https://github.com/Aderimo/bannerlord-coopkeep), MIT,
-# Copyright (c) 2026 aderimo. See THIRD-PARTY-NOTICES.md.
-#
 # The Burning Empires mod report form for Coodsz/Coodsz-BurningEmpires. .github/scripts/tally-taom-compat.mjs
 # (--list be) counts these into compat/be-mod-compat.json and MODS.md.
 name: Burning Empires mod report

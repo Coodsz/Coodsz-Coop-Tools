@@ -168,7 +168,7 @@ public class ShippedPickZipTests
     [Fact]
     public void Every_exe_carries_the_third_party_notices_since_the_new_zips_only_hold_exes()
     {
-        Assert.Contains("Copyright (c) 2026 aderimo", ThirdPartyNotices.Text);
+        Assert.Contains("Required Notice: Copyright PlueRyvius", ThirdPartyNotices.Text);
         var file = SourceFiles.Read("THIRD-PARTY-NOTICES.md").Replace("\r\n", "\n").Trim().Replace("\n", "\r\n");
         Assert.Equal(file, ThirdPartyNotices.Text);
         Assert.Contains(ThirdPartyNotices.Text, ToolLicense.WithNotices);

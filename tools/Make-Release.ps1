@@ -329,7 +329,7 @@ foreach ($folder in @($coop, $and, $hostFolder)) {
     $exes = @(Get-ChildItem -LiteralPath $folder -File -Filter '*.exe')
     if ($exes.Count -ne 1) { Fail "$folder must hold its own exe only, not $($exes.Count) exes." }
 }
-# Licenses of code ported from other projects (CoopKeep, MIT) and the Coodsz Coop Tools License. The exes
+# Licenses of code ported from other projects and the Coodsz Coop Tools License. The exes
 # carry both; the legacy zip keeps the files too, beside the program folders as before.
 if (-not (Test-Path -LiteralPath 'THIRD-PARTY-NOTICES.md')) { Fail 'THIRD-PARTY-NOTICES.md is missing from the repository root.' }
 if (-not (Test-Path -LiteralPath 'LICENSE')) { Fail 'LICENSE is missing from the repository root.' }

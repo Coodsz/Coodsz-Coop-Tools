@@ -35,7 +35,6 @@ worker report starts with it and does not count until it is removed), `taom` (ol
 (older AD1259 client reports from before they moved to Coodsz-AD1259, which the tally leaves out too), and `suspicious` (the worker adds it to reports
 that look odd, and the auto approval leaves those for Coodsz). The `.test.mjs` files are only needed here.
 
-The three `.github` files point to `THIRD-PARTY-NOTICES.md` for the CoopKeep MIT notice, so that file should be in that repository too.
 
 ## Approving the one click reports
 
@@ -82,7 +81,7 @@ with an existing one, so released tools read the counted file as before.
 - `taom-compat/.github/workflows/mod-compat-tally.yml` to `.github/workflows/mod-compat-tally.yml`
 - `taom-compat/.github/ISSUE_TEMPLATE/mod-compat.yml` to `.github/ISSUE_TEMPLATE/mod-compat.yml` (the manual report form, labels `mod-compat` and `taom`; the tally counts it too)
 - `taom-compat/MODS.md` to `MODS.md` (the first time; after that the tally writes it)
-- `THIRD-PARTY-NOTICES.md` (the scripts and the form point to it for the CoopKeep MIT notice)
+- `THIRD-PARTY-NOTICES.md`
 
 `compat/taom-mod-compat.json` is copied as before (docs/taom-modlist-publish.md). The tally
 workflow also runs on a push of that file, so the counts and `MODS.md` are back a minute later.
@@ -129,7 +128,7 @@ here together (a test checks they match), then copy the seed and regenerate the 
 - `ad1259-compat/.github/ISSUE_TEMPLATE/mod-compat.yml` to `.github/ISSUE_TEMPLATE/mod-compat.yml` (labels `mod-compat` and `ad1259`)
 - `ad1259-compat/compat/ad1259-mod-compat.json` to `compat/ad1259-mod-compat.json` (the first time in full; after that carry hand edits over, the tally keeps the counts)
 - `ad1259-compat/MODS.md` to `MODS.md` (the first time; after that the tally writes it)
-- `THIRD-PARTY-NOTICES.md` (the scripts and the form point to it for the CoopKeep MIT notice)
+- `THIRD-PARTY-NOTICES.md`
 
 **Labels to create there:** `mod-compat`, `mod-report`, `pending`, `suspicious`, `ad1259`, `invalid`
 and `spam` (`invalid` is one of GitHub's default labels, so it may be there already).

@@ -24,7 +24,7 @@ Its first files come from `be-compat/` in this repository. Copy, the same paths 
 - `be-compat/.github/ISSUE_TEMPLATE/mod-compat.yml` to `.github/ISSUE_TEMPLATE/mod-compat.yml` (labels `mod-compat` and `be`)
 - `be-compat/compat/be-mod-compat.json` to `compat/be-mod-compat.json` (the first time in full; after that carry hand edits over, the tally keeps the counts)
 - `be-compat/MODS.md` to `MODS.md` (the first time; after that the tally writes it)
-- `THIRD-PARTY-NOTICES.md` (the scripts and the form point to it for the CoopKeep MIT notice)
+- `THIRD-PARTY-NOTICES.md`
 
 **Labels to create there:** `mod-compat`, `mod-report`, `pending`, `suspicious`, `be`, `invalid`
 and `spam` (`invalid` is one of GitHub's default labels, so it may be there already).

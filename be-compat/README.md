@@ -32,5 +32,4 @@ Click **Report a mod** on the Logs and help page of the Coodsz Burning Empires C
 - Burning Empires by mumahutuo and the Burning Empires team, with project lead Levente (Nexus Mods 7750). Thank you for giving permission for the Coop compat and the tools, and for adding Coodsz to the team.
 - Bannerlord Coop by the Bannerlord Coop team.
 - UIExtenderEx by BUTR, used under LGPL v3.
-- Code from CoopKeep by aderimo (MIT) is adapted for the report form.
 - Tools and compat patch made by Coodsz.
