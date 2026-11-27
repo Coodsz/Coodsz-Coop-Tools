@@ -4,7 +4,7 @@ Thanks for helping. This repository holds the source of every Coodsz tool for Ba
 Friends, the Coop Server Tool, and the TAOM, AD1259, Burning Empires and Realm of Thrones Server Tools and
 Client Launchers, plus the compat modules under `compat/` and the mod reports worker under `server/`.
 
-If you use an AI agent, hand it this file before it touches the repo.
+If you use an AI agent, have it read [AGENTS.md](AGENTS.md) and this guide before it touches the repo.
 
 ## What you work on
 
@@ -64,13 +64,14 @@ the recorded build. To use a folder somewhere else, set the `CoodszPrivateRoot` 
 
 ## Tracking your work
 
-- Assign yourself when you open an issue or a PR. GitHub only lets people with access to the repo assign,
-  so if you can't, write "I'm working on this" in a comment and Coodsz assigns you.
+- Assign yourself to the issue before starting implementation. If GitHub blocks assignment,
+  comment to claim the issue or ask a maintainer to assign you. Open an issue first if there is none.
 - Fill in the right side: labels that fit, and the Type (Bug, Feature or Task). The Bug and Idea forms set
   the label and the type for you. If you can't set them, Coodsz does.
 - One issue per bug. When several bugs come from one report, add them as sub issues of the first one
   (Relationships on the right side).
-- A fix PR says `Closes #N` in its description, so it shows under Development on the issue and closes it
+- A fix PR says `Fixes #N` in its description, or uses the full issue URL after Fixes for a cross repository issue.
+  This shows under Development on the issue and closes it
   when the PR is merged.
 - Leave Milestone empty.
 
