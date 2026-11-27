@@ -12,9 +12,9 @@ Please check that your PR does these things:
 ## Tracking
 <!-- CONTRIBUTING.md, Tracking your work. If GitHub doesn't let you set something, Coodsz does it. -->
 
-- [ ] Assigned to me (or I asked in a comment)
+- [ ] Claimed the issue before implementing (self assigned or claimed in a comment)
 - [ ] Labels that fit, and the Type on the issue (Bug, Feature or Task)
-- [ ] "Closes #N" below, so the issue shows it under Development
+- [ ] "Fixes #N" below, so the issue shows it under Development
 - [ ] Milestone left empty
 
 ## PR Type
@@ -36,8 +36,8 @@ What kind of change is this?
 
 
 ## What is the new behavior?
-<!-- Put the issue number after the hash, or delete the line if there is no issue. -->
-Closes #
+<!-- Use Fixes #N or Fixes followed by the full issue URL for a cross-repository issue. -->
+Fixes #
 <!-- What does it do now? Screenshots or a short video help a lot for anything players will see. -->
 
 
