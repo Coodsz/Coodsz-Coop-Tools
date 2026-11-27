@@ -25,7 +25,7 @@ Its first files come from `rot-compat/` in this repository. Copy, the same paths
 - `rot-compat/compat/rot-mod-compat.json` to `compat/rot-mod-compat.json` (the first time in full; after that carry hand edits over, the tally keeps the counts)
 - `rot-compat/MODS.md` to `MODS.md` (the first time; after that the tally writes it)
 - `rot-compat/README.md` to `README.md` (merge it with the README there, if any)
-- `THIRD-PARTY-NOTICES.md` (the scripts and the form point to it for the CoopKeep MIT notice)
+- `THIRD-PARTY-NOTICES.md`
 
 **Labels to create there:** `mod-compat`, `mod-report`, `pending`, `suspicious`, `rot`, `invalid`
 and `spam`.

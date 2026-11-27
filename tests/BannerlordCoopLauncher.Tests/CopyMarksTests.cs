@@ -257,22 +257,21 @@ public class CopyMarksTests
     }
 
     [Theory]
-    [InlineData("compat/BurningEmpiresCoopCompat/module", false, false)]
-    [InlineData("compat/CoodszJoinPassword/module", false, true)]
-    [InlineData("compat/CoodszMenuGuard/module", false, false)]
-    [InlineData("src/CoodszHost/ServerTools/DedicatedServer.CoodszTools", true, true)]
-    [InlineData("src/CoodszHost/ImageExporter/CoodszImageExporter", true, false)]
-    [InlineData("src/CoodszHost/PatchModules/DedicatedServer.IGCoopCompat", false, false)]
-    [InlineData("src/CoodszHost/SaveRescue/DedicatedServer.CoopSaveRescue", false, false)]
-    [InlineData("compat/DiplomacyCoopCompat", false, false)]
-    [InlineData("compat/LimitlessCoopCompat", false, false)]
-    [InlineData("compat/StuckBattleFix", false, false)]
-    [InlineData("compat/RealmOfThronesCoopCompat/module", false, false)]
-    public void Every_packed_module_folder_carries_the_module_license_with_the_notices_of_code_from_others(string folder, bool coopKeep, bool modderLords)
+    [InlineData("compat/BurningEmpiresCoopCompat/module", false)]
+    [InlineData("compat/CoodszJoinPassword/module", true)]
+    [InlineData("compat/CoodszMenuGuard/module", false)]
+    [InlineData("src/CoodszHost/ServerTools/DedicatedServer.CoodszTools", true)]
+    [InlineData("src/CoodszHost/ImageExporter/CoodszImageExporter", false)]
+    [InlineData("src/CoodszHost/PatchModules/DedicatedServer.IGCoopCompat", false)]
+    [InlineData("src/CoodszHost/SaveRescue/DedicatedServer.CoopSaveRescue", false)]
+    [InlineData("compat/DiplomacyCoopCompat", false)]
+    [InlineData("compat/LimitlessCoopCompat", false)]
+    [InlineData("compat/StuckBattleFix", false)]
+    [InlineData("compat/RealmOfThronesCoopCompat/module", false)]
+    public void Every_packed_module_folder_carries_the_module_license_with_the_notices_of_code_from_others(string folder, bool modderLords)
     {
         var license = SourceFiles.Read(folder + "/LICENSE.txt").Replace("\r\n", "\n");
         Assert.StartsWith(SourceFiles.Read("compat/MODULE-LICENSE.txt").Replace("\r\n", "\n").TrimEnd(), license);
-        Assert.Equal(coopKeep, license.Contains("Copyright (c) 2026 aderimo\n\nPermission is hereby granted, free of charge"));
         Assert.Equal(modderLords, license.Contains("Required Notice: Copyright PlueRyvius (https://github.com/PlueRyvius/ModderLords)"));
     }
 

@@ -130,6 +130,5 @@ module is loaded. The AD1259 and Realm of Thrones servers run no TAOM, so this s
 
 Build: powershell -File build.ps1 [-ServerRoot <DedicatedServer folder>]
 
-Parts are ported from CoopKeep (https://github.com/Aderimo/bannerlord-coopkeep, MIT,
-Copyright (c) 2026 aderimo); see THIRD-PARTY-NOTICES.md. The settings sync adapts parts of ModderLords
+Parts are ported from CoopKeep (https://github.com/Aderimo/bannerlord-coopkeep). The settings sync adapts parts of ModderLords
 by Ryvius (@PlueRyvius), used with permission; see THIRD-PARTY-NOTICES.md.

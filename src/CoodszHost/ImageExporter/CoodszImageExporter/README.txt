@@ -19,5 +19,4 @@ does nothing; Build pictures deletes it to draw again (for example after adding 
 
 Build: powershell -File build.ps1 [-GameDir <Bannerlord folder>]
 
-Ported from CoopKeep's ImageExporter (https://github.com/Aderimo/bannerlord-coopkeep, MIT,
-Copyright (c) 2026 aderimo); see THIRD-PARTY-NOTICES.md.
+Ported from CoopKeep's ImageExporter (https://github.com/Aderimo/bannerlord-coopkeep).

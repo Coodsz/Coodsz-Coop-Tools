@@ -31,5 +31,4 @@ Click **Report** next to a mod on the Mods page of the Coodsz Realm of Thrones C
 ## Credits
 
 - Bannerlord Coop by the Bannerlord Coop team.
-- Code from CoopKeep by aderimo (MIT) is adapted for the report form.
 - Tools and compat patch made by Coodsz.

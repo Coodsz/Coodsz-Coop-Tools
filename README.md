@@ -55,7 +55,7 @@ This is an independent project. It is not affiliated with TaleWorlds Entertainme
 - **Test mods on the server** (Coodsz Coop Server Tool and the TAOM server tool, not AD1259) runs each mod alone on a throwaway campaign or a copy of the save and keeps the results in `Data\modtest-results.json` (`TaomCoop.Core/ModLoadTest`).
 - The TAOM server tool starts the Coodsz TAOM server for setups with extra mods (`TaomCoop.Core/TaomServerPath`); Plain TAOM keeps the sealed TAOM-Coop start.
 
-Code ported from CoopKeep (MIT, Copyright (c) 2026 aderimo) keeps its header in every ported file; see `THIRD-PARTY-NOTICES.md`, which every exe carries inside it and shows under the license.
+Every exe embeds and displays the notices in `THIRD-PARTY-NOTICES.md`.
 
 ## How the host talks to the server
 
